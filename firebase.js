@@ -13,10 +13,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// TODO: remove before going to production - it's only to allow poking at firebase easily through
-// Chrome console
-window.firebase = firebase;
-
 export const firestore = firebase.firestore();
 
 export default firebase;

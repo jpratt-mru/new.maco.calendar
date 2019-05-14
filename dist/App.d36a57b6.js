@@ -70218,11 +70218,7 @@ var firebaseConfig = {
   appId: "1:590992828617:web:6c5cea4faadc70d5"
 };
 
-_app.default.initializeApp(firebaseConfig); // TODO: remove before going to production - it's only to allow poking at firebase easily through
-// Chrome console
-
-
-window.firebase = _app.default;
+_app.default.initializeApp(firebaseConfig);
 
 var firestore = _app.default.firestore();
 
@@ -89514,24 +89510,17 @@ function (_React$Component) {
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "componentWillUnmount", function () {
       _this.unsubscribe();
     });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "filteredSnapshot", function (filter) {
-      _firebase.firestore.collection("2019.04.001").where("keywords", "array-contains", filter).get();
-    });
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "filter",
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "andFilter",
     /*#__PURE__*/
     function () {
       var _ref2 = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
       _regenerator.default.mark(function _callee3(e) {
-        var whitespace, splitFilters, firebasePromises, firebaseSnaps, allResults, intersection, union;
+        var whitespace, splitFilters, firebasePromises, firebaseSnaps, allResults, intersection;
         return _regenerator.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                // const snapshot = await firestore
-                //   .collection("2019.04.001")
-                //   .where("keywords", "array-contains", e.target.value.toLowerCase())
-                //   .get();
                 whitespace = /\s+/;
                 splitFilters = e.target.value.toLowerCase().split(whitespace);
                 firebasePromises = splitFilters.map(
@@ -89571,50 +89560,13 @@ function (_React$Component) {
                   return querySnapshot.docs.map(function (doc) {
                     return doc.id;
                   });
-                }); // const flattened = array.flattenDeep(allResults);
-                // const flattenedAsEvents = flattened.map(docAsLearningEvent);
-
+                });
                 console.log("firebaseSnaps", firebaseSnaps);
-                console.log("all results", allResults); // console.log("all results flattened", flattened);
-                //console.log("all results flattened events", flattenedAsEvents);
-                // const intersection = array.intersectionWith(wango, (x, y) => x.id === y.id);
-                // const wango = firebaseSnaps.map(snap => snap.docs.map(docAsLearningEvent));
-                // console.log("wango", wango);
-                // const filtersToSnaps = async () => {
-                //   const promiseArray = splitFilters.map(async oneFilter => {
-                //     await firestore
-                //       .collection("2019.04.001")
-                //       .where("keywords", "array-contains", oneFilter)
-                //       .get();
-                //   });
-                //   console.log("promiseArray", promiseArray);
-                //   return Promise.all(promiseArray);
-                // };
-                // const wango = filtersToSnaps.docs.map(docAsLearningEvent);
-                // console.log("wango!", wango);
-                // const snapshot1 = await firestore
-                //   .collection("2019.04.001")
-                //   .where("keywords", "array-contains", "comp")
-                //   .get();
-                // const snapshot2 = await firestore
-                //   .collection("2019.04.001")
-                //   .where("keywords", "array-contains", "15")
-                //   .get();
-                // const snapshot1Events = snapshot1.docs.map(docAsLearningEvent);
-                // const snapshot2Events = snapshot2.docs.map(docAsLearningEvent);
-                // const intersection = array.intersectionWith(
-                //   allResults,
-                //   (x, y) => x.id === y.id
-                // );
-                // const union = array.unionWith(allResults, (x, y) => x.id === y.id);
-
+                console.log("all results", allResults);
                 intersection = _lodash.default.intersection.apply(_lodash.default, (0, _toConsumableArray2.default)(allResults));
-                union = _lodash.default.union.apply(_lodash.default, (0, _toConsumableArray2.default)(allResults));
                 console.log("intersection: ", intersection);
-                console.log("union: ", union); // const learningEvents = snapshot1.docs.map(docAsLearningEvent);
-                // this.setState({ filteredLearningEvents: learningEvents });
 
-              case 13:
+              case 11:
               case "end":
                 return _context3.stop();
             }
@@ -89624,6 +89576,74 @@ function (_React$Component) {
 
       return function (_x) {
         return _ref2.apply(this, arguments);
+      };
+    }());
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "orFilter",
+    /*#__PURE__*/
+    function () {
+      var _ref4 = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee5(e) {
+        var whitespace, splitFilters, firebasePromises, firebaseSnaps, allResults, union;
+        return _regenerator.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                whitespace = /\s+/;
+                splitFilters = e.target.value.toLowerCase().split(whitespace);
+                firebasePromises = splitFilters.map(
+                /*#__PURE__*/
+                function () {
+                  var _ref5 = (0, _asyncToGenerator2.default)(
+                  /*#__PURE__*/
+                  _regenerator.default.mark(function _callee4(filter) {
+                    return _regenerator.default.wrap(function _callee4$(_context4) {
+                      while (1) {
+                        switch (_context4.prev = _context4.next) {
+                          case 0:
+                            _context4.next = 2;
+                            return _firebase.firestore.collection("2019.04.001").where("keywords", "array-contains", filter).get();
+
+                          case 2:
+                            return _context4.abrupt("return", _context4.sent);
+
+                          case 3:
+                          case "end":
+                            return _context4.stop();
+                        }
+                      }
+                    }, _callee4);
+                  }));
+
+                  return function (_x4) {
+                    return _ref5.apply(this, arguments);
+                  };
+                }());
+                _context5.next = 5;
+                return Promise.all(firebasePromises);
+
+              case 5:
+                firebaseSnaps = _context5.sent;
+                allResults = firebaseSnaps.map(function (querySnapshot) {
+                  return querySnapshot.docs.map(function (doc) {
+                    return doc.id;
+                  });
+                });
+                console.log("firebaseSnaps", firebaseSnaps);
+                console.log("all results", allResults);
+                union = _lodash.default.union.apply(_lodash.default, (0, _toConsumableArray2.default)(allResults));
+                console.log("union: ", union);
+
+              case 11:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      return function (_x3) {
+        return _ref4.apply(this, arguments);
       };
     }());
     return _this;
@@ -89638,6 +89658,12 @@ function (_React$Component) {
         id: "orFilterText",
         placeholder: "OR Search",
         onKeyUp: this.orFilter
+      }), _react.default.createElement("input", {
+        type: "text",
+        name: "andFilterText",
+        id: "andFilterText",
+        placeholder: "AND Search",
+        onKeyUp: this.andFilter
       }), _react.default.createElement(_MacoCalendar.default, {
         events: this.state.filteredLearningEvents
       }));
