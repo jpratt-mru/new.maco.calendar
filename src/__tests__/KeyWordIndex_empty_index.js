@@ -24,12 +24,6 @@ test("if index is empty and passed 2 different keywords, idsFor returns empty co
   expect(matchingIds).toStrictEqual([]);
 });
 
-test("if index is empty and passed 2 same keywords, idsFor returns empty collection", () => {
-  const matchingIds = keywordIndex.idsFor(["foo", "foo"]);
-
-  expect(matchingIds).toStrictEqual([]);
-});
-
 test("if index is empty and passed a bunch of keywords, idsFor returns empty collection", () => {
   const matchingIds = keywordIndex.idsFor([
     "foo",

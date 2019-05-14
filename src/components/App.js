@@ -76,8 +76,7 @@ class App extends React.Component {
     console.log("union: ", union);
   };
 
-  handleFilter = filters => {
-    console.warn("here be filters: ", filters);
+  handleFilter = (filters, callback) => {
     this.setState({ filters });
   };
 

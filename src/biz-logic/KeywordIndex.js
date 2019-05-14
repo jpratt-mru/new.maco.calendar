@@ -21,7 +21,7 @@ class KeywordIndex {
     const foundIds = new Set();
     keywords.forEach(keyword => {
       if (this.map.has(keyword)) {
-        foundIds.add(...this.map.get(keyword));
+        foundIds.add(this.map.get(keyword));
       }
     });
     return [...foundIds];
@@ -40,7 +40,7 @@ class KeywordIndex {
    */
   add = (keyword, id) => {
     if (this.map.has(keyword)) {
-      this.map.get(keyword).push(keyword);
+      this.map.get(keyword).push(id);
     } else {
       this.map.set(keyword, [id]);
     }

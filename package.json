@@ -21,6 +21,7 @@
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
     "@fullcalendar/react": "^4.1.0",
     "@fullcalendar/timegrid": "^4.1.0",
     "async": "^2.6.2",

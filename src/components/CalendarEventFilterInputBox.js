@@ -19,7 +19,6 @@ class CalendarEventFilterInputBox extends React.Component {
   };
 
   andFilter = e => {
-    console.warn({ e });
     return this.props.handleFilter(this.extractedKeywords(e.target.value));
   };
 
