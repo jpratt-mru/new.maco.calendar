@@ -7,7 +7,7 @@
     "verbose": true
   },
   "scripts": {
-    "test": "jest --watch src/biz-logic/*",
+    "test": "jest --watch",
     "format": "prettier --write \"src/**/*.{js,jsx,css,html,json}\"",
     "lint": "eslint \"src/*.{js,jsx}\"",
     "dev": "parcel --hmr-port 34602 src/index.html",
