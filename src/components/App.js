@@ -1,13 +1,15 @@
 import React from "react";
-import { render } from "react-dom";
+
 import MacoCalendar from "./MacoCalendar";
-import { firestore } from "../firebase";
-import docAsLearningEvent from "./docAsLearningEvent";
+import CalendarEventFilterInputBox from "./CalendarEventFilterInputBox";
+import { firestore } from "../../firebase";
+import docAsLearningEvent from "../docAsLearningEvent";
 import array from "lodash";
 
 class App extends React.Component {
   state = {
-    filteredLearningEvents: []
+    filteredLearningEvents: [],
+    filters: []
   };
 
   unsubscribe = null;
@@ -74,6 +76,11 @@ class App extends React.Component {
     console.log("union: ", union);
   };
 
+  handleFilter = filters => {
+    console.warn("here be filters: ", filters);
+    this.setState({ filters });
+  };
+
   render() {
     return (
       <>
@@ -84,17 +91,11 @@ class App extends React.Component {
           placeholder="OR Search"
           onKeyUp={this.orFilter}
         />
-        <input
-          type="text"
-          name="andFilterText"
-          id="andFilterText"
-          placeholder="AND Search"
-          onKeyUp={this.andFilter}
-        />
+        <CalendarEventFilterInputBox handleFilter={this.handleFilter} />
         <MacoCalendar events={this.state.filteredLearningEvents} />
       </>
     );
   }
 }
 
-render(React.createElement(App), document.getElementById("root"));
+export default App;

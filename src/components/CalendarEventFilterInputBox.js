@@ -17,6 +17,23 @@ class CalendarEventFilterInputBox extends React.Component {
   extractedKeywords = s => {
     return this.isEmpty(s) ? [] : this.whitespaceSplitTokens(s.toLowerCase());
   };
+
+  andFilter = e => {
+    console.warn({ e });
+    return this.props.handleFilter(this.extractedKeywords(e.target.value));
+  };
+
+  render() {
+    return (
+      <input
+        type="text"
+        name="andFilterText"
+        id="andFilterText"
+        placeholder="AND Search"
+        onKeyUp={this.andFilter}
+      />
+    );
+  }
 }
 
 export default CalendarEventFilterInputBox;
