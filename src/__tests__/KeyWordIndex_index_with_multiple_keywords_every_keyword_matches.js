@@ -32,10 +32,26 @@ test("2 matches", () => {
 });
 
 test("3 matches", () => {
-  expect(keywordIndex.idsFor(["a", "b", "c"])).toStrictEqual([["1"], ["2"]]);
-  expect(keywordIndex.idsFor(["b", "c", "d"])).toStrictEqual([["1"], ["2"]]);
-  expect(keywordIndex.idsFor(["a", "b", "d"])).toStrictEqual([["1"], ["2"]]);
-  expect(keywordIndex.idsFor(["a", "c", "d"])).toStrictEqual([["1"], ["2"]]);
+  expect(keywordIndex.idsFor(["a", "b", "c"])).toStrictEqual([
+    ["1"],
+    ["1", "2"],
+    ["3"]
+  ]);
+  expect(keywordIndex.idsFor(["b", "c", "d"])).toStrictEqual([
+    ["1", "2"],
+    ["3"],
+    ["4", "5"]
+  ]);
+  expect(keywordIndex.idsFor(["a", "b", "d"])).toStrictEqual([
+    ["1"],
+    ["1", "2"],
+    ["4", "5"]
+  ]);
+  expect(keywordIndex.idsFor(["a", "c", "d"])).toStrictEqual([
+    ["1"],
+    ["3"],
+    ["4", "5"]
+  ]);
 });
 
 test("all match", () => {

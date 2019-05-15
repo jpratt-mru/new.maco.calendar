@@ -1,10 +1,12 @@
 import React from "react";
 
 import MacoCalendar from "./MacoCalendar";
-import CalendarEventFilterInputBox from "./CalendarEventFilterInputBox";
+import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
+import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
 import { firestore } from "../../firebase";
 import docAsLearningEvent from "../docAsLearningEvent";
 import array from "lodash";
+import KeywordIndex from "../biz-logic/KeywordIndex";
 
 class App extends React.Component {
   state = {
@@ -12,7 +14,55 @@ class App extends React.Component {
     filters: []
   };
 
-  unsubscribe = null;
+  constructor(props) {
+    super(props);
+    this.unsubscribe = null;
+    this.keywordIndex = new KeywordIndex();
+    this.keywordIndex.add("c", "1");
+    this.keywordIndex.add("co", "1");
+    this.keywordIndex.add("com", "1");
+    this.keywordIndex.add("comp", "1");
+    this.keywordIndex.add("1", "1");
+    this.keywordIndex.add("15", "1");
+    this.keywordIndex.add("150", "1");
+    this.keywordIndex.add("1501", "1");
+    this.keywordIndex.add("comp1", "1");
+    this.keywordIndex.add("comp15", "1");
+    this.keywordIndex.add("comp150", "1");
+    this.keywordIndex.add("comp1501", "1");
+    this.keywordIndex.add("t", "1");
+    this.keywordIndex.add("t2", "1");
+    this.keywordIndex.add("t22", "1");
+    this.keywordIndex.add("t225", "1");
+    this.keywordIndex.add("j", "1");
+    this.keywordIndex.add("jp", "1");
+    this.keywordIndex.add("jpr", "1");
+    this.keywordIndex.add("jpra", "1");
+    this.keywordIndex.add("jprat", "1");
+    this.keywordIndex.add("jpratt", "1");
+    this.keywordIndex.add("c", "2");
+    this.keywordIndex.add("co", "2");
+    this.keywordIndex.add("com", "2");
+    this.keywordIndex.add("comp", "2");
+    this.keywordIndex.add("1", "2");
+    this.keywordIndex.add("10", "2");
+    this.keywordIndex.add("100", "2");
+    this.keywordIndex.add("1001", "2");
+    this.keywordIndex.add("comp1", "2");
+    this.keywordIndex.add("comp10", "2");
+    this.keywordIndex.add("comp100", "2");
+    this.keywordIndex.add("comp1001", "2");
+    this.keywordIndex.add("b", "2");
+    this.keywordIndex.add("b1", "2");
+    this.keywordIndex.add("b16", "2");
+    this.keywordIndex.add("b162", "2");
+    this.keywordIndex.add("p", "2");
+    this.keywordIndex.add("pp", "2");
+    this.keywordIndex.add("ppe", "2");
+    this.keywordIndex.add("pper", "2");
+    this.keywordIndex.add("pperr", "2");
+    this.keywordIndex.add("pperri", "2");
+  }
 
   componentDidMount = async () => {
     this.unsubscribe = await firestore
@@ -83,14 +133,14 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <input
-          type="text"
-          name="orFilterText"
-          id="orFilterText"
-          placeholder="OR Search"
-          onKeyUp={this.orFilter}
+        <CalendarEventOrFilterInputBox
+          handleFilter={this.handleFilter}
+          keywordIndex={this.keywordIndex}
         />
-        <CalendarEventFilterInputBox handleFilter={this.handleFilter} />
+        <CalendarEventAndFilterInputBox
+          handleFilter={this.handleFilter}
+          keywordIndex={this.keywordIndex}
+        />
         <MacoCalendar events={this.state.filteredLearningEvents} />
       </>
     );

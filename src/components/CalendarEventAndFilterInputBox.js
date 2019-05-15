@@ -1,7 +1,7 @@
 import React from "react";
 import array from "lodash";
 
-class CalendarEventFilterInputBox extends React.Component {
+class CalendarEventAndFilterInputBox extends React.Component {
   constructor(props) {
     super(props);
     this.keywords = [];
@@ -41,4 +41,4 @@ class CalendarEventFilterInputBox extends React.Component {
   }
 }
 
-export default CalendarEventFilterInputBox;
+export default CalendarEventAndFilterInputBox;

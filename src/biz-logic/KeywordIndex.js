@@ -18,13 +18,18 @@ class KeywordIndex {
    * @return {Array<String>} the collection of ids associated with the given keywords
    */
   idsFor = keywords => {
-    const foundIds = new Set();
+    const foundIds = [];
+    let nonEmptyAdded = false;
+
     keywords.forEach(keyword => {
       if (this.map.has(keyword)) {
-        foundIds.add(this.map.get(keyword));
+        nonEmptyAdded = true;
+        foundIds.push(this.map.get(keyword));
+      } else {
+        foundIds.push([]);
       }
     });
-    return [...foundIds];
+    return nonEmptyAdded ? [...foundIds] : [];
   };
 
   /**
