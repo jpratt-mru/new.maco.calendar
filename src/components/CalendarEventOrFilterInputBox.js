@@ -4,7 +4,6 @@ import array from "lodash";
 class CalendarEventOrFilterInputBox extends React.Component {
   constructor(props) {
     super(props);
-    this.keywords = [];
   }
 
   isEmpty = s => {
@@ -20,22 +19,27 @@ class CalendarEventOrFilterInputBox extends React.Component {
     return this.isEmpty(s) ? [] : this.whitespaceSplitTokens(s.toLowerCase());
   };
 
-  orFilter = e => {
+  clear = e => {
+    e.target.value = "";
+  };
+
+  applyOrFilter = e => {
     const extractedKeywords = this.extractedKeywords(e.target.value);
     const associatedIds = this.props.keywordIndex.idsFor(extractedKeywords);
     const orIds = array.union(...associatedIds);
 
-    return this.props.handleFilter(orIds);
+    return this.props.handleFiltering(orIds);
   };
 
   render() {
     return (
       <input
         type="text"
-        name="andFilterText"
-        id="andFilterText"
-        placeholder="AND Search"
-        onKeyUp={this.orFilter}
+        name="orFilterText"
+        id="orFilterText"
+        placeholder="OR Search"
+        onKeyUp={this.applyOrFilter}
+        onBlur={this.clear}
       />
     );
   }

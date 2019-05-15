@@ -4,7 +4,6 @@ import array from "lodash";
 class CalendarEventAndFilterInputBox extends React.Component {
   constructor(props) {
     super(props);
-    this.keywords = [];
   }
 
   isEmpty = s => {
@@ -20,12 +19,16 @@ class CalendarEventAndFilterInputBox extends React.Component {
     return this.isEmpty(s) ? [] : this.whitespaceSplitTokens(s.toLowerCase());
   };
 
-  andFilter = e => {
+  clear = e => {
+    e.target.value = "";
+  };
+
+  applyAndFilter = e => {
     const extractedKeywords = this.extractedKeywords(e.target.value);
     const associatedIds = this.props.keywordIndex.idsFor(extractedKeywords);
     const andedIds = array.intersection(...associatedIds);
 
-    return this.props.handleFilter(andedIds);
+    return this.props.handleFiltering(andedIds);
   };
 
   render() {
@@ -35,7 +38,8 @@ class CalendarEventAndFilterInputBox extends React.Component {
         name="andFilterText"
         id="andFilterText"
         placeholder="AND Search"
-        onKeyUp={this.andFilter}
+        onKeyUp={this.applyAndFilter}
+        onBlur={this.clear}
       />
     );
   }

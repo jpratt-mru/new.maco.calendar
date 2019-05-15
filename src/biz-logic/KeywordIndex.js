@@ -1,3 +1,5 @@
+import KeywordGenerator from "../biz-logic/KeywordGenerator";
+
 //
 // Provides a way to map keywords to the ids of all
 // learning events that have those keywords associated
@@ -7,8 +9,52 @@
 //
 
 class KeywordIndex {
-  constructor() {
-    this.map = new Map();
+  static createFromLocalStorage(storageContents) {
+    return new KeywordIndex(storageContents);
+  }
+
+  static createFromLearningEvents(learningEvents) {
+    const fieldsToIndex = [
+      "course",
+      "courseNumber",
+      "instructorUsername",
+      "room",
+      "section",
+      "subjectAbbrev"
+    ];
+    const keywordGenerator = new KeywordGenerator();
+    const keywordIndex = new KeywordIndex();
+    learningEvents.forEach(learningEvent => {
+      let allKeywordsForThisEvent = [];
+      const idForThisEvent = learningEvent.id;
+      fieldsToIndex.forEach(field => {
+        const thingToKeywordify = learningEvent[`${field}`];
+
+        const keywordsGenerated = keywordGenerator.keywordsFrom(
+          thingToKeywordify
+        );
+        allKeywordsForThisEvent = allKeywordsForThisEvent.concat(
+          keywordsGenerated
+        );
+      });
+
+      allKeywordsForThisEvent.forEach(keyword => {
+        keywordIndex.add(keyword, idForThisEvent);
+      });
+    });
+    return keywordIndex;
+  }
+
+  static createFromScratch() {
+    return new KeywordIndex();
+  }
+
+  constructor(startingMap) {
+    if (!startingMap) {
+      this.map = new Map();
+    } else {
+      this.map = new Map(JSON.parse(startingMap));
+    }
   }
 
   /**
@@ -45,16 +91,18 @@ class KeywordIndex {
    */
   add = (keyword, id) => {
     if (this.map.has(keyword)) {
-      this.map.get(keyword).push(id);
+      const currentIdsMappedToKeyword = new Set(this.map.get(keyword));
+      currentIdsMappedToKeyword.add(id);
+
+      this.map.set(keyword, [...currentIdsMappedToKeyword]);
     } else {
       this.map.set(keyword, [id]);
     }
   };
 
-  /**
-   *
-   */
-  isValidKeyword = s => {};
+  toJSON = () => {
+    return JSON.stringify([...this.map]);
+  };
 }
 
 export default KeywordIndex;
