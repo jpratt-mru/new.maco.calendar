@@ -5,6 +5,7 @@ import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
 import { firestore } from "../../firebase";
 import docAsLearningEvent from "../docAsLearningEvent";
 import KeywordIndex from "../biz-logic/KeywordIndex";
+import Papa from "papaparse";
 
 const LOCAL_STORAGE_KEYWORD_INDEX_KEY = "keyword_index";
 
@@ -44,6 +45,16 @@ class App extends React.Component {
   };
 
   componentDidMount = async () => {
+    Papa.parse(
+      "https://raw.githubusercontent.com/jpratt-mru/sandbox-calendar/master/2019.04.schedule.csv",
+      {
+        download: true,
+        header: true,
+        complete: function(results) {
+          console.warn(results);
+        }
+      }
+    );
     this.unsubscribe = await firestore
       .collection("2019.04.001")
       .onSnapshot(snapshot => {
