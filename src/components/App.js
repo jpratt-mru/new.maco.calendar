@@ -6,6 +6,7 @@ import { firestore } from "../../firebase";
 import docAsLearningEvent from "../docAsLearningEvent";
 import KeywordIndex from "../biz-logic/KeywordIndex";
 import Papa from "papaparse";
+import LearningEvent from "../biz-logic/LearningEvent";
 
 const LOCAL_STORAGE_KEYWORD_INDEX_KEY = "keyword_index";
 
@@ -52,6 +53,9 @@ class App extends React.Component {
         header: true,
         complete: function(results) {
           console.warn(results);
+          results.data.forEach(row => {
+            console.log(LearningEvent.valueOf(row));
+          });
         }
       }
     );
