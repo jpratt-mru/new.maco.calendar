@@ -5,7 +5,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 const MacoCalendar = props => {
   return (
     <FullCalendar
-      defaultDate="2019-09-09"
+      defaultDate={props.startingMonday}
       defaultView="timeGridWeek"
       height="auto"
       nowIndicator={false}

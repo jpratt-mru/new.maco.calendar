@@ -7,20 +7,60 @@ import docAsLearningEvent from "../docAsLearningEvent";
 import KeywordIndex from "../biz-logic/KeywordIndex";
 import Papa from "papaparse";
 import LearningEvent from "../biz-logic/LearningEvent";
+import GitHub from "github-api";
 
 const LOCAL_STORAGE_KEYWORD_INDEX_KEY = "keyword_index";
+const LOCAL_STORAGE_LEARNING_EVENTS_KEY = "learning_events";
 
 class App extends React.Component {
   state = {
     allLearningEvents: [],
     filteredLearningEvents: [],
-    keywordIndex: null
+    keywordIndex: null,
+    semester: "2019.04",
+    startingMonday: "2019-09-09"
   };
 
   constructor(props) {
     super(props);
     this.unsubscribe = null;
   }
+
+  saveLearningEventsToLocalStorage = () => {
+    const copy = [...this.state.allLearningEvents];
+    console.warn(copy);
+    localStorage.setItem(
+      LOCAL_STORAGE_LEARNING_EVENTS_KEY,
+      JSON.stringify(copy)
+    );
+  };
+
+  populateEventsFromLocalStorage = localStorageEventsContents => {
+    console.log("loading", JSON.parse(localStorageEventsContents));
+    const localEvents = JSON.parse(localStorageEventsContents);
+    this.setState({
+      allLearningEvents: localEvents,
+      filteredLearningEvents: localEvents
+    });
+    const keywordIndex = this.cachedOrNewKeywordIndex(
+      localEvents,
+      this.saveKeywordIndexToLocalStorage
+    );
+    this.setState({ keywordIndex });
+  };
+
+  loadOrRecreateLearningEvents = () => {
+    const localStorageLearningEventsContents = localStorage.getItem(
+      LOCAL_STORAGE_LEARNING_EVENTS_KEY
+    );
+
+    if (!localStorageLearningEventsContents) {
+      localStorage.clear();
+      this.pullLearningEventsFromGithub();
+    } else {
+      this.populateEventsFromLocalStorage(localStorageLearningEventsContents);
+    }
+  };
 
   cachedOrNewKeywordIndex = (learningEvents, saveIndex) => {
     const localStorageIndexContents = localStorage.getItem(
@@ -45,32 +85,90 @@ class App extends React.Component {
     );
   };
 
-  componentDidMount = async () => {
+  pullLearningEventsFromGithub = () => {
     Papa.parse(
-      "https://raw.githubusercontent.com/jpratt-mru/sandbox-calendar/master/2019.04.schedule.csv",
+      `https://raw.githubusercontent.com/jpratt-mru/maco.calendar.datafiles/master/${
+        this.state.semester
+      }.schedule.csv`,
       {
         download: true,
         header: true,
-        complete: function(results) {
-          console.warn(results);
-          results.data.forEach(row => {
-            console.log(LearningEvent.valueOf(row));
+        complete: results => {
+          console.error(results);
+          const loadedLearningEvents = [];
+          results.data.forEach((row, index) => {
+            const event = LearningEvent.valueOf(
+              index + 2,
+              row,
+              this.state.startingMonday
+            );
+            loadedLearningEvents.push(event);
           });
+          const learningEvents = loadedLearningEvents.map(docAsLearningEvent);
+          this.setState({
+            allLearningEvents: learningEvents,
+            filteredLearningEvents: learningEvents
+          });
+          this.saveLearningEventsToLocalStorage();
+          const keywordIndex = this.cachedOrNewKeywordIndex(
+            learningEvents,
+            this.saveKeywordIndexToLocalStorage
+          );
+          this.setState({ keywordIndex });
         }
       }
     );
-    this.unsubscribe = await firestore
-      .collection("2019.04.001")
-      .onSnapshot(snapshot => {
-        const learningEvents = snapshot.docs.map(docAsLearningEvent);
-        this.setState({ allLearningEvents: learningEvents });
+  };
 
-        const keywordIndex = this.cachedOrNewKeywordIndex(
-          learningEvents,
-          this.saveKeywordIndexToLocalStorage
-        );
-        this.setState({ keywordIndex });
-      });
+  componentDidMount = async () => {
+    const gh = new GitHub();
+    const repo = gh.getRepo("jpratt-mru", "maco.calendar.datafiles");
+    const foo = repo.getContents();
+    foo.then(value => {
+      const dataReturned = value.data;
+      const filtered = dataReturned.filter(result => result.type === "file");
+      console.log(filtered);
+    });
+    this.loadOrRecreateLearningEvents();
+
+    // Papa.parse(
+    //   "https://raw.githubusercontent.com/jpratt-mru/maco.calendar.datafiles/master/2019.04.schedule.csv",
+    //   {
+    //     download: true,
+    //     header: true,
+    //     complete: results => {
+    //       const loadedLearningEvents = [];
+    //       results.data.forEach((row, index) => {
+    //         const startingMonday = "2019.09.09";
+    //         const event = LearningEvent.valueOf(index, row, startingMonday);
+    //         loadedLearningEvents.push(event);
+    //       });
+    //       const learningEvents = loadedLearningEvents.map(docAsLearningEvent);
+    //       this.setState({
+    //         allLearningEvents: learningEvents,
+    //         filteredLearningEvents: learningEvents
+    //       });
+
+    //       const keywordIndex = this.cachedOrNewKeywordIndex(
+    //         learningEvents,
+    //         this.saveKeywordIndexToLocalStorage
+    //       );
+    //       this.setState({ keywordIndex });
+    //     }
+    //   }
+    // );
+    // this.unsubscribe = await firestore
+    //   .collection("2019.04.001")
+    //   .onSnapshot(snapshot => {
+    //     const learningEvents = snapshot.docs.map(docAsLearningEvent);
+    //     this.setState({ allLearningEvents: learningEvents });
+
+    //     const keywordIndex = this.cachedOrNewKeywordIndex(
+    //       learningEvents,
+    //       this.saveKeywordIndexToLocalStorage
+    //     );
+    //     this.setState({ keywordIndex });
+    //   });
   };
 
   componentWillUnmount = () => {
@@ -100,7 +198,10 @@ class App extends React.Component {
           handleFiltering={this.handleFiltering}
           keywordIndex={this.state.keywordIndex}
         />
-        <MacoCalendar events={this.state.filteredLearningEvents} />
+        <MacoCalendar
+          startingMonday={this.state.startingMonday}
+          events={this.state.filteredLearningEvents}
+        />
       </>
     );
   }

@@ -1,11 +1,12 @@
 const docAsLearningEvent = doc => {
-  const zeDoc = { id: doc.id, ...doc.data() };
+  let titleDecoratedDoc = doc;
+  titleDecoratedDoc["title"] = `${titleDecoratedDoc[
+    "course"
+  ].toUpperCase()}\n[${
+    titleDecoratedDoc["instructor-username"]
+  }]\n${titleDecoratedDoc["room"].toUpperCase()}`;
 
-  zeDoc["title"] = `${zeDoc["course"]}\n[${zeDoc["instructorUsername"]}]\n${
-    zeDoc["room"]
-  }`;
-
-  return zeDoc;
+  return titleDecoratedDoc;
 };
 
 export default docAsLearningEvent;

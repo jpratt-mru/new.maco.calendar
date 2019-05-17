@@ -17,11 +17,13 @@ class CourseNumberCleaner extends CourseCleaner {
   clean = obj => {
     if (!obj.hasOwnProperty(COURSE_PROP_NAME)) {
       obj = Object.defineProperty(obj, COURSENUM_PROP_NAME, {
-        value: UNKNOWN_VALUE_MARKER
+        value: UNKNOWN_VALUE_MARKER,
+        enumerable: true
       });
     } else {
       obj = Object.defineProperty(obj, COURSENUM_PROP_NAME, {
-        value: this.extractedCourseNumber(obj[COURSE_PROP_NAME])
+        value: this.extractedCourseNumber(obj[COURSE_PROP_NAME]),
+        enumerable:true
       });
     }
     return obj;

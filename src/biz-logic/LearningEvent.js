@@ -4,6 +4,10 @@ import CourseCleaner from "./CourseCleaner";
 import CourseNumberCleaner from "./CourseNumberCleaner";
 import RoomCleaner from "./RoomCleaner";
 import CapacityCleaner from "./CapacityCleaner";
+import EndTimeCleaner from "./EndTimeCleaner";
+import StartCleaner from "./StartCleaner";
+import EndCleaner from "./EndCleaner";
+import InstructorNameCleaner from "./InstructorNameCleaner";
 
 /**
  * Represents an event - not in the CS sense of the award, but as in
@@ -19,20 +23,30 @@ import CapacityCleaner from "./CapacityCleaner";
  */
 
 class LearningEvent {
-  static valueOf(obj) {
+  static valueOf(index, obj, startingMonday) {
     const cleaners = [
       new CourseCleaner(),
       new SectionCleaner(),
       new SubjectAbbrCleaner(),
       new CourseNumberCleaner(),
       new RoomCleaner(),
-      new CapacityCleaner()
+      new CapacityCleaner(),
+      new StartCleaner(startingMonday),
+      new EndTimeCleaner(),
+      new EndCleaner(),
+      new InstructorNameCleaner()
     ];
     // turn all keys to lowercase
     // https://stackoverflow.com/a/54985484
     let lowcasedObj = Object.fromEntries(
       Object.entries(obj).map(([k, v]) => [k.toLowerCase(), v])
     );
+
+    // add an id
+    lowcasedObj = Object.defineProperty(lowcasedObj, "id", {
+      value: index,
+      enumerable: true
+    });
 
     // TODO? This *could* be a place to use reduce()....but I can't
     // figure out how to yet. Grokking that damn function is HARD.
