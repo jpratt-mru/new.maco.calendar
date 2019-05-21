@@ -20,9 +20,17 @@ import InstructorNameCleaner from "./InstructorNameCleaner";
  * These learning events are what get displayed on the calendar, albeit
  * with many of their attributes not actually displayed - but they're
  * there behind the scenes, lurking.
+ *
+ * I use the Builder Pattern here, because I have self-confidence issues.
  */
 
 class LearningEvent {
+  constructor(builder) {
+    this.course = builder.course;
+    this.errors = builder.errors;
+    this.rawRecord = builder.record;
+    this.warnings = builder.warnings;
+  }
   static valueOf(index, obj, startingMonday) {
     const cleaners = [
       new CourseCleaner(),

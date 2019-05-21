@@ -2,12 +2,12 @@ import React from "react";
 import MacoCalendar from "./MacoCalendar";
 import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
 import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
-import { firestore } from "../../firebase";
 import docAsLearningEvent from "../docAsLearningEvent";
 import KeywordIndex from "../biz-logic/KeywordIndex";
 import Papa from "papaparse";
 import LearningEvent from "../biz-logic/LearningEvent";
 import GitHub from "github-api";
+import LearningEvents from "../biz-logic/LearningEvents";
 
 const LOCAL_STORAGE_KEYWORD_INDEX_KEY = "keyword_index";
 const LOCAL_STORAGE_LEARNING_EVENTS_KEY = "learning_events";
@@ -17,8 +17,8 @@ class App extends React.Component {
     allLearningEvents: [],
     filteredLearningEvents: [],
     keywordIndex: null,
-    semester: "2019.04",
-    startingMonday: "2019-09-09"
+    semester: "2020.01",
+    startingMonday: "2020-01-06"
   };
 
   constructor(props) {
@@ -28,7 +28,6 @@ class App extends React.Component {
 
   saveLearningEventsToLocalStorage = () => {
     const copy = [...this.state.allLearningEvents];
-    console.warn(copy);
     localStorage.setItem(
       LOCAL_STORAGE_LEARNING_EVENTS_KEY,
       JSON.stringify(copy)
@@ -36,7 +35,6 @@ class App extends React.Component {
   };
 
   populateEventsFromLocalStorage = localStorageEventsContents => {
-    console.log("loading", JSON.parse(localStorageEventsContents));
     const localEvents = JSON.parse(localStorageEventsContents);
     this.setState({
       allLearningEvents: localEvents,
@@ -93,10 +91,14 @@ class App extends React.Component {
       {
         download: true,
         header: true,
-        complete: results => {
-          console.error(results);
+        complete: csvRecords => {
+          let builtLearningEvents = new LearningEvents(
+            csvRecords.data,
+            this.state.startingMonday
+          );
+
           const loadedLearningEvents = [];
-          results.data.forEach((row, index) => {
+          csvRecords.data.forEach((row, index) => {
             const event = LearningEvent.valueOf(
               index + 2,
               row,
@@ -107,7 +109,7 @@ class App extends React.Component {
           const learningEvents = loadedLearningEvents.map(docAsLearningEvent);
           this.setState({
             allLearningEvents: learningEvents,
-            filteredLearningEvents: learningEvents
+            filteredLearningEvents: builtLearningEvents.events()
           });
           this.saveLearningEventsToLocalStorage();
           const keywordIndex = this.cachedOrNewKeywordIndex(
@@ -127,7 +129,6 @@ class App extends React.Component {
     foo.then(value => {
       const dataReturned = value.data;
       const filtered = dataReturned.filter(result => result.type === "file");
-      console.log(filtered);
     });
     this.loadOrRecreateLearningEvents();
 
