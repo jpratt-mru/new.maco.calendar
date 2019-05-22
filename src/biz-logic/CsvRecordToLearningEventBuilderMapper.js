@@ -7,11 +7,15 @@ class CsvRecordToLearningEventBuilderMapper {
   constructor(
     firstMondayOfSemester,
     requiredPropPresenceValidator,
-    requiredPropFormatValidator
+    requiredPropFormatValidator,
+    optionalBasePropFormatValidator,
+    optionalCalculatedPropFormatValidator
   ) {
     this.firstMondayOfSemester = firstMondayOfSemester;
     this.requiredPropPresenceValidator = requiredPropPresenceValidator;
     this.requiredPropFormatValidator = requiredPropFormatValidator;
+    this.optionalBasePropFormatValidator = optionalBasePropFormatValidator;
+    this.optionalCalculatedPropFormatValidator = optionalCalculatedPropFormatValidator;
     this.validFirstMondayPresent = TimeUtilities.validMonday(
       firstMondayOfSemester
     );
@@ -70,7 +74,24 @@ class CsvRecordToLearningEventBuilderMapper {
   };
 
   warningsIn = record => {
-    return [];
+    let warnings = [];
+
+    const optionalBasePropWarnings = this.optionalBasePropFormatValidator.warningsWith(
+      record
+    );
+    const optionalCalculatedPropWarnings = this.optionalCalculatedPropFormatValidator.warningsWith(
+      record
+    );
+
+    if (optionalBasePropWarnings.length > 0) {
+      return warnings.concat(...optionalBasePropWarnings);
+    }
+
+    if (optionalCalculatedPropWarnings.length > 0) {
+      return warnings.concat(...optionalCalculatedPropWarnings);
+    }
+
+    return warnings;
   };
 }
 

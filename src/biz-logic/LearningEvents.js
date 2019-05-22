@@ -11,13 +11,13 @@ class LearningEvents {
       new RequiredPropPresenceValidator(),
       new RequiredPropFormatValidator()
     );
-    console.log("mapper: ", mapper);
+
     csvRecords.forEach((record, index) => {
       const id = index + 2;
       const builder = mapper.mapToBuilder(record, id);
-      console.log("builder: ", builder);
+
       const builtLearningEvent = builder.withCourse().build();
-      console.log("builtEvent: ", builtLearningEvent);
+
       this.learningEvents.push(builtLearningEvent);
     });
   }

@@ -6,6 +6,11 @@ class TimeUtilities {
     return momentedText.isValid() && momentedText.day() == 1;
   };
 
+  static validDate = text => {
+    const momentedText = moment(text, "YYYY-MM=DD");
+    return momentedText.isValid();
+  };
+
   static validTime = text => {
     const validTimeRegex = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$/;
     return validTimeRegex.test(text);

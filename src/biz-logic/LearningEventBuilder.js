@@ -1,11 +1,29 @@
-import LearningEvent from "./LearningEvent";
+import TimeUtilities from "./TimeUtilities";
+/**
+ *
+ */
 
 class LearningEventBuilder {
-  withCourse = () => {};
+  constructor(id, csvRecord, startingMonday) {
+    this.id = id;
+    this.csvRecord = csvRecord;
+    this.startingMonday = startingMonday;
 
-  build = () => {
-    return new LearningEvent(this);
-  };
+    this.errors = [];
+    this.warnings = [];
+
+    if (!TimeUtilities.validDate(startingMonday)) {
+      this.errors.push(
+        `Provided startingMonday ${startingMonday} is malformed.`
+      );
+    } else if (!TimeUtilities.validMonday(startingMonday)) {
+      this.errors.push(
+        `Provided startingMonday ${startingMonday} is not a Monday.`
+      );
+    }
+
+    this.canBuildDisplayableEvent = TimeUtilities.validMonday(startingMonday);
+  }
 }
 
 export default LearningEventBuilder;

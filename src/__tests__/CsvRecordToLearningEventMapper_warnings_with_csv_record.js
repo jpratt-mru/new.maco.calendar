@@ -12,6 +12,17 @@ const optionalCalculatedPropFormatValidator = new OptionalCalculatedPropFormatVa
 const FIRST_MONDAY = "2019-09-09"; // September 9, 2019 is a Monday
 
 let mapper;
+const validRecord = {
+  "start-time": "13:30",
+  duration: "1:00",
+  course: "comp1501",
+  section: "001",
+  "section-capacity": "30",
+  dow: "Wednesday",
+  room: "t225",
+  "first-name": "Foo",
+  "last-name": "Bar"
+};
 
 beforeEach(() => {
   mapper = new CsvRecordToLearningEventBuilderMapper(
@@ -23,31 +34,14 @@ beforeEach(() => {
   );
 });
 
-xdescribe("a mapper will return a LearningEventWithErrorsBuilder when there are unrecoverable errors with the csv record provided", () => {
-  test("no duration present", () => {
-    expect(
-      mapper.mapToBuilder({ "start-time": "9:00" }, 2).getClassName()
-    ).toEqual("LearningEventWithErrorsBuilder");
-  });
-
-  test("no valid duration", () => {
-    const builder = mapper.mapToBuilder(
-      { "start-time": "9:00", duration: "hello" },
-      2
+xdescribe("a mapper will return a LearningEventWithWarningsBuilder when there are recoverable errors with the csv record provided", () => {
+  test("course with space", () => {
+    const recordWithProblems = Object.assign(
+      { course: "GNED 1101" },
+      validRecord
     );
-    expect(builder.getClassName()).toEqual("LearningEventWithErrorsBuilder");
-  });
-
-  test("no start time present", () => {
-    const builder = mapper.mapToBuilder({ duration: "1:30" }, 2);
-    expect(builder.getClassName()).toEqual("LearningEventWithErrorsBuilder");
-  });
-
-  test("no valid start time", () => {
-    const builder = mapper.mapToBuilder(
-      { "start-time": "12:9:00", duration: "1:00" },
-      1
+    expect(mapper.mapToBuilder(recordWithProblems, 2).getClassName()).toEqual(
+      "LearningEventWithWarningsBuilder"
     );
-    expect(builder.getClassName()).toEqual("LearningEventWithErrorsBuilder");
   });
 });
