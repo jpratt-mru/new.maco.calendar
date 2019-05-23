@@ -1,20 +1,22 @@
 import SecondaryCalculatedPropBuilder from "./SecondaryCalculatedPropBuilder";
 
-class SubjectAbbrBuilder {
+class SubjectAbbrBuilder extends SecondaryCalculatedPropBuilder {
+  static prerequisitesAreValid(prerequisites) {
+    return prerequisites[0] !== "???";
+  }
 
-    static create = () => {
-        const prerequisitesAreValid = prerequisites => {
-            return prerequisites[0] !== "???";
-        };
-    
-        const propCalculatedFrom = prerequisites => {
-          return prerequisites[0].substring(0, 4).toLowerCase();
-        };
-    
-        return new SecondaryCalculatedPropBuilder("subject-abbr", prerequisitesAreValid, propCalculatedFrom, "course");
-      };
+  static propCalculatedFrom(prerequisites) {
+    return prerequisites[0].substring(0, 4).toLowerCase();
+  }
 
-
+  constructor() {
+    super(
+      "subject-abbr",
+      SubjectAbbrBuilder.prerequisitesAreValid,
+      SubjectAbbrBuilder.propCalculatedFrom,
+      "course"
+    );
+  }
 }
 
 export default SubjectAbbrBuilder;

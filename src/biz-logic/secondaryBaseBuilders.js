@@ -7,11 +7,11 @@ import FirstNameBuilder from "./FirstNameBuilder";
 import LastNameBuilder from "./LastNameBuilder";
 
 export const secondaryBaseBuilders = [
-  CourseBuilder.create(),
-  SectionBuilder.create(),
-  SectionCapacityBuilder.create(),
-  DayOfWeekBuilder.create(),
-  RoomBuilder.create(),
-  FirstNameBuilder.create(),
-  LastNameBuilder.create()
+  new CourseBuilder(),
+  new SectionBuilder(),
+  new SectionCapacityBuilder(),
+  new DayOfWeekBuilder(),
+  new RoomBuilder(),
+  new FirstNameBuilder(),
+  new LastNameBuilder()
 ];

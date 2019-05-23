@@ -7,8 +7,6 @@ class SecondaryCalculatedPropBuilder {
     propCalculatedFrom,
     ...prerequisitePropNames
   ) {
-    console.log("making propName", propName);
-    console.log("incoming to constructor", prerequisitePropNames);
     this.propName = propName;
     this.prerequisitePropNames = prerequisitePropNames;
     this.prerequisitesAreValid = prerequisitesAreValid;
@@ -16,47 +14,39 @@ class SecondaryCalculatedPropBuilder {
   }
 
   addTo(builder) {
-    for (let key in builder) {
-      if (key !== "propName") {
-        const incomingKey = builder[key];
-        if (Array.isArray(incomingKey)) {
-          this[key] = [...incomingKey];
-        } else if (typeof incomingKey !== "function") {
-          this[key] = incomingKey;
-        }
-      }
-    }
+    this.eventInProgress = builder.eventInProgress;
+    const eventInProgress = this.eventInProgress;
 
-    this.canBuildDisplayableEvent = true && this.canBuildDisplayableEvent;
+    eventInProgress.isDisplayable = true && eventInProgress.isDisplayable;
+    eventInProgress[this.propName] = "???";
 
-    this[this.propName] = "???";
     let prerequisiteProps = [];
     this.prerequisitePropNames.forEach(prereqName => {
-      console.log("pushing", prereqName);
-      prerequisiteProps.push(this[prereqName]);
-      console.log("after push", prerequisiteProps);
+      prerequisiteProps.push(eventInProgress[prereqName]);
     });
 
     if (prerequisiteProps.length == 0) {
-      this.warnings.push(
+      eventInProgress.warnings.push(
         `Missing prerequisite properties needed to build **${
           this.propName
         }**, ??? added instead.`
       );
     } else if (!this.prerequisitesAreValid(prerequisiteProps)) {
-      this.warnings.push(
+      eventInProgress.warnings.push(
         `Unable to build **${this.propName} from ${
           this.prerequisitePropNames
         }, ??? added instead.`
       );
     } else {
-      this[this.propName] = this.propCalculatedFrom(prerequisiteProps);
+      eventInProgress[this.propName] = this.propCalculatedFrom(
+        prerequisiteProps
+      );
     }
     return this;
   }
 
   build() {
-    return new LearningEvent(this);
+    return new LearningEvent(this.eventInProgress);
   }
 }
 

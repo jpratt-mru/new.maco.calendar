@@ -8,39 +8,31 @@ class SecondaryBasePropBuilder {
   }
 
   addTo(builder) {
-    for (let key in builder) {
-      if (key !== "propName") {
-        const incomingKey = builder[key];
-        if (Array.isArray(incomingKey)) {
-          this[key] = [...incomingKey];
-        } else if (typeof incomingKey !== "function") {
-          this[key] = incomingKey;
-        }
-      }
-    }
+    this.eventInProgress = builder.eventInProgress;
+    const propValue = this.eventInProgress.csvRecord[this.propName];
+    const eventInProgress = this.eventInProgress;
 
-    this.canBuildDisplayableEvent = true && this.canBuildDisplayableEvent;
-    const propValue = this.csvRecord[this.propName];
-    this[this.propName] = "???";
+    eventInProgress.isDisplayable = true && eventInProgress.isDisplayable;
+    eventInProgress[this.propName] = "???";
 
     if (!propValue) {
-      this.warnings.push(
+      eventInProgress.warnings.push(
         `Missing field **${this.propName}**, ??? added instead.`
       );
     } else if (!this.isValid(propValue)) {
-      this.warnings.push(
+      eventInProgress.warnings.push(
         `Malformed ${
           this.propName
         } field value: **${propValue}**, ??? added instead.`
       );
     } else {
-      this[this.propName] = this.formattedValue(propValue);
+      eventInProgress[this.propName] = this.formattedValue(propValue);
     }
     return this;
   }
 
   build() {
-    return new LearningEvent(this);
+    return new LearningEvent(this.eventInProgress);
   }
 }
 

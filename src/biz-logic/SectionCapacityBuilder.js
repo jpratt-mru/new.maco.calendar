@@ -1,22 +1,22 @@
 import SecondaryBasePropBuilder from "./SecondaryBasePropBuilder";
 
-class SectionCapacityBuilder {
-  static create = () => {
-    const isValid = propValue => {
-      const expectedForm = /^[1-9][0-9]*$/;
-      return expectedForm.test(propValue);
-    };
+class SectionCapacityBuilder extends SecondaryBasePropBuilder {
+  static isValid(propValue) {
+    const expectedForm = /^[1-9][0-9]*$/;
+    return expectedForm.test(propValue);
+  }
 
-    const formattedValue = propValue => {
-      return propValue;
-    };
+  static formattedValue(propValue) {
+    return propValue;
+  }
 
-    return new SecondaryBasePropBuilder(
+  constructor() {
+    super(
       "section-capacity",
-      isValid,
-      formattedValue
+      SectionCapacityBuilder.isValid,
+      SectionCapacityBuilder.formattedValue
     );
-  };
+  }
 }
 
 export default SectionCapacityBuilder;

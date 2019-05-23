@@ -48,7 +48,6 @@ class App extends React.Component {
   };
 
   loadOrRecreateLearningEvents = () => {
-    
     const localStorageLearningEventsContents = localStorage.getItem(
       LOCAL_STORAGE_LEARNING_EVENTS_KEY
     );
@@ -108,17 +107,20 @@ class App extends React.Component {
           //   );
           //   loadedLearningEvents.push(event);
           // });
-          // const learningEvents = loadedLearningEvents.map(docAsLearningEvent);
-          // this.setState({
-          //   allLearningEvents: learningEvents,
-          //   filteredLearningEvents: builtLearningEvents.events()
-          // });
-          // this.saveLearningEventsToLocalStorage();
-          // const keywordIndex = this.cachedOrNewKeywordIndex(
-          //   learningEvents,
-          //   this.saveKeywordIndexToLocalStorage
-          // );
-          // this.setState({ keywordIndex });
+          const learningEvents = builtLearningEvents
+            .events()
+            .filter(event => event.errors.length == 0)
+            .map(docAsLearningEvent);
+          this.setState({
+            allLearningEvents: learningEvents,
+            filteredLearningEvents: learningEvents
+          });
+          this.saveLearningEventsToLocalStorage();
+          const keywordIndex = this.cachedOrNewKeywordIndex(
+            learningEvents,
+            this.saveKeywordIndexToLocalStorage
+          );
+          this.setState({ keywordIndex });
         }
       }
     );

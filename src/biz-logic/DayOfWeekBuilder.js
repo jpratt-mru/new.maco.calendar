@@ -1,18 +1,18 @@
 import SecondaryBasePropBuilder from "./SecondaryBasePropBuilder";
 
-class SectionCapacityBuilder {
-  static create = () => {
-    const isValid = propValue => {
-      const expectedForm = /^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$/i;
-      return expectedForm.test(propValue);
-    };
+class DayOfWeekBuilder extends SecondaryBasePropBuilder {
+  static isValid(propValue) {
+    const expectedForm = /^(monday|tuesday|wednesday|thursday|friday|saturday|sunday)$/i;
+    return expectedForm.test(propValue);
+  }
 
-    const formattedValue = propValue => {
-      return propValue.toLowerCase();
-    };
+  static formattedValue(propValue) {
+    return propValue.toLowerCase();
+  }
 
-    return new SecondaryBasePropBuilder("dow", isValid, formattedValue);
-  };
+  constructor() {
+    super("dow", DayOfWeekBuilder.isValid, DayOfWeekBuilder.formattedValue);
+  }
 }
 
-export default SectionCapacityBuilder;
+export default DayOfWeekBuilder;

@@ -1,18 +1,18 @@
 import SecondaryBasePropBuilder from "./SecondaryBasePropBuilder";
 
-class LastNameBuilder {
-  static create = () => {
-    const isValid = propValue => {
-      const expectedForm = /^[a-z]+/i;
-      return expectedForm.test(propValue);
-    };
+class LastNameBuilder extends SecondaryBasePropBuilder {
+  static isValid(propValue) {
+    const expectedForm = /^[a-z]+/i;
+    return expectedForm.test(propValue);
+  }
 
-    const formattedValue = propValue => {
-      return propValue.toLowerCase();
-    };
+  static formattedValue(propValue) {
+    return propValue.toLowerCase();
+  }
 
-    return new SecondaryBasePropBuilder("last-name", isValid, formattedValue);
-  };
+  constructor() {
+    super("last-name", LastNameBuilder.isValid, LastNameBuilder.formattedValue);
+  }
 }
 
 export default LastNameBuilder;

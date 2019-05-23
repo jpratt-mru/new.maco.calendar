@@ -7,36 +7,29 @@ class PrimaryPropBuilder {
   }
 
   addTo(builder) {
-    for (let key in builder) {
-      if (key !== "propName") {
-        const incomingKey = builder[key];
-        if (Array.isArray(incomingKey)) {
-          this[key] = [...incomingKey];
-        } else if (typeof incomingKey !== "function") {
-          this[key] = incomingKey;
-        }
-      }
-    }
-
-    const propValue = this.csvRecord[this.propName];
+    this.eventInProgress = builder.eventInProgress;
+    const propValue = this.eventInProgress.csvRecord[this.propName];
+    const eventInProgress = this.eventInProgress;
 
     if (!propValue) {
-      this.errors.push(`Missing required field **${this.propName}**.`);
-      this.canBuildDisplayableEvent = false;
+      eventInProgress.errors.push(
+        `Missing required field **${this.propName}**.`
+      );
+      eventInProgress.isDisplayable = false;
     } else if (!this.isValid(propValue)) {
-      this.errors.push(
+      eventInProgress.errors.push(
         `Malformed ${this.propName} field value: **${propValue}**.`
       );
-      this.canBuildDisplayableEvent = false;
+      eventInProgress.isDisplayable = false;
     } else {
-      this[this.propName] = propValue;
-      this.canBuildDisplayableEvent = this.canBuildDisplayableEvent && true;
+      eventInProgress[this.propName] = propValue;
+      eventInProgress.isDisplayable = eventInProgress.isDisplayable && true;
     }
     return this;
   }
 
   build() {
-    return new LearningEvent(this);
+    return new LearningEvent(this.eventInProgress);
   }
 }
 
