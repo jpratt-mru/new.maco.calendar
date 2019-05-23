@@ -8,10 +8,10 @@ import PrimaryPropBuilder from "./PrimaryPropBuilder";
  *   1) there actually *is* a start-time property to access, and
  *   2) if so, it is a valid 24-hour time.
  */
-class StartTimeBuilder {
-  static create = () => {
-    return new PrimaryPropBuilder("start-time", TimeUtilities.validTime);
-  };
+class StartTimeBuilder extends PrimaryPropBuilder {
+  constructor() {
+    super("start-time", TimeUtilities.validTime);
+  }
 }
 
 export default StartTimeBuilder;

@@ -26,9 +26,25 @@ import InstructorNameCleaner from "./InstructorNameCleaner";
 
 class LearningEvent {
   constructor(builder) {
+    this.id = builder.id;
+    this.startingMonday = builder.startingMonday;
+    this.csvRecord = builder.csvRecord;
+
     this.course = builder.course;
+    this.section = builder.section;
+    this["section-capacity"] = builder["section-capacity"];
+    this.dow = builder.dow;
+    this.room = builder.room;
+    this["first-name"] = builder["first-name"];
+    this["last-name"] = builder["last-name"];
+
+    this["course-number"] = builder["course-number"];
+    this["subject-abbr"] = builder["subject-abbr"];
+    this["instructor-username"] = builder["isntructor-username"];
+    this.start = builder.start;
+    this.end = builder.end;
+
     this.errors = builder.errors;
-    this.rawRecord = builder.record;
     this.warnings = builder.warnings;
   }
   static valueOf(index, obj, startingMonday) {

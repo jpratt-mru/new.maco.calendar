@@ -62,6 +62,14 @@ describe("when course that has a space in it is in incoming builder's csv record
     expect(courseBuilder.canBuildDisplayableEvent).toBeTruthy();
   });
 
+  test("warnings collection should be empty", () => {
+    expect(courseBuilder.warnings.length).toBe(0);
+  });
+
+  test("errors collection should be empty", () => {
+    expect(courseBuilder.errors.length).toBe(0);
+  });
+
   test("builder shows course without space, lowercased, as course", () => {
     expect(courseBuilder[PROP_NAME]).toBe("gned1101");
   });
@@ -79,6 +87,14 @@ describe("when course that has no space in it is in incoming builder's csv recor
 
   test("builder can still build a displayable event", () => {
     expect(courseBuilder.canBuildDisplayableEvent).toBeTruthy();
+  });
+
+  test("warnings collection should be empty", () => {
+    expect(courseBuilder.warnings.length).toBe(0);
+  });
+
+  test("errors collection should be empty", () => {
+    expect(courseBuilder.errors.length).toBe(0);
   });
 
   test("builder shows lowercased course as course", () => {

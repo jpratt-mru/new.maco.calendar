@@ -18,7 +18,7 @@ class LearningEventBuilder {
       );
     } else if (!TimeUtilities.validMonday(startingMonday)) {
       this.errors.push(
-        `Provided startingMonday ${startingMonday} is not a Monday.`
+        `Provided starting Monday ${startingMonday} is not a Monday.`
       );
     }
 

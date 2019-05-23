@@ -1,25 +1,42 @@
-import CsvRecordToLearningEventBuilderMapper from "./CsvRecordToLearningEventBuilderMapper";
-import RequiredPropPresenceValidator from "../biz-logic/RequiredPropPresenceValidator";
-import RequiredPropFormatValidator from "../biz-logic/RequiredPropFormatValidator";
+import LearningEventBuilder from "./LearningEventBuilder";
+import { primaryBuilders } from "./primaryBuilders";
+import { secondaryBaseBuilders } from "./secondaryBaseBuilders";
+import { secondaryCalculatedBuilders } from "./secondaryCalculatedBuilders";
+import InstructorUsernameBuilder from "./InstructorUsernameBuilder";
+import CourseNumberBuilder from "./CourseNumberBuilder";
+import SubjectAbbrBuilder from "./SubjectAbbrBuilder";
 
 class LearningEvents {
   learningEvents = [];
 
-  constructor(csvRecords, firstMondayOfSemester) {
-    const mapper = new CsvRecordToLearningEventBuilderMapper(
-      firstMondayOfSemester,
-      new RequiredPropPresenceValidator(),
-      new RequiredPropFormatValidator()
-    );
-
+  constructor(csvRecords, startingMonday) {
+    let glob = [];
+    let builder;
     csvRecords.forEach((record, index) => {
       const id = index + 2;
-      const builder = mapper.mapToBuilder(record, id);
+      builder = new LearningEventBuilder(id, record, startingMonday);
 
-      const builtLearningEvent = builder.withCourse().build();
+      primaryBuilders.forEach(primaryBuilder => {
+        builder = primaryBuilder.addTo(builder);
+      });
 
-      this.learningEvents.push(builtLearningEvent);
+      if (builder.canBuildDisplayableEvent) {
+        secondaryBaseBuilders.forEach(secondaryBaseBuilder => {
+          builder = secondaryBaseBuilder.addTo(builder);
+        });
+        builder = InstructorUsernameBuilder.create().addTo(builder);
+        builder = CourseNumberBuilder.create().addTo(builder);
+        builder = SubjectAbbrBuilder.create().addTo(builder);
+
+        // secondaryCalculatedBuilders.forEach(secondaryCalculatedBuilder => {
+        //   builder = secondaryCalculatedBuilder.addTo(builder);
+        // });
+      }
+
+      glob.push(builder.build());
+
     });
+    console.log(glob);
   }
 
   events = () => {

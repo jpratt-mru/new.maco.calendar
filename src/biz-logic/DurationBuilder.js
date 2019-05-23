@@ -8,10 +8,10 @@ import PrimaryPropBuilder from "./PrimaryPropBuilder";
  *   1) there actually *is* a duration property to access, and
  *   2) if so, it is a valid 24-hour time.
  */
-class DurationBuilder {
-  static create = () => {
-    return new PrimaryPropBuilder("duration", TimeUtilities.validTime);
-  };
+class DurationBuilder extends PrimaryPropBuilder{
+  constructor() {
+    super("duration", TimeUtilities.validTime);
+  }
 }
 
 export default DurationBuilder;

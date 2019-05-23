@@ -17,8 +17,8 @@ class App extends React.Component {
     allLearningEvents: [],
     filteredLearningEvents: [],
     keywordIndex: null,
-    semester: "2020.01",
-    startingMonday: "2020-01-06"
+    semester: "2019.04",
+    startingMonday: "2019-09-09"
   };
 
   constructor(props) {
@@ -48,16 +48,17 @@ class App extends React.Component {
   };
 
   loadOrRecreateLearningEvents = () => {
+    
     const localStorageLearningEventsContents = localStorage.getItem(
       LOCAL_STORAGE_LEARNING_EVENTS_KEY
     );
-
-    if (!localStorageLearningEventsContents) {
-      localStorage.clear();
-      this.pullLearningEventsFromGithub();
-    } else {
-      this.populateEventsFromLocalStorage(localStorageLearningEventsContents);
-    }
+    this.pullLearningEventsFromGithub();
+    // if (!localStorageLearningEventsContents) {
+    //   localStorage.clear();
+    //   this.pullLearningEventsFromGithub();
+    // } else {
+    //   this.populateEventsFromLocalStorage(localStorageLearningEventsContents);
+    // }
   };
 
   cachedOrNewKeywordIndex = (learningEvents, saveIndex) => {
@@ -92,31 +93,32 @@ class App extends React.Component {
         download: true,
         header: true,
         complete: csvRecords => {
+          console.log("complete triggered");
           let builtLearningEvents = new LearningEvents(
             csvRecords.data,
             this.state.startingMonday
           );
 
-          const loadedLearningEvents = [];
-          csvRecords.data.forEach((row, index) => {
-            const event = LearningEvent.valueOf(
-              index + 2,
-              row,
-              this.state.startingMonday
-            );
-            loadedLearningEvents.push(event);
-          });
-          const learningEvents = loadedLearningEvents.map(docAsLearningEvent);
-          this.setState({
-            allLearningEvents: learningEvents,
-            filteredLearningEvents: builtLearningEvents.events()
-          });
-          this.saveLearningEventsToLocalStorage();
-          const keywordIndex = this.cachedOrNewKeywordIndex(
-            learningEvents,
-            this.saveKeywordIndexToLocalStorage
-          );
-          this.setState({ keywordIndex });
+          // const loadedLearningEvents = [];
+          // csvRecords.data.forEach((row, index) => {
+          //   const event = LearningEvent.valueOf(
+          //     index + 2,
+          //     row,
+          //     this.state.startingMonday
+          //   );
+          //   loadedLearningEvents.push(event);
+          // });
+          // const learningEvents = loadedLearningEvents.map(docAsLearningEvent);
+          // this.setState({
+          //   allLearningEvents: learningEvents,
+          //   filteredLearningEvents: builtLearningEvents.events()
+          // });
+          // this.saveLearningEventsToLocalStorage();
+          // const keywordIndex = this.cachedOrNewKeywordIndex(
+          //   learningEvents,
+          //   this.saveKeywordIndexToLocalStorage
+          // );
+          // this.setState({ keywordIndex });
         }
       }
     );

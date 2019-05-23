@@ -1,3 +1,5 @@
+import LearningEvent from "./LearningEvent";
+
 class SecondaryBasePropBuilder {
   constructor(propName, isValid, formattedValue) {
     this.propName = propName;
@@ -5,9 +7,16 @@ class SecondaryBasePropBuilder {
     this.formattedValue = formattedValue;
   }
 
-  addTo = builder => {
+  addTo(builder) {
     for (let key in builder) {
-      this[key] = builder[key];
+      if (key !== "propName") {
+        const incomingKey = builder[key];
+        if (Array.isArray(incomingKey)) {
+          this[key] = [...incomingKey];
+        } else if (typeof incomingKey !== "function") {
+          this[key] = incomingKey;
+        }
+      }
     }
 
     this.canBuildDisplayableEvent = true && this.canBuildDisplayableEvent;
@@ -28,7 +37,11 @@ class SecondaryBasePropBuilder {
       this[this.propName] = this.formattedValue(propValue);
     }
     return this;
-  };
+  }
+
+  build() {
+    return new LearningEvent(this);
+  }
 }
 
 export default SecondaryBasePropBuilder;
