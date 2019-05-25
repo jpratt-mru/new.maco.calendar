@@ -24,36 +24,25 @@ class LearningEvents {
 
   constructor(csvRecords, startingMonday) {
     this.learningEvents = csvRecords.reduce(
-      // this *used* to be a forEach...is the reduce any better??
       (learningEvents, csvRecord, index) => {
+        // want the id to be a line number in the csv, which has a header...and
+        // we want to count from 1
         const id = index + 2;
 
-        let builder = primaryBuilders.reduce((builder, primaryBuilder) => {
-          return primaryBuilder.addTo(builder);
-        }, new LearningEventBuilder(id, csvRecord, startingMonday));
+        // this is the seed for all the additional builders...
+        let builder = new LearningEventBuilder(id, csvRecord, startingMonday);
+
+        // ...then on go the ones needed to create a displayable event
+        builder = this.withFurtherBuilders(builder, primaryBuilders);
 
         // there's no need to continue building an event if you can't display it...
+        // but if you can display it, the rest of the builders get layered on
         if (builder.eventInProgress.isDisplayable) {
-          builder = secondaryBaseBuilders.reduce(
-            (builder, secondaryBaseBuilder) => {
-              return secondaryBaseBuilder.addTo(builder);
-            },
-            builder
+          builder = this.withFurtherBuilders(builder, secondaryBaseBuilders);
+          builder = this.withFurtherBuilders(
+            builder,
+            secondaryCalculatedBuilders
           );
-
-          builder = secondaryCalculatedBuilders.reduce(
-            (builder, secondaryCalculatedBuilder) => {
-              return secondaryCalculatedBuilder.addTo(builder);
-            },
-            builder
-          );
-
-          // secondaryBaseBuilders.forEach(secondaryBaseBuilder => {
-          //   builder = secondaryBaseBuilder.addTo(builder);
-          // });
-          // secondaryCalculatedBuilders.forEach(secondaryCalculatedBuilder => {
-          //   builder = secondaryCalculatedBuilder.addTo(builder);
-          // });
         }
 
         return [...learningEvents, builder.build()];
@@ -63,10 +52,10 @@ class LearningEvents {
     console.log("here they be!", this.learningEvents);
   }
 
-  withBuilders = (builder, buildersToAdd, startingBuilder = builder) => {
+  withFurtherBuilders = (builder, buildersToAdd) => {
     return buildersToAdd.reduce((builder, addedBuilder) => {
       return addedBuilder.addTo(builder);
-    }, startingBuilder);
+    }, builder);
   };
 
   events = () => {
