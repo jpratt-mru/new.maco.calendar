@@ -1,10 +1,10 @@
-import CourseBuilder from "./CourseBuilder";
-import SectionBuilder from "./SectionBuilder";
-import SectionCapacityBuilder from "./SectionCapacityBuilder";
-import DayOfWeekBuilder from "./DayOfWeekBuilder";
-import RoomBuilder from "./RoomBuilder";
-import FirstNameBuilder from "./FirstNameBuilder";
-import LastNameBuilder from "./LastNameBuilder";
+import CourseBuilder from "./builders/CourseBuilder";
+import SectionBuilder from "./builders/SectionBuilder";
+import SectionCapacityBuilder from "./builders/SectionCapacityBuilder";
+import DayOfWeekBuilder from "./builders/DayOfWeekBuilder";
+import RoomBuilder from "./builders/RoomBuilder";
+import FirstNameBuilder from "./builders/FirstNameBuilder";
+import LastNameBuilder from "./builders/LastNameBuilder";
 
 export const secondaryBaseBuilders = [
   new CourseBuilder(),

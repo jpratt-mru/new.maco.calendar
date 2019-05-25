@@ -1,4 +1,4 @@
-import LearningEvent from "./LearningEvent";
+import LearningEvent from "../LearningEvent";
 
 class SecondaryBasePropBuilder {
   constructor(propName, isValid, formattedValue) {

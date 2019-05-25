@@ -1,4 +1,4 @@
-import TimeUtilities from "./TimeUtilities";
+import TimeUtilities from "../TimeUtilities";
 import PrimaryPropBuilder from "./PrimaryPropBuilder";
 /**
  * Every Learning Event needs a start time; otherwise, it can't be displayed on

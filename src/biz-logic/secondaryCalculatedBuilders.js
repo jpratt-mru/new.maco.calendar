@@ -1,8 +1,8 @@
-import CourseNumberBuilder from "./CourseNumberBuilder";
-import SubjectAbbrBuilder from "./SubjectAbbrBuilder";
-import InstructorUsernameBuilder from "./InstructorUsernameBuilder";
-import StartBuilder from "./StartBuilder";
-import EndBuilder from "./EndBuilder";
+import CourseNumberBuilder from "./builders/CourseNumberBuilder";
+import SubjectAbbrBuilder from "./builders/SubjectAbbrBuilder";
+import InstructorUsernameBuilder from "./builders/InstructorUsernameBuilder";
+import StartBuilder from "./builders/StartBuilder";
+import EndBuilder from "./builders/EndBuilder";
 
 export const secondaryCalculatedBuilders = [
   new InstructorUsernameBuilder(),

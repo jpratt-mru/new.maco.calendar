@@ -1,7 +1,4 @@
-import StartTimeBuilder from "./StartTimeBuilder";
-import DurationBuilder from "./DurationBuilder";
+import StartTimeBuilder from "./builders/StartTimeBuilder";
+import DurationBuilder from "./builders/DurationBuilder";
 
-export const primaryBuilders = [
-  new StartTimeBuilder(),
-  new DurationBuilder()
-];
+export const primaryBuilders = [new StartTimeBuilder(), new DurationBuilder()];

@@ -5,7 +5,6 @@ import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
 import docAsLearningEvent from "../docAsLearningEvent";
 import KeywordIndex from "../biz-logic/KeywordIndex";
 import Papa from "papaparse";
-import LearningEvent from "../biz-logic/LearningEvent";
 import GitHub from "github-api";
 import LearningEvents from "../biz-logic/LearningEvents";
 
