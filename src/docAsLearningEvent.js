@@ -1,5 +1,4 @@
 const docAsLearningEvent = doc => {
-  console.log("doc", doc);
   let titleDecoratedDoc = doc;
   titleDecoratedDoc["title"] = `${titleDecoratedDoc[
     "course"

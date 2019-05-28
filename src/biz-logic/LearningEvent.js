@@ -31,6 +31,7 @@ class LearningEvent {
     this["instructor-username"] = builder["instructor-username"];
     this.start = builder.start;
     this.end = builder.end;
+    this.duration = builder.duration;
 
     this.errors = builder.errors;
     this.warnings = builder.warnings;

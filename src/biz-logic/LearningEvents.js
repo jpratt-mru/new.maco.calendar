@@ -1,7 +1,7 @@
 import LearningEventBuilder from "./builders/LearningEventBuilder";
-import { primaryBuilders } from "./primaryBuilders";
-import { secondaryBaseBuilders } from "./secondaryBaseBuilders";
-import { secondaryCalculatedBuilders } from "./secondaryCalculatedBuilders";
+import { primaryBuilders } from "./builders/_primaryBuildersToUse";
+import { secondaryBaseBuilders } from "./builders/_secondaryBaseBuildersToUse";
+import { secondaryCalculatedBuilders } from "./builders/_secondaryCalculatedBuildersToUse";
 
 /**
  * A collection of LearningEvents.
@@ -49,7 +49,7 @@ class LearningEvents {
       },
       []
     );
-    console.log("here they be!", this.learningEvents);
+    console.log("events are", this.learningEvents);
   }
 
   withFurtherBuilders = (builder, buildersToAdd) => {
