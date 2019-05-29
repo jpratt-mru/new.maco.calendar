@@ -10,9 +10,7 @@ class SemesterSelector extends React.Component {
   handleScheduleChange = event => {
     const selectedSchedule = event.target.value;
 
-    const semesterPart = selectedSchedule.substring(0, 7);
-
-    this.props.handleScheduleChange(semesterPart);
+    this.props.handleScheduleChange(selectedSchedule);
   };
 
   componentDidMount = () => {};
@@ -20,6 +18,7 @@ class SemesterSelector extends React.Component {
   render() {
     return (
       <select name="semester" onChange={this.handleScheduleChange}>
+        <option value="">--Please choose a schedule --</option>
         {this.props.csvFiles.map(fileName => (
           <option key={fileName} value={fileName}>
             {fileName}

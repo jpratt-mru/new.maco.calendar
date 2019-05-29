@@ -42,8 +42,8 @@ class IssuesDetector {
 
   detectRoomCapacityIssues() {
     const roomCapIssues = this.roomCapacityIssueDetector.issues();
-    console.log("cap issues", roomCapIssues);
-    this.roomCapacityIssueDetector.issues().forEach(capacityIssue => {
+
+    roomCapIssues.forEach(capacityIssue => {
       this.detectedIssues = [
         ...this.detectedIssues,
         {

@@ -5,7 +5,8 @@ import KeywordGenerator from "../biz-logic/KeywordGenerator";
 // learning events that have those keywords associated
 // with them.
 //
-// Doesn't return duplicate ids, only a set of ids.
+// Doesn't return duplicate ids, only a set (in the mathematical sense
+// of the word) of ids.
 //
 
 class KeywordIndex {

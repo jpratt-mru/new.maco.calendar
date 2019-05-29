@@ -49,7 +49,6 @@ class LearningEvents {
       },
       []
     );
-    console.log("events are", this.learningEvents);
   }
 
   withFurtherBuilders = (builder, buildersToAdd) => {
