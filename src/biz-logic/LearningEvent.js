@@ -35,6 +35,7 @@ class LearningEvent {
 
     this.errors = builder.errors;
     this.warnings = builder.warnings;
+    this.isDisplayable = builder.isDisplayable;
   }
 }
 

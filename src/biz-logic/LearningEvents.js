@@ -36,7 +36,7 @@ class LearningEvents {
         builder = this.withFurtherBuilders(builder, primaryBuilders);
 
         // there's no need to continue building an event if you can't display it...
-        // but if you can display it, the rest of the builders get layered on
+        // but if you **can** display it, the rest of the builders should get layered on
         if (builder.eventInProgress.isDisplayable) {
           builder = this.withFurtherBuilders(builder, secondaryBaseBuilders);
           builder = this.withFurtherBuilders(

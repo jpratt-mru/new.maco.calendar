@@ -19,6 +19,7 @@ class KeywordIndex {
       "course",
       "course-number",
       "first-name",
+      "last-name",
       "room",
       "section",
       "subject-abbr",
@@ -32,12 +33,14 @@ class KeywordIndex {
       fieldsToIndex.forEach(field => {
         const thingToKeywordify = learningEvent[`${field}`];
 
-        const keywordsGenerated = keywordGenerator.keywordsFrom(
-          thingToKeywordify
-        );
-        allKeywordsForThisEvent = allKeywordsForThisEvent.concat(
-          keywordsGenerated
-        );
+        if (thingToKeywordify) {
+          const keywordsGenerated = keywordGenerator.keywordsFrom(
+            thingToKeywordify
+          );
+          allKeywordsForThisEvent = allKeywordsForThisEvent.concat(
+            keywordsGenerated
+          );
+        }
       });
 
       allKeywordsForThisEvent.forEach(keyword => {
