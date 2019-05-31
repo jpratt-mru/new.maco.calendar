@@ -9,19 +9,15 @@ class LearningEventBuilder {
       id,
       csvRecord,
       startingMonday,
-      errors: [],
-      warnings: [],
+      missing: [],
+      malformed: [],
       isDisplayable: true
     };
 
     if (!TimeUtilities.validDate(startingMonday)) {
-      this.eventInProgress.errors.push(
-        `Provided startingMonday ${startingMonday} is malformed.`
-      );
+      throw `Provided startingMonday ${startingMonday} is malformed.`;
     } else if (!TimeUtilities.validMonday(startingMonday)) {
-      this.eventInProgress.errors.push(
-        `Provided starting Monday ${startingMonday} is not a Monday.`
-      );
+      throw `Provided starting Monday ${startingMonday} is not a Monday.`;
     }
 
     this.eventInProgress.isDisplayable = TimeUtilities.validMonday(

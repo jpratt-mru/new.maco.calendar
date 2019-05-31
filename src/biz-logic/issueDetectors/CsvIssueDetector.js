@@ -5,7 +5,20 @@ class CsvIssueDetector {
     this.checkLearningEventsForIssues();
   }
 
-  checkLearningEventsForIssues() {}
+  checkLearningEventsForIssues() {
+    this.learningEvents.forEach(event => {
+      if (event.missing.length > 0 || event.malformed.length > 0) {
+        this.discoveredIssues = [
+          ...this.discoveredIssues,
+          {
+            eventId: event.id,
+            missingFields: [...event.missing],
+            malformedFields: [...event.malformed]
+          }
+        ];
+      }
+    });
+  }
 
   issues() {
     return [...this.discoveredIssues];

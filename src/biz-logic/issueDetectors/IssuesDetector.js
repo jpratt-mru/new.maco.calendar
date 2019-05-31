@@ -58,7 +58,7 @@ class IssuesDetector {
    */
 
   csvIssues() {
-    return [];
+    return this.detectedCsvIssues;
   }
 
   /**

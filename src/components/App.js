@@ -123,7 +123,10 @@ class App extends React.Component {
       "keywordIndex",
       "selectedCsvFile",
       "validCsvLoaded",
-      "issues"
+      "csvIssues",
+      "roomCapacityIssues",
+      "roomDoubleBookingIssues",
+      "instructorDoubleBookingIssues"
     ];
 
     stateThatNeedsSaving.forEach(stateName => {

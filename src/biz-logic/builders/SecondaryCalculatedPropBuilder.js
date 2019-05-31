@@ -25,19 +25,10 @@ class SecondaryCalculatedPropBuilder {
       prerequisiteProps.push(eventInProgress[prereqName]);
     });
 
-    if (prerequisiteProps.length == 0) {
-      eventInProgress.warnings.push(
-        `Missing prerequisite properties needed to build **${
-          this.propName
-        }**, ??? added instead.`
-      );
-    } else if (!this.prerequisitesAreValid(prerequisiteProps)) {
-      eventInProgress.warnings.push(
-        `Unable to build **${this.propName} from ${
-          this.prerequisitePropNames
-        }, ??? added instead.`
-      );
-    } else {
+    if (
+      prerequisiteProps.length !== 0 &&
+      this.prerequisitesAreValid(prerequisiteProps)
+    ) {
       eventInProgress[this.propName] = this.propCalculatedFrom(
         prerequisiteProps
       );

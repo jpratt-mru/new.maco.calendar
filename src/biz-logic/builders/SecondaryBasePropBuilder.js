@@ -16,15 +16,9 @@ class SecondaryBasePropBuilder {
     eventInProgress[this.propName] = "???";
 
     if (!propValue) {
-      eventInProgress.warnings.push(
-        `Missing field **${this.propName}**, ??? added instead.`
-      );
+      eventInProgress.missing.push(this.propName);
     } else if (!this.isValid(propValue)) {
-      eventInProgress.warnings.push(
-        `Malformed ${
-          this.propName
-        } field value: **${propValue}**, ??? added instead.`
-      );
+      eventInProgress.malformed.push(this.propName);
     } else {
       eventInProgress[this.propName] = this.formattedValue(propValue);
     }

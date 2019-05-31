@@ -33,8 +33,8 @@ class LearningEvent {
     this.end = builder.end;
     this.duration = builder.duration;
 
-    this.errors = builder.errors;
-    this.warnings = builder.warnings;
+    this.missing = builder.missing;
+    this.malformed = builder.malformed;
     this.isDisplayable = builder.isDisplayable;
   }
 }

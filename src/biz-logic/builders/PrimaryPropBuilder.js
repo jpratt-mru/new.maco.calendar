@@ -12,14 +12,10 @@ class PrimaryPropBuilder {
     const eventInProgress = this.eventInProgress;
 
     if (!propValue) {
-      eventInProgress.errors.push(
-        `Missing required field **${this.propName}**.`
-      );
+      eventInProgress.missing.push(this.propName);
       eventInProgress.isDisplayable = false;
     } else if (!this.isValid(propValue)) {
-      eventInProgress.errors.push(
-        `Malformed ${this.propName} field value: **${propValue}**.`
-      );
+      eventInProgress.malformed.push(this.propName);
       eventInProgress.isDisplayable = false;
     } else {
       eventInProgress[this.propName] = propValue;
