@@ -1,4 +1,7 @@
-import moment from "moment";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
 
 class TimeUtilities {
   static validMonday(text) {
@@ -23,6 +26,18 @@ class TimeUtilities {
 
   static formattedTime(momentTimeObject) {
     return moment(momentTimeObject, "YYYY-MM-DD HH:mm").format();
+  }
+
+  static timeConflictExistsBetween(eventOne, eventTwo) {
+    const eventOneRangeStart = moment(eventOne.start);
+    const eventOneRangeEnd = moment(eventOne.end);
+    const eventOneRange = moment.range(eventOneRangeStart, eventOneRangeEnd);
+
+    const eventTwoRangeStart = moment(eventTwo.start);
+    const eventTwoRangeEnd = moment(eventTwo.end);
+    const eventTwoRange = moment.range(eventTwoRangeStart, eventTwoRangeEnd);
+
+    return eventOneRange.overlaps(eventTwoRange);
   }
 
   static dayOfWeekAsNumber(dow) {

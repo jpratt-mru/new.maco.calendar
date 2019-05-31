@@ -18,11 +18,9 @@ class App extends React.Component {
     allLearningEvents: [],
     displayedLearningEvents: [],
     keywordIndex: null,
-    issues: [],
     semester: {},
     validCsvLoaded: false,
-    csvMissingFields: [],
-    csvMalformedFields: [],
+    csvIssues: [],
     roomCapacityIssues: [],
     roomDoubleBookingIssues: [],
     instructorDoubleBookingIssues: []
@@ -34,7 +32,12 @@ class App extends React.Component {
     if (this.learningEventsPresentInLocalStorage()) {
       for (let stateName in this.state) {
         if (localStorage[stateName]) {
-          this.state[stateName] = JSON.parse(localStorage.getItem(stateName));
+          const storedItem = JSON.parse(localStorage.getItem(stateName));
+          if (stateName === "keywordIndex") {
+            this.state[stateName] = new KeywordIndex(storedItem);
+          } else {
+            this.state[stateName] = storedItem;
+          }
         }
       }
     }
@@ -63,8 +66,8 @@ class App extends React.Component {
 
   scheduleURL = () =>
     `https://raw.githubusercontent.com/jpratt-mru/maco.calendar.datafiles/master/${
-      this.state.semester.desc
-    }.schedule.csv`;
+      this.state.selectedCsvFile
+    }`;
 
   pullLearningEventsFromGithub = () => {
     Papa.parse(this.scheduleURL(), {
@@ -99,7 +102,11 @@ class App extends React.Component {
               allLearningEvents,
               displayedLearningEvents,
               keywordIndex,
-              issues: issuesDetector.issues()
+              issues: issuesDetector,
+              csvIssues: issuesDetector.csvIssues(),
+              roomCapacityIssues: issuesDetector.roomCapacityIssues(),
+              roomDoubleBookingIssues: issuesDetector.roomDoubleBookingIssues(),
+              instructorDoubleBookingIssues: issuesDetector.instructorDoubleBookingIssues()
             },
             this.saveStateToLocalStorage
           );
@@ -115,7 +122,8 @@ class App extends React.Component {
       "semester",
       "keywordIndex",
       "selectedCsvFile",
-      "validCsvLoaded"
+      "validCsvLoaded",
+      "issues"
     ];
 
     stateThatNeedsSaving.forEach(stateName => {
@@ -177,8 +185,7 @@ class App extends React.Component {
 
         <Notifications
           validCsvLoaded={this.state.validCsvLoaded}
-          csvMissingFields={this.state.csvMissingFields}
-          csvMalformedFields={this.state.csvMalformedFields}
+          csvIssues={this.state.csvIssues}
           roomCapacityIssues={this.state.roomCapacityIssues}
           roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
           instructorDoubleBookingIssues={

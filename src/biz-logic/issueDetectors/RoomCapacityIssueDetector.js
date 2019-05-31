@@ -1,6 +1,8 @@
+import Rooms from "../Rooms";
+
 class RoomCapacityIssueDetector {
-  constructor(rooms, learningEvents) {
-    this.rooms = rooms;
+  constructor(learningEvents) {
+    this.rooms = new Rooms();
     this.learningEvents = learningEvents;
     this.discoveredIssues = new Map();
     this.checkLearningEventsForIssues();
@@ -29,7 +31,9 @@ class RoomCapacityIssueDetector {
     return {
       eventId: event.id,
       roomCapacity: roomCapacity,
-      sectionCapacity: event["section-capacity"]
+      sectionCapacity: event["section-capacity"],
+      room: event.room,
+      class: `${event.course}-${event.section}`
     };
   }
 }

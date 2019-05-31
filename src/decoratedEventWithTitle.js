@@ -2,7 +2,7 @@ const decoratedEventWithTitle = learningEvent => {
   let titleDecoratedEvent = learningEvent;
   titleDecoratedEvent["title"] = `${titleDecoratedEvent[
     "course"
-  ].toUpperCase()}\n[${
+  ].toUpperCase()}-${titleDecoratedEvent["section"]}\n[${
     titleDecoratedEvent["instructor-username"]
   }]\n${titleDecoratedEvent["room"].toUpperCase()}`;
 

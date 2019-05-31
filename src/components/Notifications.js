@@ -1,6 +1,5 @@
 import React from "react";
-import CsvMissingFields from "./CsvMissingFields";
-import CsvMalformedFields from "./CsvMalformedFields";
+import CsvIssues from "./CsvIssues";
 import RoomCapacityIssues from "./RoomCapacityIssues";
 import RoomDoubleBookingIssues from "./RoomDoubleBookingIssues";
 import InstructorDoubleBookingIssues from "./InstructorDoubleBookingIssues";
@@ -8,8 +7,7 @@ import InstructorDoubleBookingIssues from "./InstructorDoubleBookingIssues";
 const Notifications = props =>
   props.validCsvLoaded ? (
     <>
-      <CsvMissingFields fields={props.csvMissingFields} />
-      <CsvMalformedFields fields={props.csvMalformedFields} />
+      <CsvIssues issues={props.csvIssues} />
       <RoomCapacityIssues issues={props.roomCapacityIssues} />
       <RoomDoubleBookingIssues issues={props.roomDoubleBookingIssues} />
       <InstructorDoubleBookingIssues

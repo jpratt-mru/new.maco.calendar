@@ -1,12 +1,25 @@
 import RoomCapacityIssueDetector from "./RoomCapacityIssueDetector";
-import Rooms from "../Rooms";
+import RoomDoubleBookingIssueDetector from "./RoomDoubleBookingIssueDetector";
+import InstructorDoubleBookingIssueDetector from "./InstructorDoubleBookingIssueDetector";
+import CsvIssueDetector from "./CsvIssueDetector";
 
 class IssuesDetector {
   constructor(learningEvents) {
-    this.detectedIssues = [];
+    this.detectedCsvIssues = [];
+    this.detectedRoomCapacityIssues = [];
+    this.detectedRoomDoubleBookingIssues = [];
+    this.detectedInstructorDoubleBookingIssues = [];
+
     this.learningEvents = learningEvents;
+
+    this.csvIssueDetector = new CsvIssueDetector(learningEvents);
     this.roomCapacityIssueDetector = new RoomCapacityIssueDetector(
-      new Rooms(),
+      learningEvents
+    );
+    this.roomDoubleBookingIssueDetector = new RoomDoubleBookingIssueDetector(
+      learningEvents
+    );
+    this.instructorDoubleBookingIssueDetector = new InstructorDoubleBookingIssueDetector(
       learningEvents
     );
     this.detectIssues();
@@ -15,51 +28,75 @@ class IssuesDetector {
   detectIssues() {
     this.detectCsvIssues();
     this.detectRoomCapacityIssues();
+    this.detectRoomDoubleBookingIssues();
+    this.detectInstructorDoubleBookingIssues();
   }
 
   detectCsvIssues() {
-    let issues = [];
-    this.learningEvents.forEach(event => {
-      if (event.errors.length > 0) {
-        let details = [];
-
-        event.errors.forEach(error => {
-          details = [...details, error];
-        });
-        issues = [...issues, { eventId: event.id, details: details }];
-      }
-      if (event.warnings.length > 0) {
-        let details = [];
-
-        event.warnings.forEach(warning => {
-          details = [...details, warning];
-        });
-        issues = [...issues, { eventId: event.id, details: details }];
-      }
-    });
-    this.detectedIssues = [...this.detectedIssues, ...issues];
+    this.detectedCsvIssues = this.csvIssueDetector.issues();
   }
 
   detectRoomCapacityIssues() {
-    const roomCapIssues = this.roomCapacityIssueDetector.issues();
-
-    roomCapIssues.forEach(capacityIssue => {
-      this.detectedIssues = [
-        ...this.detectedIssues,
-        {
-          eventId: capacityIssue.eventId,
-          details: [
-            `room capacity is ${
-              capacityIssue.roomCapacity
-            }, but section has a capacity of ${capacityIssue.sectionCapacity}`
-          ]
-        }
-      ];
-    });
+    this.detectedRoomCapacityIssues = this.roomCapacityIssueDetector.issues();
   }
 
-  issues() {
-    return this.detectedIssues;
+  detectRoomDoubleBookingIssues() {
+    this.detectedRoomDoubleBookingIssues = this.roomDoubleBookingIssueDetector.issues();
+  }
+
+  detectInstructorDoubleBookingIssues() {
+    this.detectedInstructorDoubleBookingIssues = this.instructorDoubleBookingIssueDetector.issues();
+  }
+
+  /**
+   * These should look like this:
+   *
+   * eventId: 3
+   * missingFields: ["first-name", "duration"],
+   * malformedFields: ["dow"]
+   *
+   */
+
+  csvIssues() {
+    return [];
+  }
+
+  /**
+   * These should look like this:
+   *
+   * class: "comp1501-001"
+   * room: "b107",
+   * roomCapacity: 25
+   * sectionCapacity: 26
+   * eventId: 14
+   *
+   */
+  roomCapacityIssues() {
+    return this.detectedRoomCapacityIssues;
+  }
+
+  /**
+   * These should look like this:
+   *
+   * room: "b107",
+   * classes: ["comp1423-001", "math2211-509", "comp1441-401"],
+   * eventIds: [13, 132, 44]
+   *
+   */
+  roomDoubleBookingIssues() {
+    return this.detectedRoomDoubleBookingIssues;
+  }
+
+  /**
+   * These should look like this:
+   *
+   * instructorName: "Pam Slam",
+   * classes: ["comp1423-001", "math2211-509", "comp1441-401"],
+   * eventIds: [13, 132, 44]
+   *
+   */
+  instructorDoubleBookingIssues() {
+    return this.detectedInstructorDoubleBookingIssues;
   }
 }
 
