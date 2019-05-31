@@ -33,16 +33,21 @@ class CalendarEventOrFilterInputBox extends React.Component {
 
   render() {
     return (
-      <input
-        type="text"
-        name="orFilterText"
-        id="orFilterText"
-        placeholder="OR Search"
-        onKeyUp={this.applyOrFilter}
-        onBlur={this.clear}
-      />
+      <div className="mdl-textfield mdl-js-textfield">
+        <input
+          type="text"
+          name="orFilterText"
+          id="orFilterText"
+          placeholder="OR Filter"
+          onKeyUp={this.applyOrFilter}
+          onBlur={this.clear}
+          className="mdl-textfield__input"
+        />
+        <label className="mdl-textfield__label" htmlFor="orFilterText">
+          Text...
+        </label>
+      </div>
     );
   }
 }
-
 export default CalendarEventOrFilterInputBox;

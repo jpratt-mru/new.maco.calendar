@@ -165,37 +165,39 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="mdl-layout mdl-js-layout">
         <InfoHeader scheduleName={this.state.selectedCsvFile} />
 
-        <SemesterSelector handleScheduleChange={this.handleScheduleChange} />
+        <main className="mdl-layout__content">
+          <SemesterSelector handleScheduleChange={this.handleScheduleChange} />
 
-        <CalendarEventOrFilterInputBox
-          handleFiltering={this.handleFiltering}
-          keywordIndex={this.state.keywordIndex}
-        />
+          <CalendarEventOrFilterInputBox
+            handleFiltering={this.handleFiltering}
+            keywordIndex={this.state.keywordIndex}
+          />
 
-        <CalendarEventAndFilterInputBox
-          handleFiltering={this.handleFiltering}
-          keywordIndex={this.state.keywordIndex}
-        />
+          <CalendarEventAndFilterInputBox
+            handleFiltering={this.handleFiltering}
+            keywordIndex={this.state.keywordIndex}
+          />
 
-        <MacoCalendar
-          validCsvLoaded={this.state.validCsvLoaded}
-          startingMonday={this.state.semester.startingMonday}
-          events={this.state.displayedLearningEvents}
-        />
+          <MacoCalendar
+            validCsvLoaded={this.state.validCsvLoaded}
+            startingMonday={this.state.semester.startingMonday}
+            events={this.state.displayedLearningEvents}
+          />
 
-        <Notifications
-          validCsvLoaded={this.state.validCsvLoaded}
-          csvIssues={this.state.csvIssues}
-          roomCapacityIssues={this.state.roomCapacityIssues}
-          roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
-          instructorDoubleBookingIssues={
-            this.state.instructorDoubleBookingIssues
-          }
-        />
-      </>
+          <Notifications
+            validCsvLoaded={this.state.validCsvLoaded}
+            csvIssues={this.state.csvIssues}
+            roomCapacityIssues={this.state.roomCapacityIssues}
+            roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
+            instructorDoubleBookingIssues={
+              this.state.instructorDoubleBookingIssues
+            }
+          />
+        </main>
+      </div>
     );
   }
 }

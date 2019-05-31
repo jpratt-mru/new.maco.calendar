@@ -33,14 +33,20 @@ class CalendarEventAndFilterInputBox extends React.Component {
 
   render() {
     return (
-      <input
-        type="text"
-        name="andFilterText"
-        id="andFilterText"
-        placeholder="AND Search"
-        onKeyUp={this.applyAndFilter}
-        onBlur={this.clear}
-      />
+      <div className="mdl-textfield mdl-js-textfield">
+        <input
+          type="text"
+          name="andFilterText"
+          id="andFilterText"
+          placeholder="AND Filter"
+          onKeyUp={this.applyAndFilter}
+          onBlur={this.clear}
+          className="mdl-textfield__input"
+        />
+        <label className="mdl-textfield__label" htmlFor="andFilterText">
+          Text...
+        </label>
+      </div>
     );
   }
 }
