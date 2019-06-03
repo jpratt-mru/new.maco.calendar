@@ -16,7 +16,7 @@ class CalendarEventAndFilterInputBox extends React.Component {
   };
 
   extractedKeywords = s => {
-    return this.isEmpty(s) ? [] : this.whitespaceSplitTokens(s.toLowerCase());
+    return this.isEmpty(s) ? [""] : this.whitespaceSplitTokens(s.toLowerCase());
   };
 
   clear = e => {
@@ -33,20 +33,15 @@ class CalendarEventAndFilterInputBox extends React.Component {
 
   render() {
     return (
-      <div className="mdl-textfield mdl-js-textfield">
-        <input
-          type="text"
-          name="andFilterText"
-          id="andFilterText"
-          placeholder="AND Filter"
-          onKeyUp={this.applyAndFilter}
-          onBlur={this.clear}
-          className="mdl-textfield__input"
-        />
-        <label className="mdl-textfield__label" htmlFor="andFilterText">
-          Text...
-        </label>
-      </div>
+      <input
+        type="text"
+        name="andFilterText"
+        id="andFilterText"
+        placeholder="AND Filter"
+        onKeyUp={this.applyAndFilter}
+        onBlur={this.clear}
+        className="form-control form-control-lg"
+      />
     );
   }
 }

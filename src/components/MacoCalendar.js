@@ -2,6 +2,7 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import decoratedEventWithTitle from "../decoratedEventWithTitle";
+import "./MacoCalendar.css";
 
 class MacoCalendar extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class MacoCalendar extends React.Component {
   }
 
   componentWillUpdate() {
+    this.props.recolor();
     if (this.calendarRef.current) {
       this.calendarRef.current
         .getApi()

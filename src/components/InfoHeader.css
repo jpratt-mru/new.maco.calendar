@@ -1,0 +1,9 @@
+#info-header header p {
+  font-size: 1.6em;
+  background: yellow;
+  padding: 10px;
+}
+
+#info-header h2 {
+  font-size: 1.2em;
+}

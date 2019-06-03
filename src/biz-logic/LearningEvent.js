@@ -36,6 +36,8 @@ class LearningEvent {
     this.missing = builder.missing;
     this.malformed = builder.malformed;
     this.isDisplayable = builder.isDisplayable;
+
+    this.borderColor = "transparent";
   }
 }
 

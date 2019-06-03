@@ -20,7 +20,7 @@ class KeywordGenerator {
       lastPush = toPush;
     });
 
-    return result;
+    return ["", ...result];
   };
 }
 

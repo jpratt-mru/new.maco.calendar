@@ -11,6 +11,7 @@ import SemesterSelector from "./SemesterSelector";
 import Notifications from "./Notifications";
 import Semester from "../biz-logic/Semester";
 import InfoHeader from "./InfoHeader";
+import { colors } from "../biz-logic/colors";
 
 class App extends React.Component {
   state = {
@@ -146,6 +147,87 @@ class App extends React.Component {
     );
   };
 
+  coloredEvent = (event, color) => {
+    event.backgroundColor = color;
+  };
+
+  addColorByYear = () => {
+    const colorMap = new Map();
+
+    let currColorIndex = 0;
+    this.state.displayedLearningEvents.forEach(event => {
+      let courseYear = event["course-number"].substring(0, 1);
+      if (!colorMap.has(courseYear)) {
+        colorMap.set(courseYear, colors[currColorIndex]);
+        currColorIndex++;
+      }
+    });
+
+    this.state.displayedLearningEvents.forEach(event => {
+      let courseYear = event["course-number"].substring(0, 1);
+      this.coloredEvent(event, colorMap.get(courseYear));
+    });
+
+    // this.setState({ displayedLearningEvents: coloredEvents });
+  };
+
+  addColorByCourseAbbr = () => {
+    const colorMap = new Map();
+
+    let currColorIndex = 0;
+    this.state.displayedLearningEvents.forEach(event => {
+      let subjectAbbr = event["subject-abbr"];
+      if (!colorMap.has(subjectAbbr)) {
+        colorMap.set(subjectAbbr, colors[currColorIndex]);
+        currColorIndex++;
+      }
+    });
+
+    this.state.displayedLearningEvents.forEach(event => {
+      this.coloredEvent(event, colorMap.get(event["subject-abbr"]));
+    });
+  };
+
+  addColorByCourse = () => {
+    const colorMap = new Map();
+
+    let currColorIndex = 0;
+    this.state.displayedLearningEvents.forEach(event => {
+      let course = event["course"];
+      if (!colorMap.has(course)) {
+        colorMap.set(course, colors[currColorIndex]);
+        currColorIndex++;
+      }
+    });
+
+    this.state.displayedLearningEvents.forEach(event => {
+      this.coloredEvent(event, colorMap.get(event["course"]));
+    });
+  };
+
+  addBackgroundColors = () => {
+    let justSubjectAbbr = this.state.displayedLearningEvents.map(
+      event => event["subject-abbr"]
+    );
+
+    const uniqSubjectAbbr = new Set(justSubjectAbbr);
+
+    let justYears = this.state.displayedLearningEvents.map(event =>
+      event["course-number"].substring(0, 1)
+    );
+
+    const uniqYears = new Set(justYears);
+
+    if (uniqSubjectAbbr.size > 1) {
+      this.addColorByCourseAbbr();
+    } else if (uniqYears.size > 1) {
+      this.addColorByYear();
+    } else {
+      console.log("add by course");
+      this.addColorByCourse();
+    }
+  };
+
   handleFiltering = targetLearningIds => {
     this.setState({
       displayedLearningEvents: this.matchingLearningEvents(targetLearningIds)
@@ -165,39 +247,53 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="mdl-layout mdl-js-layout">
-        <InfoHeader scheduleName={this.state.selectedCsvFile} />
-
-        <main className="mdl-layout__content">
-          <SemesterSelector handleScheduleChange={this.handleScheduleChange} />
-
-          <CalendarEventOrFilterInputBox
-            handleFiltering={this.handleFiltering}
-            keywordIndex={this.state.keywordIndex}
+      <>
+        <div className="container-fluid">
+          <InfoHeader
+            semester={this.state.semester}
+            scheduleName={this.state.selectedCsvFile}
           />
 
-          <CalendarEventAndFilterInputBox
-            handleFiltering={this.handleFiltering}
-            keywordIndex={this.state.keywordIndex}
-          />
+          <div className="row">
+            <div className="col-12">
+              <SemesterSelector
+                handleScheduleChange={this.handleScheduleChange}
+              />
+            </div>
+          </div>
+          <div className="row mt-5">
+            <div className="col-9">
+              <MacoCalendar
+                recolor={this.addBackgroundColors}
+                validCsvLoaded={this.state.validCsvLoaded}
+                startingMonday={this.state.semester.startingMonday}
+                events={this.state.displayedLearningEvents}
+              />
+            </div>
+            <div className="col-3">
+              <CalendarEventOrFilterInputBox
+                handleFiltering={this.handleFiltering}
+                keywordIndex={this.state.keywordIndex}
+              />
 
-          <MacoCalendar
-            validCsvLoaded={this.state.validCsvLoaded}
-            startingMonday={this.state.semester.startingMonday}
-            events={this.state.displayedLearningEvents}
-          />
+              <CalendarEventAndFilterInputBox
+                handleFiltering={this.handleFiltering}
+                keywordIndex={this.state.keywordIndex}
+              />
 
-          <Notifications
-            validCsvLoaded={this.state.validCsvLoaded}
-            csvIssues={this.state.csvIssues}
-            roomCapacityIssues={this.state.roomCapacityIssues}
-            roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
-            instructorDoubleBookingIssues={
-              this.state.instructorDoubleBookingIssues
-            }
-          />
-        </main>
-      </div>
+              <Notifications
+                validCsvLoaded={this.state.validCsvLoaded}
+                csvIssues={this.state.csvIssues}
+                roomCapacityIssues={this.state.roomCapacityIssues}
+                roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
+                instructorDoubleBookingIssues={
+                  this.state.instructorDoubleBookingIssues
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }

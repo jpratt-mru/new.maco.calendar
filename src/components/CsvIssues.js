@@ -1,17 +1,15 @@
 import React from "react";
 import CsvIssue from "./CsvIssue";
+import "./CsvIssues.css";
 
 const CsvIssues = props => {
   return (
     <div className="csv-issues">
-      <header>CSV Issues</header>
-      {props.issues.length == 0 ? (
-        <span>No Issues</span>
-      ) : (
-        props.issues.map((issue, index) => (
-          <CsvIssue key={`csv${index}`} issue={issue} />
-        ))
-      )}
+      {props.issues.length == 0
+        ? null
+        : props.issues.map((issue, index) => (
+            <CsvIssue key={`csv${index}`} issue={issue} />
+          ))}
     </div>
   );
 };
