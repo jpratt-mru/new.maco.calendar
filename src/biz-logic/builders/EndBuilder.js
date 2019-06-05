@@ -5,7 +5,7 @@ import TimeUtilities from "../TimeUtilities";
 class EndBuilder extends SecondaryCalculatedPropBuilder {
   static prerequisitesAreValid(prerequisites) {
     // as long as we've gotten this far, we'll have a valid
-    // start-time and duration to work with
+    // startingtime and duration to work with
     const [start, duration] = prerequisites;
 
     return start && duration;

@@ -26,13 +26,13 @@ beforeEach(() => {
 xdescribe("a mapper will return a LearningEventWithErrorsBuilder when there are unrecoverable errors with the csv record provided", () => {
   test("no duration present", () => {
     expect(
-      mapper.mapToBuilder({ "start-time": "9:00" }, 2).getClassName()
+      mapper.mapToBuilder({ "startingtime": "9:00" }, 2).getClassName()
     ).toEqual("LearningEventWithErrorsBuilder");
   });
 
   test("no valid duration", () => {
     const builder = mapper.mapToBuilder(
-      { "start-time": "9:00", duration: "hello" },
+      { "startingtime": "9:00", duration: "hello" },
       2
     );
     expect(builder.getClassName()).toEqual("LearningEventWithErrorsBuilder");
@@ -45,7 +45,7 @@ xdescribe("a mapper will return a LearningEventWithErrorsBuilder when there are 
 
   test("no valid start time", () => {
     const builder = mapper.mapToBuilder(
-      { "start-time": "12:9:00", duration: "1:00" },
+      { "startingtime": "12:9:00", duration: "1:00" },
       1
     );
     expect(builder.getClassName()).toEqual("LearningEventWithErrorsBuilder");

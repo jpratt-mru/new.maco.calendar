@@ -1,8 +1,8 @@
 import SectionCapacityBuilder from "../biz-logic/SectionCapacityBuilder";
 
-const PROP_NAME = "section-capacity";
+const PROP_NAME = "sectioncapacity";
 
-describe("when no section-capacity property present in incoming builder's csv record", () => {
+describe("when no sectioncapacity property present in incoming builder's csv record", () => {
   const fakeBuilder = {
     errors: [],
     warnings: [],
@@ -22,12 +22,12 @@ describe("when no section-capacity property present in incoming builder's csv re
     expect(sectionCapacityBuilder.canBuildDisplayableEvent).toBeTruthy();
   });
 
-  test("builder shows ??? as section-capacity", () => {
+  test("builder shows ??? as sectioncapacity", () => {
     expect(sectionCapacityBuilder[PROP_NAME]).toBe("???");
   });
 });
 
-describe("when malformed section-capacity present in incoming builder's csv record", () => {
+describe("when malformed sectioncapacity present in incoming builder's csv record", () => {
   const fakeBuilder = {
     errors: [],
     warnings: [],
@@ -47,12 +47,12 @@ describe("when malformed section-capacity present in incoming builder's csv reco
     expect(sectionCapacityBuilder.canBuildDisplayableEvent).toBeTruthy();
   });
 
-  test("builder shows ??? as section-capacity", () => {
+  test("builder shows ??? as sectioncapacity", () => {
     expect(sectionCapacityBuilder[PROP_NAME]).toBe("???");
   });
 });
 
-describe("when well formed section-capacity is in incoming builder's csv record", () => {
+describe("when well formed sectioncapacity is in incoming builder's csv record", () => {
   const fakeBuilder = {
     errors: [],
     warnings: [],
@@ -68,7 +68,7 @@ describe("when well formed section-capacity is in incoming builder's csv record"
     expect(sectionCapacityBuilder.canBuildDisplayableEvent).toBeTruthy();
   });
 
-  test("builder shows lowercased section-capacity as section-capacity", () => {
+  test("builder shows lowercased sectioncapacity as sectioncapacity", () => {
     expect(sectionCapacityBuilder[PROP_NAME]).toBe("29");
   });
 });

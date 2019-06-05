@@ -7,3 +7,7 @@
 #info-header h2 {
   font-size: 1.2em;
 }
+
+#info-header h1 {
+  display: none;
+}

@@ -3,6 +3,7 @@ import MacoCalendar from "./MacoCalendar";
 import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
 import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
 import KeywordIndex from "../biz-logic/KeywordIndex";
+import PrintToggleButton from "./PrintToggleButton";
 import Papa from "papaparse";
 import LearningEvents from "../biz-logic/LearningEvents";
 import IssuesDetector from "../biz-logic/issueDetectors/IssuesDetector";
@@ -24,7 +25,8 @@ class App extends React.Component {
     csvIssues: [],
     roomCapacityIssues: [],
     roomDoubleBookingIssues: [],
-    instructorDoubleBookingIssues: []
+    instructorDoubleBookingIssues: [],
+    printMode: false
   };
 
   constructor(props) {
@@ -42,6 +44,7 @@ class App extends React.Component {
         }
       }
     }
+    this.state.printMode = false;
   }
 
   learningEventsPresentInLocalStorage = () => {
@@ -52,13 +55,13 @@ class App extends React.Component {
     const expectedFields = [
       "course",
       "section",
-      "section-capacity",
+      "sectioncapacity",
       "dow",
-      "start-time",
+      "startingtime",
       "duration",
       "room",
-      "first-name",
-      "last-name"
+      "firstname",
+      "lastname"
     ];
 
     const fields = csvRecords.meta.fields.map(x => x.toLowerCase());
@@ -223,7 +226,6 @@ class App extends React.Component {
     } else if (uniqYears.size > 1) {
       this.addColorByYear();
     } else {
-      console.log("add by course");
       this.addColorByCourse();
     }
   };
@@ -245,6 +247,10 @@ class App extends React.Component {
     );
   };
 
+  handlePrintViewChange = () => {
+    this.setState({ printMode: !this.state.printMode });
+  };
+
   render() {
     return (
       <>
@@ -261,9 +267,16 @@ class App extends React.Component {
               />
             </div>
           </div>
+
+          <PrintToggleButton
+            printMode={this.state.printMode}
+            handlePrintViewChange={this.handlePrintViewChange}
+          />
+
           <div className="row mt-5">
             <div className="col-9">
               <MacoCalendar
+                printMode={this.state.printMode}
                 recolor={this.addBackgroundColors}
                 validCsvLoaded={this.state.validCsvLoaded}
                 startingMonday={this.state.semester.startingMonday}

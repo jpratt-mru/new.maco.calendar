@@ -10,9 +10,16 @@ class MacoCalendar extends React.Component {
     this.calendarRef = React.createRef();
   }
 
-  componentWillUpdate() {
+  componentDidUpdate() {
+    console.log("current", this.props.printMode);
     this.props.recolor();
     if (this.calendarRef.current) {
+      let slotDuration = "00:30:00";
+      if (this.props.printMode) {
+        slotDuration = "00:15:00";
+      }
+      console.log("now", this.props.printMode);
+      this.calendarRef.current.getApi().setOption("slotDuration", slotDuration);
       this.calendarRef.current
         .getApi()
         .changeView("timeGridWeek", this.props.startingMonday);
@@ -24,27 +31,32 @@ class MacoCalendar extends React.Component {
       return <div>No valid schedule loaded.</div>;
     } else {
       return (
-        <FullCalendar
-          ref={this.calendarRef}
-          events={this.props.events.map(decoratedEventWithTitle)}
-          defaultDate={this.props.startingMonday}
-          defaultView="timeGridWeek"
-          height="auto"
-          nowIndicator={false}
-          allDaySlot={false}
-          header={false}
-          weekends={false}
-          minTime="08:00:00"
-          maxTime="20:00:00"
-          displayEventTime={false}
-          columnHeaderFormat={{
-            weekday: "short",
-            month: "numeric",
-            day: "numeric"
-          }}
-          plugins={[timeGridPlugin]}
-          {...this.props}
-        />
+        <>
+          <FullCalendar
+            ref={this.calendarRef}
+            printMode={this.printMode}
+            events={this.props.events.map(decoratedEventWithTitle)}
+            defaultDate={this.props.startingMonday}
+            defaultView="timeGridWeek"
+            height="auto"
+            nowIndicator={false}
+            slotDuration={"00:30:00"}
+            slotLabelInterval="01:00"
+            allDaySlot={false}
+            header={false}
+            weekends={false}
+            minTime="08:00:00"
+            maxTime="20:00:00"
+            displayEventTime={false}
+            columnHeaderFormat={{
+              weekday: "short",
+              month: "numeric",
+              day: "numeric"
+            }}
+            plugins={[timeGridPlugin]}
+            {...this.props}
+          />
+        </>
       );
     }
   }

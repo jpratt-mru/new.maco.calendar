@@ -5,10 +5,26 @@ import RoomDoubleBookingIssues from "./RoomDoubleBookingIssues";
 import InstructorDoubleBookingIssues from "./InstructorDoubleBookingIssues";
 import "./Notifications.css";
 
+const issuesPresent = props => {
+  return (
+    props.csvIssues.length > 0 ||
+    props.roomCapacityIssues.length > 0 ||
+    props.roomDoubleBookingIssues.length > 0 ||
+    props.instructorDoubleBookingIssues.length > 0
+  );
+};
+
+const notificationsHeader = props => {
+  if (issuesPresent(props)) {
+    return <h2 className="text-center with-issues mt-3 pb-2">Issues</h2>;
+  }
+  return <h2 className="text-center with-no-issues mt-3 pb-2">No Issues</h2>;
+};
+
 const Notifications = props =>
   props.validCsvLoaded ? (
     <div id="notifications">
-      <h2 className="text-center mt-3 pb-2">Issues</h2>
+      {notificationsHeader(props)}
       <div id="notifications">
         <CsvIssues issues={props.csvIssues} />
         <RoomCapacityIssues issues={props.roomCapacityIssues} />

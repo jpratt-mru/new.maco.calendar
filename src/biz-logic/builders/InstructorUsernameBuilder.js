@@ -26,8 +26,8 @@ class InstructorUsernameBuilder extends SecondaryCalculatedPropBuilder {
       "instructor-username",
       InstructorUsernameBuilder.prerequisitesAreValid,
       InstructorUsernameBuilder.propCalculatedFrom,
-      "first-name",
-      "last-name"
+      "firstname",
+      "lastname"
     );
   }
 }

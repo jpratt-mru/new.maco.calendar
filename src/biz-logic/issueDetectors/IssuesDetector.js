@@ -52,7 +52,7 @@ class IssuesDetector {
    * These should look like this:
    *
    * eventId: 3
-   * missingFields: ["first-name", "duration"],
+   * missingFields: ["firstname", "duration"],
    * malformedFields: ["dow"]
    *
    */

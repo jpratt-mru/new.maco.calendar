@@ -11,7 +11,7 @@ class LastNameBuilder extends SecondaryBasePropBuilder {
   }
 
   constructor() {
-    super("last-name", LastNameBuilder.isValid, LastNameBuilder.formattedValue);
+    super("lastname", LastNameBuilder.isValid, LastNameBuilder.formattedValue);
   }
 }
 

@@ -12,7 +12,7 @@ class FirstNameBuilder extends SecondaryBasePropBuilder {
 
   constructor() {
     super(
-      "first-name",
+      "firstname",
       FirstNameBuilder.isValid,
       FirstNameBuilder.formattedValue
     );

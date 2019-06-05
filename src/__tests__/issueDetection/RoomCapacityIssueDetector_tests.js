@@ -26,7 +26,7 @@ test("has an issue if a room is being used for a LearningEvent and is just one o
   const roomList = [["t225", 25]];
   const rooms = new Rooms(roomList);
 
-  const learningEvents = [{ room: "t225", "section-capacity": "26" }];
+  const learningEvents = [{ room: "t225", "sectioncapacity": "26" }];
 
   let detector = new RoomCapacityIssueDetector(rooms, learningEvents);
 
@@ -37,18 +37,18 @@ test("has no issue if a room is being used for a LearningEvent and is **just** a
   const roomList = [["t225", 25]];
   const rooms = new Rooms(roomList);
 
-  const learningEvents = [{ room: "t225", "section-capacity": "25" }];
+  const learningEvents = [{ room: "t225", "sectioncapacity": "25" }];
 
   let detector = new RoomCapacityIssueDetector(rooms, learningEvents);
 
   expect(detector.issues().length).toBe(0);
 });
 
-test("has no issue if a room is being used for a LearningEvent but that event doesn't have a valid section-capacity prop", () => {
+test("has no issue if a room is being used for a LearningEvent but that event doesn't have a valid sectioncapacity prop", () => {
   const roomList = [["t225", 25]];
   const rooms = new Rooms(roomList);
 
-  const learningEvents = [{ room: "t225", "section-capacity": "??" }];
+  const learningEvents = [{ room: "t225", "sectioncapacity": "??" }];
 
   let detector = new RoomCapacityIssueDetector(rooms, learningEvents);
 
@@ -62,17 +62,17 @@ test("should not double-report the same room for the same course section", () =>
   const learningEvents = [
     {
       room: "t225",
-      "section-capacity": "26",
+      "sectioncapacity": "26",
       course: "comp1501",
       section: "001"
     },
     {
       room: "b107",
-      "section-capacity": "26",
+      "sectioncapacity": "26",
       course: "comp1501",
       section: "501"
     },
-    { room: "t225", "section-capacity": 26, course: "comp1501", section: "001" }
+    { room: "t225", "sectioncapacity": 26, course: "comp1501", section: "001" }
   ];
 
   let detector = new RoomCapacityIssueDetector(rooms, learningEvents);
@@ -87,13 +87,13 @@ test("will report the same room for different courses", () => {
   const learningEvents = [
     {
       room: "t225",
-      "section-capacity": "26",
+      "sectioncapacity": "26",
       course: "comp1501",
       section: "001"
     },
     {
       room: "t225",
-      "section-capacity": "26",
+      "sectioncapacity": "26",
       course: "comp1502",
       section: "001"
     }
@@ -111,13 +111,13 @@ test("will report the same room for different sections of the same course", () =
   const learningEvents = [
     {
       room: "t225",
-      "section-capacity": "26",
+      "sectioncapacity": "26",
       course: "comp1501",
       section: "001"
     },
     {
       room: "t225",
-      "section-capacity": "26",
+      "sectioncapacity": "26",
       course: "comp1501",
       section: "002"
     }

@@ -18,8 +18,8 @@ class KeywordIndex {
     const fieldsToIndex = [
       "course",
       "course-number",
-      "first-name",
-      "last-name",
+      "firstname",
+      "lastname",
       "room",
       "section",
       "subject-abbr",

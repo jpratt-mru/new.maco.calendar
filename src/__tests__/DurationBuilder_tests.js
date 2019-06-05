@@ -66,7 +66,7 @@ describe("when well-formed duration present in incoming builder's csv record", (
     expect(durationBuilder.canBuildDisplayableEvent).toBeTruthy();
   });
 
-  test("builder has a start-time property with that valid time", () => {
+  test("builder has a startingtime property with that valid time", () => {
     expect(durationBuilder[PROP_NAME]).toBe("3:00");
   });
 

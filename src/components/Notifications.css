@@ -4,6 +4,14 @@
 
 #notifications h2 {
   padding: 5px;
+}
+
+#notifications .with-no-issues {
+  background-color: darkgreen;
   color: white;
-  background-color: grey;
+}
+
+#notifications .with-issues {
+  background-color: darkred;
+  color: white;
 }

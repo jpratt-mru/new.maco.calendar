@@ -1,8 +1,8 @@
 import StartTimeBuilder from "../biz-logic/StartTimeBuilder";
 
-const PROP_NAME = "start-time";
+const PROP_NAME = "startingtime";
 
-describe("when no start-time property present in incoming builder's csv record", () => {
+describe("when no startingtime property present in incoming builder's csv record", () => {
   const fakeBuilder = {
     errors: [],
     warnings: [],
@@ -25,7 +25,7 @@ describe("when no start-time property present in incoming builder's csv record",
   });
 });
 
-describe("when malformed start-time present in incoming builder's csv record", () => {
+describe("when malformed startingtime present in incoming builder's csv record", () => {
   const fakeBuilder = {
     errors: [],
     warnings: [],
@@ -48,7 +48,7 @@ describe("when malformed start-time present in incoming builder's csv record", (
   });
 });
 
-describe("when well-formed start-time present in incoming builder's csv record", () => {
+describe("when well-formed startingtime present in incoming builder's csv record", () => {
   const fakeBuilder = {
     errors: [],
     warnings: [],
@@ -66,7 +66,7 @@ describe("when well-formed start-time present in incoming builder's csv record",
     expect(startTimeBuilder.canBuildDisplayableEvent).toBeTruthy();
   });
 
-  test("builder has a start-time property with that valid time", () => {
+  test("builder has a startingtime property with that valid time", () => {
     expect(startTimeBuilder[PROP_NAME]).toBe("15:00");
   });
 

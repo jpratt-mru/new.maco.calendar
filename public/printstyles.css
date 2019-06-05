@@ -1,0 +1,38 @@
+@media only print {
+  .col-3,
+  #print-toggle-button,
+  .custom-select,
+  #info-header div {
+    display: none;
+  }
+
+  #info-header h1 {
+    display: block !important;
+  }
+  @page {
+    margin: 2cm 0.4cm;
+  }
+
+  .col-9 {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .fc-event {
+    background: #fff !important;
+    color: #000 !important;
+    page-break-inside: avoid;
+    border: 1px solid black !important;
+    font: 14pt Georgia, "Times New Roman", Times, serif !important;
+    line-height: 1.3 !important;
+    padding: 5px !important;
+  }
+
+  .fc-unthemed td {
+    border-color: black;
+  }
+
+  .fc-time-grid .fc-slats .fc-minor td {
+    border: 1px dotted darkgrey !important;
+  }
+}

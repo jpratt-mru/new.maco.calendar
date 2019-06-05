@@ -13,15 +13,15 @@ const FIRST_MONDAY = "2019-09-09"; // September 9, 2019 is a Monday
 
 let mapper;
 const validRecord = {
-  "start-time": "13:30",
+  startingtime: "13:30",
   duration: "1:00",
   course: "comp1501",
   section: "001",
-  "section-capacity": "30",
+  sectioncapacity: "30",
   dow: "Wednesday",
   room: "t225",
-  "first-name": "Foo",
-  "last-name": "Bar"
+  firstname: "Foo",
+  lastname: "Bar"
 };
 
 beforeEach(() => {

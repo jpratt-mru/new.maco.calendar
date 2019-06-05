@@ -20,11 +20,11 @@ class LearningEvent {
 
     this.course = builder.course;
     this.section = builder.section;
-    this["section-capacity"] = builder["section-capacity"];
+    this["sectioncapacity"] = builder["sectioncapacity"];
     this.dow = builder.dow;
     this.room = builder.room;
-    this["first-name"] = builder["first-name"];
-    this["last-name"] = builder["last-name"];
+    this["firstname"] = builder["firstname"];
+    this["lastname"] = builder["lastname"];
 
     this["course-number"] = builder["course-number"];
     this["subject-abbr"] = builder["subject-abbr"];

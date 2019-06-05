@@ -9,7 +9,7 @@ beforeEach(() => {
   endTimeCleaner = new EndTimeCleaner();
 });
 
-test("if the incoming object doesn't have a key called 'start-time' (case-insensitive), then end time defaults to '???'", () => {
+test("if the incoming object doesn't have a key called 'startingtime' (case-insensitive), then end time defaults to '???'", () => {
   expect(endTimeCleaner.clean({})).toHaveProperty(
     END_TIME_PROP_NAME,
     UNKNOWN_VALUE_MARKER
@@ -22,7 +22,7 @@ test("if the incoming object doesn't have a key called 'start-time' (case-insens
 });
 
 test("if the incoming object doesn't have a key called 'duration' (case-insensitive), then end time defaults to '???'", () => {
-  expect(endTimeCleaner.clean({ "start-time": "1:00" })).toHaveProperty(
+  expect(endTimeCleaner.clean({ "startingtime": "1:00" })).toHaveProperty(
     END_TIME_PROP_NAME,
     UNKNOWN_VALUE_MARKER
   );
@@ -30,12 +30,12 @@ test("if the incoming object doesn't have a key called 'duration' (case-insensit
 
 test("if the incoming object has a duration that's not in xx:xx form, then end time defaults to '???'", () => {
   expect(
-    endTimeCleaner.clean({ "start-time": "3:30", duration: "123" })
+    endTimeCleaner.clean({ "startingtime": "3:30", duration: "123" })
   ).toHaveProperty(END_TIME_PROP_NAME, UNKNOWN_VALUE_MARKER);
 });
 
 test("if the incoming object has a duration of 1:00, then end time is start time + 50 minutes", () => {
   expect(
-    endTimeCleaner.clean({ "start-time": "8:30", duration: "1:00" })
+    endTimeCleaner.clean({ "startingtime": "8:30", duration: "1:00" })
   ).toHaveProperty(END_TIME_PROP_NAME, "9:20");
 });
