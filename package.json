@@ -30,6 +30,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "babel-plugin-transform-runtime": "^6.23.0",
+    "blob": "0.0.5",
     "emotion": "^10.0.9",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
@@ -38,8 +39,11 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
+    "file-saver": "^2.0.2",
     "firebase": "^6.0.2",
     "github-api": "^3.2.0",
+    "ics": "^2.13.2",
+    "ics-plus": "^2.7.6",
     "jest": "^24.8.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
@@ -50,7 +54,8 @@
     "parcel-plugin-eslint": "^1.0.7",
     "prettier": "^1.17.1",
     "react-emotion": "^10.0.0",
-    "react-moment": "^0.9.2"
+    "react-moment": "^0.9.2",
+    "uid": "0.0.2"
   },
   "dependencies": {
     "@emotion/styled": "^10.0.11",

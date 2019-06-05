@@ -4,6 +4,7 @@ import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
 import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
 import KeywordIndex from "../biz-logic/KeywordIndex";
 import PrintToggleButton from "./PrintToggleButton";
+import CalendarExportButton from "./CalendarExportButton";
 import Papa from "papaparse";
 import LearningEvents from "../biz-logic/LearningEvents";
 import IssuesDetector from "../biz-logic/issueDetectors/IssuesDetector";
@@ -271,6 +272,11 @@ class App extends React.Component {
           <PrintToggleButton
             printMode={this.state.printMode}
             handlePrintViewChange={this.handlePrintViewChange}
+          />
+
+          <CalendarExportButton
+            semester={this.state.semester}
+            events={this.state.displayedLearningEvents}
           />
 
           <div className="row mt-5">

@@ -10,15 +10,22 @@ class MacoCalendar extends React.Component {
     this.calendarRef = React.createRef();
   }
 
-  componentDidUpdate() {
-    console.log("current", this.props.printMode);
+  componentWillUpdate() {
     this.props.recolor();
+    if (this.calendarRef.current) {
+      this.calendarRef.current
+        .getApi()
+        .changeView("timeGridWeek", this.props.startingMonday);
+    }
+  }
+
+  componentDidUpdate() {
     if (this.calendarRef.current) {
       let slotDuration = "00:30:00";
       if (this.props.printMode) {
         slotDuration = "00:15:00";
       }
-      console.log("now", this.props.printMode);
+
       this.calendarRef.current.getApi().setOption("slotDuration", slotDuration);
       this.calendarRef.current
         .getApi()
