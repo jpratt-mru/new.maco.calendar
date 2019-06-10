@@ -16,7 +16,6 @@ class MacoCalendar extends React.Component {
       this.calendarRef.current
         .getApi()
         .changeView("timeGridWeek", this.props.startingMonday);
-      console.log("updated sources: ", this.calendarRef.current.props.events);
     }
   }
 

@@ -15,8 +15,8 @@ import LearningEvents from "../biz-logic/LearningEvents";
 import IssuesDetector from "../biz-logic/issueDetectors/IssuesDetector";
 import Semester from "../biz-logic/Semester";
 
-import { learningEventColors } from "../biz-logic/learningEventColors";
 import LocalStorageUtilities from "../biz-logic/LocalStorageUtilities";
+import ColorUtilities from "../biz-logic/ColorUtilities";
 
 class App extends React.Component {
   state = {
@@ -119,84 +119,8 @@ class App extends React.Component {
     );
   };
 
-  coloredEvent = (event, color) => {
-    event.backgroundColor = color;
-  };
-
-  addColorByYear = () => {
-    const colorMap = new Map();
-
-    let currColorIndex = 0;
-    this.state.displayedLearningEvents.forEach(event => {
-      let courseYear = event["course-number"].substring(0, 1);
-      if (!colorMap.has(courseYear)) {
-        colorMap.set(courseYear, learningEventColors[currColorIndex]);
-        currColorIndex++;
-      }
-    });
-
-    this.state.displayedLearningEvents.forEach(event => {
-      let courseYear = event["course-number"].substring(0, 1);
-      this.coloredEvent(event, colorMap.get(courseYear));
-    });
-
-    // this.setState({ displayedLearningEvents: coloredEvents });
-  };
-
-  addColorByCourseAbbr = () => {
-    const colorMap = new Map();
-
-    let currColorIndex = 0;
-    this.state.displayedLearningEvents.forEach(event => {
-      let subjectAbbr = event["subject-abbr"];
-      if (!colorMap.has(subjectAbbr)) {
-        colorMap.set(subjectAbbr, learningEventColors[currColorIndex]);
-        currColorIndex++;
-      }
-    });
-
-    this.state.displayedLearningEvents.forEach(event => {
-      this.coloredEvent(event, colorMap.get(event["subject-abbr"]));
-    });
-  };
-
-  addColorByCourse = () => {
-    const colorMap = new Map();
-
-    let currColorIndex = 0;
-    this.state.displayedLearningEvents.forEach(event => {
-      let course = event["course"];
-      if (!colorMap.has(course)) {
-        colorMap.set(course, learningEventColors[currColorIndex]);
-        currColorIndex++;
-      }
-    });
-
-    this.state.displayedLearningEvents.forEach(event => {
-      this.coloredEvent(event, colorMap.get(event["course"]));
-    });
-  };
-
   addBackgroundColors = () => {
-    let justSubjectAbbr = this.state.displayedLearningEvents.map(
-      event => event["subject-abbr"]
-    );
-
-    const uniqSubjectAbbr = new Set(justSubjectAbbr);
-
-    let justYears = this.state.displayedLearningEvents.map(event =>
-      event["course-number"].substring(0, 1)
-    );
-
-    const uniqYears = new Set(justYears);
-
-    if (uniqSubjectAbbr.size > 1) {
-      this.addColorByCourseAbbr();
-    } else if (uniqYears.size > 1) {
-      this.addColorByYear();
-    } else {
-      this.addColorByCourse();
-    }
+    ColorUtilities.addBackgroundColors(this.state.displayedLearningEvents);
   };
 
   handleFiltering = targetLearningIds => {
