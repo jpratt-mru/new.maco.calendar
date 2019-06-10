@@ -16,6 +16,7 @@ class MacoCalendar extends React.Component {
       this.calendarRef.current
         .getApi()
         .changeView("timeGridWeek", this.props.startingMonday);
+      console.log("updated sources: ", this.calendarRef.current.props.events);
     }
   }
 
@@ -35,10 +36,14 @@ class MacoCalendar extends React.Component {
 
   render() {
     if (!this.props.validCsvLoaded) {
-      return <div>No valid schedule loaded.</div>;
+      return (
+        <div className="col-9">
+          <h2>No valid CSV loaded.</h2>
+        </div>
+      );
     } else {
       return (
-        <>
+        <div className="col-9">
           <FullCalendar
             ref={this.calendarRef}
             printMode={this.printMode}
@@ -61,7 +66,7 @@ class MacoCalendar extends React.Component {
             plugins={[timeGridPlugin]}
             {...this.props}
           />
-        </>
+        </div>
       );
     }
   }

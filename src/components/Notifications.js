@@ -33,8 +33,6 @@ const Notifications = props =>
         issues={props.instructorDoubleBookingIssues}
       />
     </div>
-  ) : (
-    <div className="invalid-csv-error">Invalid CSV</div>
-  );
+  ) : null;
 
 export default Notifications;

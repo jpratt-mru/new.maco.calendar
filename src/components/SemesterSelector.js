@@ -38,18 +38,22 @@ class SemesterSelector extends React.Component {
 
   render() {
     return (
-      <select
-        className="custom-select"
-        name="semester"
-        onChange={this.handleScheduleChange}
-      >
-        <option value="">--Please choose a schedule --</option>
-        {this.state.discoveredGithubCSVs.map(fileName => (
-          <option key={fileName} value={fileName}>
-            {fileName}
-          </option>
-        ))}
-      </select>
+      <div className="row">
+        <div className="col-12">
+          <select
+            className="custom-select"
+            name="semester"
+            onChange={this.handleScheduleChange}
+          >
+            <option value="">--Please choose a schedule --</option>
+            {this.state.discoveredGithubCSVs.map(fileName => (
+              <option key={fileName} value={fileName}>
+                {fileName}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
     );
   }
 }

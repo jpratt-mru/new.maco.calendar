@@ -1,19 +1,22 @@
 import React from "react";
+import Papa from "papaparse"; // for CSV parsing
+import _ from "lodash"; // for difference()
+
+// these are used in render()
+import ToolBar from "./ToolBar";
+import InfoHeader from "./InfoHeader";
+import SemesterSelector from "./SemesterSelector";
 import MacoCalendar from "./MacoCalendar";
-import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
-import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
+import Sidebar from "./Sidebar";
+
+// these are business logic objects
 import KeywordIndex from "../biz-logic/KeywordIndex";
-import PrintToggleButton from "./PrintToggleButton";
-import CalendarExportButton from "./CalendarExportButton";
-import Papa from "papaparse";
 import LearningEvents from "../biz-logic/LearningEvents";
 import IssuesDetector from "../biz-logic/issueDetectors/IssuesDetector";
-import array from "lodash";
-import SemesterSelector from "./SemesterSelector";
-import Notifications from "./Notifications";
 import Semester from "../biz-logic/Semester";
-import InfoHeader from "./InfoHeader";
-import { colors } from "../biz-logic/colors";
+
+import { learningEventColors } from "../biz-logic/learningEventColors";
+import LocalStorageUtilities from "../biz-logic/LocalStorageUtilities";
 
 class App extends React.Component {
   state = {
@@ -33,24 +36,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    if (this.learningEventsPresentInLocalStorage()) {
-      for (let stateName in this.state) {
-        if (localStorage[stateName]) {
-          const storedItem = JSON.parse(localStorage.getItem(stateName));
-          if (stateName === "keywordIndex") {
-            this.state[stateName] = new KeywordIndex(storedItem);
-          } else {
-            this.state[stateName] = storedItem;
-          }
-        }
-      }
-    }
-    this.state.printMode = false;
+    LocalStorageUtilities.initFromLocalStorage(this.state);
   }
-
-  learningEventsPresentInLocalStorage = () => {
-    return localStorage["allLearningEvents"] && localStorage["semester"];
-  };
 
   validCsvFieldsFound = csvRecords => {
     const expectedFields = [
@@ -66,7 +53,7 @@ class App extends React.Component {
     ];
 
     const fields = csvRecords.meta.fields.map(x => x.toLowerCase());
-    return array.difference(expectedFields, fields).length == 0;
+    return _.difference(expectedFields, fields).length == 0;
   };
 
   scheduleURL = () =>
@@ -80,7 +67,7 @@ class App extends React.Component {
       header: true,
       skipEmptyLines: true,
       complete: csvRecords => {
-        localStorage.clear();
+        LocalStorageUtilities.clearStorage();
 
         this.setState({
           validCsvLoaded: this.validCsvFieldsFound(csvRecords)
@@ -113,34 +100,15 @@ class App extends React.Component {
               roomDoubleBookingIssues: issuesDetector.roomDoubleBookingIssues(),
               instructorDoubleBookingIssues: issuesDetector.instructorDoubleBookingIssues()
             },
-            this.saveStateToLocalStorage
+            LocalStorageUtilities.saveStateToLocalStorage
           );
         }
       }
     });
   };
 
-  saveStateToLocalStorage = () => {
-    const stateThatNeedsSaving = [
-      "allLearningEvents",
-      "displayedLearningEvents",
-      "semester",
-      "keywordIndex",
-      "selectedCsvFile",
-      "validCsvLoaded",
-      "csvIssues",
-      "roomCapacityIssues",
-      "roomDoubleBookingIssues",
-      "instructorDoubleBookingIssues"
-    ];
-
-    stateThatNeedsSaving.forEach(stateName => {
-      localStorage.setItem(stateName, JSON.stringify(this.state[stateName]));
-    });
-  };
-
   componentDidMount = () => {
-    if (!this.learningEventsPresentInLocalStorage()) {
+    if (!LocalStorageUtilities.learningEventsPresentInLocalStorage()) {
       this.pullLearningEventsFromGithub();
     }
   };
@@ -162,7 +130,7 @@ class App extends React.Component {
     this.state.displayedLearningEvents.forEach(event => {
       let courseYear = event["course-number"].substring(0, 1);
       if (!colorMap.has(courseYear)) {
-        colorMap.set(courseYear, colors[currColorIndex]);
+        colorMap.set(courseYear, learningEventColors[currColorIndex]);
         currColorIndex++;
       }
     });
@@ -182,7 +150,7 @@ class App extends React.Component {
     this.state.displayedLearningEvents.forEach(event => {
       let subjectAbbr = event["subject-abbr"];
       if (!colorMap.has(subjectAbbr)) {
-        colorMap.set(subjectAbbr, colors[currColorIndex]);
+        colorMap.set(subjectAbbr, learningEventColors[currColorIndex]);
         currColorIndex++;
       }
     });
@@ -199,7 +167,7 @@ class App extends React.Component {
     this.state.displayedLearningEvents.forEach(event => {
       let course = event["course"];
       if (!colorMap.has(course)) {
-        colorMap.set(course, colors[currColorIndex]);
+        colorMap.set(course, learningEventColors[currColorIndex]);
         currColorIndex++;
       }
     });
@@ -255,63 +223,40 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <nav className="navbar navbar-expand sticky-top navbar-dark bg-dark flex-column flex-md-row bd-navbar">
-          <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-            <PrintToggleButton
-              printMode={this.state.printMode}
-              handlePrintViewChange={this.handlePrintViewChange}
-            />
-            <CalendarExportButton
-              semester={this.state.semester}
-              events={this.state.displayedLearningEvents}
-            />
-          </ul>
-        </nav>
+        <ToolBar
+          printMode={this.state.printMode}
+          handlePrintViewChange={this.handlePrintViewChange}
+          semester={this.state.semester}
+          events={this.state.displayedLearningEvents}
+        />
 
         <InfoHeader
           semester={this.state.semester}
           scheduleName={this.state.selectedCsvFile}
         />
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-12">
-              <SemesterSelector
-                handleScheduleChange={this.handleScheduleChange}
-              />
-            </div>
-          </div>
+          <SemesterSelector handleScheduleChange={this.handleScheduleChange} />
 
           <div className="row mt-3">
-            <div className="col-9">
-              <MacoCalendar
-                printMode={this.state.printMode}
-                recolor={this.addBackgroundColors}
-                validCsvLoaded={this.state.validCsvLoaded}
-                startingMonday={this.state.semester.startingMonday}
-                events={this.state.displayedLearningEvents}
-              />
-            </div>
-            <div className="col-3">
-              <CalendarEventOrFilterInputBox
-                handleFiltering={this.handleFiltering}
-                keywordIndex={this.state.keywordIndex}
-              />
+            <MacoCalendar
+              printMode={this.state.printMode}
+              recolor={this.addBackgroundColors}
+              validCsvLoaded={this.state.validCsvLoaded}
+              startingMonday={this.state.semester.startingMonday}
+              events={this.state.displayedLearningEvents}
+            />
 
-              <CalendarEventAndFilterInputBox
-                handleFiltering={this.handleFiltering}
-                keywordIndex={this.state.keywordIndex}
-              />
-
-              <Notifications
-                validCsvLoaded={this.state.validCsvLoaded}
-                csvIssues={this.state.csvIssues}
-                roomCapacityIssues={this.state.roomCapacityIssues}
-                roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
-                instructorDoubleBookingIssues={
-                  this.state.instructorDoubleBookingIssues
-                }
-              />
-            </div>
+            <Sidebar
+              handleFiltering={this.handleFiltering}
+              keywordIndex={this.state.keywordIndex}
+              validCsvLoaded={this.state.validCsvLoaded}
+              csvIssues={this.state.csvIssues}
+              roomCapacityIssues={this.state.roomCapacityIssues}
+              roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
+              instructorDoubleBookingIssues={
+                this.state.instructorDoubleBookingIssues
+              }
+            />
           </div>
         </div>
       </>
