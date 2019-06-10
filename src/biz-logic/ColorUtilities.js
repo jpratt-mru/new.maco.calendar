@@ -1,76 +1,108 @@
 import { learningEventColors } from "../biz-logic/learningEventColors";
 
 class ColorUtilities {
-  static addColorByYear(learningEvents) {
-    const colorMap = new Map();
-
-    let currColorIndex = 0;
-    learningEvents.forEach(event => {
-      let courseYear = event["course-number"].substring(0, 1);
-      if (!colorMap.has(courseYear)) {
-        colorMap.set(courseYear, learningEventColors[currColorIndex]);
-        currColorIndex++;
-      }
-    });
-
-    learningEvents.forEach(event => {
-      let courseYear = event["course-number"].substring(0, 1);
-      event.backgroundColor = colorMap.get(courseYear);
-    });
-  }
-
-  static addColorByCourseAbbr(learningEvents) {
-    const colorMap = new Map();
-
-    let currColorIndex = 0;
-    learningEvents.forEach(event => {
-      let subjectAbbr = event["subject-abbr"];
-      if (!colorMap.has(subjectAbbr)) {
-        colorMap.set(subjectAbbr, learningEventColors[currColorIndex]);
-        currColorIndex++;
-      }
-    });
-
-    learningEvents.forEach(event => {
-      event.backgroundColor = colorMap.get(event["subject-abbr"]);
-    });
-  }
-
-  static addColorByCourse(learningEvents) {
-    const colorMap = new Map();
-
-    let currColorIndex = 0;
-    learningEvents.forEach(event => {
-      let course = event["course"];
-      if (!colorMap.has(course)) {
-        colorMap.set(course, learningEventColors[currColorIndex]);
-        currColorIndex++;
-      }
-    });
-
-    learningEvents.forEach(event => {
-      event.backgroundColor = colorMap.get(event["course"]);
-    });
-  }
+  /**
+   * The idea here is to change the background color of
+   * learning events based on the number of events currently
+   * being shown on the calendar.
+   *
+   * There are some easily distinguishable colors found
+   * in learningEventColors.js - if the number of **unique**
+   * courses being displayed is <= that number, then we'll
+   * just use those colors and be done with it.
+   *
+   * If there are more courses being shown than colors,
+   * then we'll color by **subject** if more than one subject
+   * is present, then by **course level** (1xxx, 2xxx, etc),
+   * and finally just color everything grey otherwise.
+   *
+   * @param {*} learningEvents
+   */
 
   static addBackgroundColors(learningEvents) {
+    if (
+      ColorUtilities.numUniqueCoursesIn(learningEvents) <=
+      learningEventColors.length
+    ) {
+      ColorUtilities.addColorByCourse(learningEvents);
+    } else if (ColorUtilities.numUniqueSubjectsIn(learningEvents) > 1) {
+      ColorUtilities.addColorBySubject(learningEvents);
+    } else if (ColorUtilities.numCourseLevelsIn(learningEvents) > 1) {
+      ColorUtilities.addColorByYear(learningEvents);
+    } else {
+      ColorUtilities.addDefaultColor(learningEvents);
+    }
+  }
+
+  static numUniqueCoursesIn(learningEvents) {
+    let justCourses = learningEvents.map(event => event["course"]);
+
+    return new Set(justCourses).size;
+  }
+
+  static numUniqueSubjectsIn(learningEvents) {
     let justSubjectAbbr = learningEvents.map(event => event["subject-abbr"]);
 
-    const uniqSubjectAbbr = new Set(justSubjectAbbr);
+    return new Set(justSubjectAbbr).size;
+  }
 
-    let justYears = learningEvents.map(event =>
+  static numCourseLevelsIn(learningEvents) {
+    let courseNumbersLeadingNumbers = learningEvents.map(event =>
       event["course-number"].substring(0, 1)
     );
 
-    const uniqYears = new Set(justYears);
+    return new Set(courseNumbersLeadingNumbers).size;
+  }
 
-    if (uniqSubjectAbbr.size > 1) {
-      ColorUtilities.addColorByCourseAbbr(learningEvents);
-    } else if (uniqYears.size > 1) {
-      ColorUtilities.addColorByYear(learningEvents);
-    } else {
-      ColorUtilities.addColorByCourse(learningEvents);
-    }
+  static addColorByYear(learningEvents) {
+    this.addColorByKeyFunction(learningEvents, event =>
+      event["course-number"].substring(0, 1)
+    );
+  }
+
+  static addColorBySubject(learningEvents) {
+    this.addColorByKeyFunction(learningEvents, event => event["subject-abbr"]);
+  }
+
+  static addColorByCourse(learningEvents) {
+    this.addColorByKeyFunction(learningEvents, event => event["course"]);
+  }
+
+  static addDefaultColor(learningEvents) {
+    learningEvents.forEach(event => {
+      event.backgroundColor = "#d9d9d9";
+    });
+  }
+
+  static addColorByKeyFunction(learningEvents, keyGeneratingFunction) {
+    const colorMap = ColorUtilities.colorMap(
+      learningEvents,
+      keyGeneratingFunction
+    );
+
+    this.applyColorMapToEvents(colorMap, learningEvents, keyGeneratingFunction);
+  }
+
+  static colorMap(learningEvents, keyFromEvent) {
+    const colorMap = new Map();
+
+    let currColorIndex = 0;
+    learningEvents.forEach(event => {
+      let key = keyFromEvent(event);
+      if (!colorMap.has(key)) {
+        colorMap.set(key, learningEventColors[currColorIndex]);
+        currColorIndex++;
+      }
+    });
+
+    return colorMap;
+  }
+
+  static applyColorMapToEvents(colorMap, learningEvents, keyFromEvent) {
+    learningEvents.forEach(event => {
+      let key = keyFromEvent(event);
+      event.backgroundColor = colorMap.get(key);
+    });
   }
 }
 export default ColorUtilities;
