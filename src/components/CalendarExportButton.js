@@ -71,7 +71,7 @@ const downloadCalendarFile = (events, semester) => {
   const justEvents = events.map(event => calendarEvent(event, semester));
 
   const calendar = `${HEADER}\n${justEvents.join("\n")}\n${FOOTER}`;
-  console.log("calEvent", calendar);
+
   const blob = new Blob([calendar], { type: "text/plain;charset=utf-8" });
   saveAs(blob, "calendar-export.ics");
 };

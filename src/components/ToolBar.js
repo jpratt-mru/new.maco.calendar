@@ -9,10 +9,7 @@ const ToolBar = props => (
         printMode={props.printMode}
         handlePrintViewChange={props.handlePrintViewChange}
       />
-      <CalendarExportButton
-        semester={props.semester}
-        events={props.displayedLearningEvents}
-      />
+      <CalendarExportButton semester={props.semester} events={props.events} />
     </ul>
   </nav>
 );
