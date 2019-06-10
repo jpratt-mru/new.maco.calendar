@@ -1,6 +1,7 @@
 @media only print {
   .col-3,
   #print-toggle-button,
+  #calendar-export-button,
   .custom-select,
   #info-header div {
     display: none;

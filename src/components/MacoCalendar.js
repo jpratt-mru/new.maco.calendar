@@ -56,9 +56,7 @@ class MacoCalendar extends React.Component {
             maxTime="20:00:00"
             displayEventTime={false}
             columnHeaderFormat={{
-              weekday: "short",
-              month: "numeric",
-              day: "numeric"
+              weekday: "short"
             }}
             plugins={[timeGridPlugin]}
             {...this.props}

@@ -8,6 +8,7 @@ const RoomDoubleBookingIssue = props => {
           {props.issue.room.toUpperCase()}
         </span>{" "}
         is double-booked with these classes:
+        <br />
         <span className="font-weight-bold">
           {props.issue.classes
             .sort()

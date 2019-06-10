@@ -6,6 +6,7 @@ const InstructorDoubleBookingIssue = props => {
       <p className="mb-0">
         <span className="font-weight-bold">{props.issue.instructorName}</span>{" "}
         is double-booked with these classes:
+        <br />
         <span className="font-weight-bold">
           {props.issue.classes
             .sort()

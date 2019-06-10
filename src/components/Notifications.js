@@ -25,14 +25,13 @@ const Notifications = props =>
   props.validCsvLoaded ? (
     <div id="notifications">
       {notificationsHeader(props)}
-      <div id="notifications">
-        <CsvIssues issues={props.csvIssues} />
-        <RoomCapacityIssues issues={props.roomCapacityIssues} />
-        <RoomDoubleBookingIssues issues={props.roomDoubleBookingIssues} />
-        <InstructorDoubleBookingIssues
-          issues={props.instructorDoubleBookingIssues}
-        />
-      </div>
+
+      <CsvIssues issues={props.csvIssues} />
+      <RoomCapacityIssues issues={props.roomCapacityIssues} />
+      <RoomDoubleBookingIssues issues={props.roomDoubleBookingIssues} />
+      <InstructorDoubleBookingIssues
+        issues={props.instructorDoubleBookingIssues}
+      />
     </div>
   ) : (
     <div className="invalid-csv-error">Invalid CSV</div>

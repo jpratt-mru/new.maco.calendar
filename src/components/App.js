@@ -255,12 +255,24 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <div className="container-fluid">
-          <InfoHeader
-            semester={this.state.semester}
-            scheduleName={this.state.selectedCsvFile}
-          />
+        <nav className="navbar navbar-expand sticky-top navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+          <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <PrintToggleButton
+              printMode={this.state.printMode}
+              handlePrintViewChange={this.handlePrintViewChange}
+            />
+            <CalendarExportButton
+              semester={this.state.semester}
+              events={this.state.displayedLearningEvents}
+            />
+          </ul>
+        </nav>
 
+        <InfoHeader
+          semester={this.state.semester}
+          scheduleName={this.state.selectedCsvFile}
+        />
+        <div className="container-fluid">
           <div className="row">
             <div className="col-12">
               <SemesterSelector
@@ -269,17 +281,7 @@ class App extends React.Component {
             </div>
           </div>
 
-          <PrintToggleButton
-            printMode={this.state.printMode}
-            handlePrintViewChange={this.handlePrintViewChange}
-          />
-
-          <CalendarExportButton
-            semester={this.state.semester}
-            events={this.state.displayedLearningEvents}
-          />
-
-          <div className="row mt-5">
+          <div className="row mt-3">
             <div className="col-9">
               <MacoCalendar
                 printMode={this.state.printMode}

@@ -12,16 +12,17 @@ class PrintToggleButton extends React.Component {
 
   render() {
     return (
-      <button
-        id="print-toggle-button"
-        onClick={this.handleChange}
-        type="button"
-        className={`btn ${
-          this.props.printMode ? "btn-primary" : "btn-warning"
-        } mt-3`}
-      >
-        In {this.props.printMode ? "Print" : "Screen"} Mode
-      </button>
+      <li className="nav-item">
+        {this.props.printMode ? (
+          <button onClick={this.handleChange} className="nav-link mr-3">
+            <i className="fas fa-print fa" />
+          </button>
+        ) : (
+          <button onClick={this.handleChange} className="nav-link mr-3">
+            <i className="fas fa-desktop fa" />
+          </button>
+        )}
+      </li>
     );
   }
 }
