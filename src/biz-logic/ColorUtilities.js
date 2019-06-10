@@ -1,10 +1,6 @@
 import { learningEventColors } from "../biz-logic/learningEventColors";
 
 class ColorUtilities {
-  static coloredEvent(event, color) {
-    event.backgroundColor = color;
-  }
-
   static addColorByYear(learningEvents) {
     const colorMap = new Map();
 
@@ -21,8 +17,6 @@ class ColorUtilities {
       let courseYear = event["course-number"].substring(0, 1);
       event.backgroundColor = colorMap.get(courseYear);
     });
-
-    // this.setState({ displayedLearningEvents: coloredEvents });
   }
 
   static addColorByCourseAbbr(learningEvents) {

@@ -39,27 +39,11 @@ class App extends React.Component {
     LocalStorageUtilities.initFromLocalStorage(this.state);
   }
 
-  validCsvFieldsFound = csvRecords => {
-    const expectedFields = [
-      "course",
-      "section",
-      "sectioncapacity",
-      "dow",
-      "startingtime",
-      "duration",
-      "room",
-      "firstname",
-      "lastname"
-    ];
-
-    const fields = csvRecords.meta.fields.map(x => x.toLowerCase());
-    return _.difference(expectedFields, fields).length == 0;
+  componentDidMount = () => {
+    if (!LocalStorageUtilities.learningEventsPresentInLocalStorage()) {
+      this.pullLearningEventsFromGithub();
+    }
   };
-
-  scheduleURL = () =>
-    `https://raw.githubusercontent.com/jpratt-mru/maco.calendar.datafiles/master/${
-      this.state.selectedCsvFile
-    }`;
 
   pullLearningEventsFromGithub = () => {
     Papa.parse(this.scheduleURL(), {
@@ -107,10 +91,35 @@ class App extends React.Component {
     });
   };
 
-  componentDidMount = () => {
-    if (!LocalStorageUtilities.learningEventsPresentInLocalStorage()) {
-      this.pullLearningEventsFromGithub();
-    }
+  scheduleURL = () =>
+    `https://raw.githubusercontent.com/jpratt-mru/maco.calendar.datafiles/master/${
+      this.state.selectedCsvFile
+    }`;
+
+  validCsvFieldsFound = csvRecords => {
+    const expectedFields = [
+      "course",
+      "section",
+      "sectioncapacity",
+      "dow",
+      "startingtime",
+      "duration",
+      "room",
+      "firstname",
+      "lastname"
+    ];
+
+    // get just the lowercased field names from the Papa
+    // records and if they are the same return true; otherwise
+    // return false
+    const fields = csvRecords.meta.fields.map(x => x.toLowerCase());
+    return _.difference(expectedFields, fields).length == 0;
+  };
+
+  handleFiltering = targetLearningIds => {
+    this.setState({
+      displayedLearningEvents: this.matchingLearningEvents(targetLearningIds)
+    });
   };
 
   matchingLearningEvents = learningEventIds => {
@@ -123,17 +132,10 @@ class App extends React.Component {
     ColorUtilities.addBackgroundColors(this.state.displayedLearningEvents);
   };
 
-  handleFiltering = targetLearningIds => {
-    this.setState({
-      displayedLearningEvents: this.matchingLearningEvents(targetLearningIds)
-    });
-  };
-
   handleScheduleChange = scheduleFileName => {
-    const semesterPart = scheduleFileName.substring(0, 7);
     this.setState(
       {
-        semester: Semester.fromDesc(semesterPart),
+        semester: Semester.fromScheduleName(scheduleFileName),
         selectedCsvFile: scheduleFileName
       },
       this.pullLearningEventsFromGithub

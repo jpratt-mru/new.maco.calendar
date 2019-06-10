@@ -21,7 +21,7 @@ const InfoHeader = props => (
         <h2 className="mb-2 text-center">
           Currently showing{" "}
           <span className="font-weight-bold">
-            {semesterInfo(props.semester.year, props.semester.semesterOrdinal)}{" "}
+            {semesterInfo(props.semester.year, props.semester.semesterCode)}{" "}
             <span className="text-primary">({props.scheduleName})</span>
           </span>
         </h2>

@@ -1,49 +1,48 @@
+import { semesterEndpoints } from "./semesterEndpoints";
+
 class Semester {
-  static semesterOrdinalFromMonth(jsMonth) {
-    let semester = "01";
-    if (/[4|5]/.test(jsMonth)) {
-      semester = "02";
-    } else if (/[6|7]/.test(jsMonth)) {
-      semester = "03";
-    } else if (/[8|9|10|11]/.test(jsMonth)) {
-      semester = "04";
-    }
-    return semester;
+  /**
+   * Creates a new Semester from the name of a schedule
+   * file name.
+   *
+   * It is assumed the schedule file starts with 20YY.SS,
+   * where 20YY is a year and SS is a semester code
+   * (01 -> winter, 02 -> spring, 03 -> summer, 04 -> fall)
+   *
+   * There's no error checking on the fileName, as the
+   * SemesterSelector only displays files that start
+   * with the expected format.
+   *
+   * @param {*} fileName a schedule
+   * @returns a new Semester based on the fileName's year and ordinal
+   */
+  static fromScheduleName(fileName) {
+    const semesterPartOfFileName = fileName.substring(0, 7);
+    const [year, semesterCode] = semesterPartOfFileName.split(/\./);
+
+    return new Semester(year, semesterCode);
   }
 
-  static fromDate(date) {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    return new Semester(year, Semester.semesterOrdinalFromMonth(month));
-  }
-
-  static fromDesc(desc) {
-    const [year, semesterOrdinal] = desc.split(/\./);
-    return new Semester(year, semesterOrdinal);
-  }
-
-  constructor(year, semesterOrdinal) {
-    Semester.descToEndpoints =
-      Semester.descToEndpoints || new Map(Semester.SEMESTER_DATA);
-
+  constructor(year, semesterCode) {
     this.year = year;
-    this.semesterOrdinal = semesterOrdinal;
-    this.desc = `${this.year}.${this.semesterOrdinal}`;
+    this.semesterCode = semesterCode;
+    this.desc = `${this.year}.${this.semesterCode}`;
 
-    const endpoints = Semester.descToEndpoints.get(this.desc);
-    [this.startingMonday, this.lastDay] = endpoints;
+    this.initEndpoints(this.desc);
   }
 
-  static SEMESTER_DATA = [
-    ["2019.01", ["2019-01-07", "2019-04-05"]],
-    ["2019.02", ["2019-05-06", "2019-06-17"]],
-    ["2019.03", ["2019-07-08", "2019-08-19"]],
-    ["2019.04", ["2019-09-09", "2019-12-09"]],
-    ["2020.01", ["2020-01-06", "2020-04-06"]],
-    ["2020.02", ["2020-05-04", "2020-06-16"]],
-    ["2020.03", ["2020-07-06", "2020-08-17"]],
-    ["2020.04", ["2020-09-07", "2020-12-09"]]
-  ];
+  /**
+   * Initializes the starting Monday and last day of a
+   * given semester from that semester's desc.
+   *
+   * This is done through a simple map lookup with the
+   * contents of the array found in semesterEndpoints.js
+   *
+   * @param {*} desc the semester desc (like 2019.04)
+   */
+  initEndpoints(desc) {
+    [this.startingMonday, this.lastDay] = new Map(semesterEndpoints).get(desc);
+  }
 }
 
 export default Semester;
