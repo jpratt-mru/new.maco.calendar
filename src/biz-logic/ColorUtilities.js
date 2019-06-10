@@ -1,4 +1,5 @@
 import { learningEventColors } from "../biz-logic/learningEventColors";
+import _ from "lodash"; // for uniq()
 
 class ColorUtilities {
   /**
@@ -35,23 +36,23 @@ class ColorUtilities {
   }
 
   static numUniqueCoursesIn(learningEvents) {
-    let justCourses = learningEvents.map(event => event["course"]);
+    const justCourses = learningEvents.map(event => event["course"]);
 
-    return new Set(justCourses).size;
+    return _.uniq(justCourses).length;
   }
 
   static numUniqueSubjectsIn(learningEvents) {
-    let justSubjectAbbr = learningEvents.map(event => event["subject-abbr"]);
+    const justSubjectAbbr = learningEvents.map(event => event["subject-abbr"]);
 
-    return new Set(justSubjectAbbr).size;
+    return _.uniq(justSubjectAbbr).length;
   }
 
   static numCourseLevelsIn(learningEvents) {
-    let courseNumbersLeadingNumbers = learningEvents.map(event =>
+    const courseNumbersLeadingNumbers = learningEvents.map(event =>
       event["course-number"].substring(0, 1)
     );
 
-    return new Set(courseNumbersLeadingNumbers).size;
+    return _.uniq(courseNumbersLeadingNumbers).length;
   }
 
   static addColorByYear(learningEvents) {
