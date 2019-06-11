@@ -1,10 +1,11 @@
+import { campusRooms } from "./campusRooms";
 class Rooms {
-  constructor(rooms = KNOWN_ROOMS) {
+  constructor(rooms = campusRooms) {
     this.map = new Map(rooms);
   }
 
   canAccommodate(learningEvent) {
-    const room = learningEvent.room;
+    const room = learningEvent.room.toUpperCase();
     if (!this.map.has(room)) {
       return true;
     } else {
@@ -13,21 +14,13 @@ class Rooms {
   }
 
   capacityFor(room) {
-    if (!this.map.has(room)) {
+    const key = room.toUpperCase();
+    if (!this.map.has(key)) {
       return "unknown";
     } else {
-      return this.map.get(room);
+      return this.map.get(key);
     }
   }
 }
 
 export default Rooms;
-
-const KNOWN_ROOMS = [
-  ["b107", 25],
-  ["b160", 16],
-  ["b162", 29],
-  ["b173", 14],
-  ["b215", 24],
-  ["e203", 40]
-];
