@@ -23,13 +23,6 @@ const CalendarExportButton = props => {
 const calendarEvent = (learningEvent, semester) => {
   const firstDateStartTime = moment(learningEvent.start);
   const firstDateEndTime = moment(learningEvent.end);
-  const [year, month, day, hour, minute] = [
-    firstDateStartTime.year(),
-    firstDateStartTime.month() + 1,
-    firstDateStartTime.date(),
-    firstDateStartTime.hour(),
-    firstDateStartTime.minute()
-  ];
   const now = moment();
   const summary = `${learningEvent.course.toUpperCase()}-${
     learningEvent.section
