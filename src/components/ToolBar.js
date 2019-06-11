@@ -7,7 +7,7 @@ const ToolBar = props => (
     <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
       <PrintToggleButton
         printMode={props.printMode}
-        handlePrintViewChange={props.handlePrintViewChange}
+        handlePrint={props.handlePrint}
       />
       <CalendarExportButton semester={props.semester} events={props.events} />
     </ul>

@@ -35,7 +35,7 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-
+    this.calendar = React.createRef();
     LocalStorageUtilities.initFromLocalStorage(this.state);
   }
 
@@ -142,8 +142,17 @@ class App extends React.Component {
     );
   };
 
-  handlePrintViewChange = () => {
-    this.setState({ printMode: !this.state.printMode });
+  handlePrint = () => {
+    const calendarTitle = prompt("Title for printed calendar?");
+    if (calendarTitle) {
+      document.getElementById(
+        "printed-calendar-title"
+      ).innerHTML = calendarTitle;
+    } else {
+      document.getElementById("printed-calendar-title").innerHTML = "Schedule";
+    }
+    this.calendar.current.print();
+    document.getElementById("printed-calendar-title").innerHTML = "Schedule";
   };
 
   render() {
@@ -151,7 +160,7 @@ class App extends React.Component {
       <>
         <ToolBar
           printMode={this.state.printMode}
-          handlePrintViewChange={this.handlePrintViewChange}
+          handlePrint={this.handlePrint}
           semester={this.state.semester}
           events={this.state.displayedLearningEvents}
         />
@@ -165,6 +174,7 @@ class App extends React.Component {
 
           <div className="row mt-3">
             <MacoCalendar
+              ref={this.calendar}
               printMode={this.state.printMode}
               recolor={this.addBackgroundColors}
               validCsvLoaded={this.state.validCsvLoaded}

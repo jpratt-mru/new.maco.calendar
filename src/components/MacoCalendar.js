@@ -19,17 +19,22 @@ class MacoCalendar extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (this.calendarRef.current) {
-      let slotDuration = "00:30:00";
-      if (this.props.printMode) {
-        slotDuration = "00:15:00";
-      }
+  setDuration(slotDuration) {
+    this.calendarRef.current.getApi().setOption("slotDuration", slotDuration);
+    this.calendarRef.current
+      .getApi()
+      .changeView("timeGridWeek", this.props.startingMonday);
+  }
 
-      this.calendarRef.current.getApi().setOption("slotDuration", slotDuration);
-      this.calendarRef.current
-        .getApi()
-        .changeView("timeGridWeek", this.props.startingMonday);
+  print() {
+    this.setDuration("00:15:00");
+    window.print();
+    this.setDuration("00:30:00");
+  }
+
+  componentDidUpdate() {
+    if (this.calendarRef.current && this.props.printMode) {
+      this.print();
     }
   }
 
@@ -45,7 +50,7 @@ class MacoCalendar extends React.Component {
         <div className="col-9">
           <FullCalendar
             ref={this.calendarRef}
-            printMode={this.printMode}
+            printMode={this.props.printMode}
             events={this.props.events.map(decoratedEventWithTitle)}
             defaultDate={this.props.startingMonday}
             defaultView="timeGridWeek"

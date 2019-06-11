@@ -7,21 +7,20 @@ class PrintToggleButton extends React.Component {
   }
 
   handleChange = () => {
-    this.props.handlePrintViewChange();
+    this.props.handlePrint();
   };
 
   render() {
     return (
       <li className="nav-item">
-        {this.props.printMode ? (
-          <button onClick={this.handleChange} className="nav-link mr-3">
-            <i className="fas fa-print fa" />
-          </button>
-        ) : (
-          <button onClick={this.handleChange} className="nav-link mr-3">
-            <i className="fas fa-desktop fa" />
-          </button>
-        )}
+        <button
+          onClick={this.handleChange}
+          data-toggle="modal"
+          data-target="#getTitleModal"
+          className="nav-link mr-3"
+        >
+          <i className="fas fa-print fa" />
+        </button>
       </li>
     );
   }
