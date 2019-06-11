@@ -23,7 +23,8 @@ class KeywordIndex {
       "room",
       "section",
       "subject-abbr",
-      "instructor-username"
+      "instructor-username",
+      "dow"
     ];
     const keywordGenerator = new KeywordGenerator();
     const keywordIndex = new KeywordIndex();
