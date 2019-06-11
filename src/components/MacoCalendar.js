@@ -38,6 +38,30 @@ class MacoCalendar extends React.Component {
     }
   }
 
+  /**
+   * This is the only way in fullcalendar we can currently
+   * add HTML to the display of an entry.
+   *
+   * Since we want the capacities to be styled (both in the
+   * standard display view AND the print view), I needed to
+   * add a span to that part of the display. This is the fugly
+   * that resulted. :(
+   *
+   * @param {*} info https://fullcalendar.io/docs/eventRender
+   */
+  styleEvent(info) {
+    const text = info.el.innerHTML;
+    const splitText = text.split(/<br>/gi);
+    const lineWithCapacities = splitText[2].replace(/<\/div>/gi, "");
+    const splitLineWithCapacities = lineWithCapacities.split(/\s+/);
+    const capacities = splitLineWithCapacities[1];
+    const spannedCapacities = `<span class="capacities">${capacities}</span>`;
+    info.el.innerHTML = info.el.innerHTML.replace(
+      capacities,
+      spannedCapacities
+    );
+  }
+
   render() {
     if (!this.props.validCsvLoaded) {
       return (
@@ -52,6 +76,7 @@ class MacoCalendar extends React.Component {
             ref={this.calendarRef}
             printMode={this.props.printMode}
             events={this.props.events.map(decoratedEventWithTitle)}
+            eventRender={this.styleEvent}
             defaultDate={this.props.startingMonday}
             defaultView="timeGridWeek"
             height="auto"

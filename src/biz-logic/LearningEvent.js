@@ -21,6 +21,7 @@ class LearningEvent {
     this.course = builder.course;
     this.section = builder.section;
     this["sectioncapacity"] = builder["sectioncapacity"];
+    this.roomcapacity = builder.roomcapacity;
     this.dow = builder.dow;
     this.room = builder.room;
     this["firstname"] = builder["firstname"];

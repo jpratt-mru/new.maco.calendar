@@ -3,6 +3,7 @@
   #print-toggle-button,
   #calendar-export-button,
   .custom-select,
+  .capacities,
   #info-header div {
     display: none;
   }
