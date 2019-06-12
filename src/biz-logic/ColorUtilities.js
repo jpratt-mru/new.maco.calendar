@@ -8,7 +8,7 @@ class ColorUtilities {
    * being shown on the calendar.
    *
    * There are some easily distinguishable colors found
-   * in learningEventColors.js - if the number of **unique**
+   * in `learningEventColors.js` - if the number of **unique**
    * courses being displayed is <= that number, then we'll
    * just use those colors and be done with it.
    *
@@ -36,20 +36,20 @@ class ColorUtilities {
   }
 
   static numUniqueCoursesIn(learningEvents) {
-    const justCourses = learningEvents.map(event => event["course"]);
+    const justCourses = learningEvents.map(event => event.course);
 
     return _.uniq(justCourses).length;
   }
 
   static numUniqueSubjectsIn(learningEvents) {
-    const justSubjectAbbr = learningEvents.map(event => event["subjectAbbrev"]);
+    const justSubjectAbbr = learningEvents.map(event => event.subjectAbbrev);
 
     return _.uniq(justSubjectAbbr).length;
   }
 
   static numCourseLevelsIn(learningEvents) {
     const courseNumbersLeadingNumbers = learningEvents.map(event =>
-      event["courseNumber"].substring(0, 1)
+      event.courseNumber.substring(0, 1)
     );
 
     return _.uniq(courseNumbersLeadingNumbers).length;
@@ -57,16 +57,16 @@ class ColorUtilities {
 
   static addColorByYear(learningEvents) {
     this.addColorByKeyFunction(learningEvents, event =>
-      event["courseNumber"].substring(0, 1)
+      event.courseNumber.substring(0, 1)
     );
   }
 
   static addColorBySubject(learningEvents) {
-    this.addColorByKeyFunction(learningEvents, event => event["subjectAbbrev"]);
+    this.addColorByKeyFunction(learningEvents, event => event.subjectAbbrev);
   }
 
   static addColorByCourse(learningEvents) {
-    this.addColorByKeyFunction(learningEvents, event => event["course"]);
+    this.addColorByKeyFunction(learningEvents, event => event.course);
   }
 
   static addDefaultColor(learningEvents) {
@@ -84,6 +84,17 @@ class ColorUtilities {
     this.applyColorMapToEvents(colorMap, learningEvents, keyGeneratingFunction);
   }
 
+  /**
+   * Returns a color map; that is something with key => hex color code pairs.
+   * The key that is used is returned by the keyFromEvent function passed in.
+   *
+   * Warning: this sucker will blow up if there are more keys generated than
+   * colors in `learningEventColors`; this shouldn't happen if
+   * `addBackgroundColors` is doing its job.
+   *
+   * @param {*} learningEvents
+   * @param {function} keyFromEvent
+   */
   static colorMap(learningEvents, keyFromEvent) {
     const colorMap = new Map();
 
@@ -99,6 +110,15 @@ class ColorUtilities {
     return colorMap;
   }
 
+  /**
+   * Learning events (which are just fullcalendar event objects with extra
+   * properties added to them) can be given a background color by setting
+   * their `backgroundColor` property.
+   *
+   * @param {*} colorMap
+   * @param {*} learningEvents
+   * @param {*} keyFromEvent
+   */
   static applyColorMapToEvents(colorMap, learningEvents, keyFromEvent) {
     learningEvents.forEach(event => {
       let key = keyFromEvent(event);
