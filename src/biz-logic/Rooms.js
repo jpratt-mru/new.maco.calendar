@@ -1,4 +1,4 @@
-import { campusRooms } from "./campusRooms";
+import { campusRooms } from "./biz-data/campusRooms";
 class Rooms {
   constructor(rooms = campusRooms) {
     this.map = new Map(rooms);
