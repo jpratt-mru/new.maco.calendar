@@ -1,4 +1,4 @@
-import { semesterEndpoints } from "./semesterEndpoints";
+import { semesterEndpoints } from "./biz-data/semesterEndpoints";
 
 class Semester {
   /**

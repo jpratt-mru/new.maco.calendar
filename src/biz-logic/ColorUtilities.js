@@ -1,4 +1,4 @@
-import { learningEventColors } from "../biz-logic/learningEventColors";
+import { learningEventColors } from "../biz-logic/biz-data/learningEventColors";
 import _ from "lodash"; // for uniq()
 
 class ColorUtilities {
