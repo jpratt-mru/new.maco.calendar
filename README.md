@@ -61,3 +61,12 @@ To deploy a new version of the app from the Digital Ocean dev machine (**maco.ca
 1. remove current crud: `rm -rf .cache/ dist/`
 1. `npm run build`
 1. `firebase deploy`
+
+### Adding new properties to Learning Events
+
+It's pretty easy to add additional properties to a LearningEvent:
+
+1. Create a `blahblahBuilder.js` file in `biz-logic\builders\`. It should be a class that extends `PrimaryPropBuilder`, `SecondaryBasePropBuilder`, or `SecondaryCalculatedPropBuilder`.
+1. Override any methods required of that class - use similar Builders to guide you - it's easy, honest.
+1. Add the new Builder to the arrays present in `_primaryBuildersToUse.js`, `_secondaryBaseBuildersToUse.js`, or `_secondaryCalculatedBuildersToUser.js`, as appropriate.
+1. Finally, add another line to the `LearningEvent.js` class.
