@@ -2,6 +2,11 @@
  * These are the endpoints (starting MONDAY and last day of semester)
  * that are used by the Semester class.
  *
+ * The Monday is just the first Monday of the first FULL week
+ * after classes officially start - i.e. the Monday of the first
+ * FULL week of classes. (If the first such Monday happens to be a
+ * holiday, still use it!)
+ *
  * This file will need to be added to, manually, periodically.
  *
  */

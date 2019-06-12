@@ -1,6 +1,10 @@
 /**
  * These are the colors used for events.
  * I wanted something easily ditinguishable.
+ *
+ * When the events on a calendar need to be chosen, colors are chosen
+ * from here from start of the color array to the end.
+ *
  * You can generate some others here: http://colorbrewer2.org/?type=sequential&scheme=BuGn&n=9#type=qualitative&scheme=Accent&n=8
  * There's a nice export to JS array feature.
  *
