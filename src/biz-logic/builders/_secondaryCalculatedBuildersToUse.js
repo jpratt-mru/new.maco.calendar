@@ -11,7 +11,7 @@ import RoomCapacityBuilder from "./RoomCapacityBuilder";
  *
  * A *secondary calculated builder* is used to add properties to a learning event
  * that must be caluclated from other properites in the learning event. (For
- * example, we use the firstname and lastname properties to create another
+ * example, we use the firstName and lastName properties to create another
  * property for an instructor's username.)
  */
 export const secondaryCalculatedBuilders = [

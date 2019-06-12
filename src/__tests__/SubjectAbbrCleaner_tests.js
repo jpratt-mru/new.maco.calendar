@@ -1,6 +1,6 @@
 import SubjectAbbrCleaner from "../biz-logic/SubjectAbbrCleaner";
 
-const COURSE_ABBR_PROP = "subject-abbr";
+const COURSE_ABBR_PROP = "subjectAbbrev";
 const UNKNOWN_VALUE_MARKER = "???";
 
 let subjectAbbrCleaner;

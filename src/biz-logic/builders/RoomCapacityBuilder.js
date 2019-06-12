@@ -14,7 +14,7 @@ class RoomCapacityBuilder extends SecondaryCalculatedPropBuilder {
 
   constructor() {
     super(
-      "roomcapacity",
+      "roomCapacity",
       RoomCapacityBuilder.prerequisitesAreValid,
       RoomCapacityBuilder.propCalculatedFrom,
       "room"

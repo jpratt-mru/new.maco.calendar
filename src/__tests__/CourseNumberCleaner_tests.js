@@ -1,6 +1,6 @@
 import CourseNumberCleaner from "../biz-logic/CourseNumberCleaner";
 
-const COURSE_ABBR_PROP = "course-number";
+const COURSE_ABBR_PROP = "courseNumber";
 const UNKNOWN_VALUE_MARKER = "???";
 
 let courseNumberCleaner;

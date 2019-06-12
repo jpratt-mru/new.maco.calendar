@@ -1,16 +1,13 @@
 const decoratedEventWithTitle = learningEvent => {
   let titleDecoratedEvent = learningEvent;
-  const overCapacity =
-    titleDecoratedEvent["sectioncapacity"] >
-    titleDecoratedEvent["roomcapacity"];
 
-  titleDecoratedEvent["title"] = `${titleDecoratedEvent[
-    "course"
-  ].toUpperCase()}-${titleDecoratedEvent["section"]}\n[${
-    titleDecoratedEvent["instructor-username"]
-  }]\n${titleDecoratedEvent["room"].toUpperCase()}\ts${
-    titleDecoratedEvent["sectioncapacity"]
-  }:r${titleDecoratedEvent["roomcapacity"]}${overCapacity ? "!!!" : ""}`;
+  titleDecoratedEvent.title = `${titleDecoratedEvent.course.toUpperCase()}-${
+    titleDecoratedEvent.section
+  }\n[${
+    titleDecoratedEvent.instructorUsername
+  }]\n${titleDecoratedEvent.room.toUpperCase()}\t${
+    titleDecoratedEvent.sectionCapacity
+  }/${titleDecoratedEvent.roomCapacity}`;
 
   return titleDecoratedEvent;
 };

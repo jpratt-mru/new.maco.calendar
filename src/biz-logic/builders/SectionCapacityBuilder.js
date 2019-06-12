@@ -12,7 +12,7 @@ class SectionCapacityBuilder extends SecondaryBasePropBuilder {
 
   constructor() {
     super(
-      "sectioncapacity",
+      "sectionCapacity",
       SectionCapacityBuilder.isValid,
       SectionCapacityBuilder.formattedValue
     );

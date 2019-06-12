@@ -9,7 +9,7 @@ class Rooms {
     if (!this.map.has(room)) {
       return true;
     } else {
-      return this.map.get(room) >= learningEvent["sectioncapacity"];
+      return this.map.get(room) >= learningEvent.sectionCapacity;
     }
   }
 

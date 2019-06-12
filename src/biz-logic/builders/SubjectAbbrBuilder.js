@@ -11,7 +11,7 @@ class SubjectAbbrBuilder extends SecondaryCalculatedPropBuilder {
 
   constructor() {
     super(
-      "subject-abbr",
+      "subjectAbbrev",
       SubjectAbbrBuilder.prerequisitesAreValid,
       SubjectAbbrBuilder.propCalculatedFrom,
       "course"

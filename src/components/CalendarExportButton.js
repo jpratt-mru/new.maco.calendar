@@ -26,7 +26,7 @@ const calendarEvent = (learningEvent, semester) => {
   const now = moment();
   const summary = `${learningEvent.course.toUpperCase()}-${
     learningEvent.section
-  } [${learningEvent.lastname}]`;
+  } [${learningEvent.lastName}]`;
 
   const lastDayOfSemester = moment(semester.lastDay);
 

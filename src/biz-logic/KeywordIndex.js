@@ -17,13 +17,13 @@ class KeywordIndex {
   static createFromLearningEvents(learningEvents) {
     const fieldsToIndex = [
       "course",
-      "course-number",
-      "firstname",
-      "lastname",
+      "courseNumber",
+      "firstName",
+      "lastName",
       "room",
       "section",
-      "subject-abbr",
-      "instructor-username",
+      "subjectAbbrev",
+      "instructorUsername",
       "dow"
     ];
     const keywordGenerator = new KeywordGenerator();

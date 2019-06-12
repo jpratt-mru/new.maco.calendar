@@ -13,7 +13,7 @@ class RoomCapacityIssueDetector {
       const courseSection = `${event.course}${event.section}`;
       if (
         courseSection &&
-        !isNaN(event["sectioncapacity"]) &&
+        !isNaN(event.sectionCapacity) &&
         !this.rooms.canAccommodate(event) &&
         !this.discoveredIssues.has(courseSection)
       ) {
@@ -31,7 +31,7 @@ class RoomCapacityIssueDetector {
     return {
       eventId: event.id,
       roomCapacity: roomCapacity,
-      sectionCapacity: event["sectioncapacity"],
+      sectionCapacity: event.sectionCapacity,
       room: event.room,
       class: `${event.course}-${event.section}`
     };

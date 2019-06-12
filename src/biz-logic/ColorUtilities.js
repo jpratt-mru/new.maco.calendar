@@ -42,14 +42,14 @@ class ColorUtilities {
   }
 
   static numUniqueSubjectsIn(learningEvents) {
-    const justSubjectAbbr = learningEvents.map(event => event["subject-abbr"]);
+    const justSubjectAbbr = learningEvents.map(event => event["subjectAbbrev"]);
 
     return _.uniq(justSubjectAbbr).length;
   }
 
   static numCourseLevelsIn(learningEvents) {
     const courseNumbersLeadingNumbers = learningEvents.map(event =>
-      event["course-number"].substring(0, 1)
+      event["courseNumber"].substring(0, 1)
     );
 
     return _.uniq(courseNumbersLeadingNumbers).length;
@@ -57,12 +57,12 @@ class ColorUtilities {
 
   static addColorByYear(learningEvents) {
     this.addColorByKeyFunction(learningEvents, event =>
-      event["course-number"].substring(0, 1)
+      event["courseNumber"].substring(0, 1)
     );
   }
 
   static addColorBySubject(learningEvents) {
-    this.addColorByKeyFunction(learningEvents, event => event["subject-abbr"]);
+    this.addColorByKeyFunction(learningEvents, event => event["subjectAbbrev"]);
   }
 
   static addColorByCourse(learningEvents) {

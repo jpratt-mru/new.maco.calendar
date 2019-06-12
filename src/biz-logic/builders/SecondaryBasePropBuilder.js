@@ -9,7 +9,9 @@ class SecondaryBasePropBuilder {
 
   addTo(builder) {
     this.eventInProgress = builder.eventInProgress;
-    const propValue = this.eventInProgress.csvRecord[this.propName];
+    const propValue = this.eventInProgress.csvRecord[
+      this.propName.toLowerCase()
+    ];
     const eventInProgress = this.eventInProgress;
 
     eventInProgress.isDisplayable = true && eventInProgress.isDisplayable;

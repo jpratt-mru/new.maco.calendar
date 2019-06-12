@@ -30,7 +30,7 @@ class CourseNumberBuilder extends SecondaryCalculatedPropBuilder {
 
   constructor() {
     super(
-      "course-number",
+      "courseNumber",
       CourseNumberBuilder.prerequisitesAreValid,
       CourseNumberBuilder.propCalculatedFrom,
       "course"

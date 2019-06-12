@@ -55,7 +55,12 @@ class MacoCalendar extends React.Component {
     const lineWithCapacities = splitText[2].replace(/<\/div>/gi, "");
     const splitLineWithCapacities = lineWithCapacities.split(/\s+/);
     const capacities = splitLineWithCapacities[1];
-    const spannedCapacities = `<span class="capacities">${capacities}</span>`;
+    const splitCapacities = capacities.split(/\//);
+    const overCapStyle =
+      parseInt(splitCapacities[0], 10) > parseInt(splitCapacities[1], 10)
+        ? "overcap"
+        : "";
+    const spannedCapacities = `<span class="capacities ${overCapStyle}">${capacities}</span>`;
     info.el.innerHTML = info.el.innerHTML.replace(
       capacities,
       spannedCapacities

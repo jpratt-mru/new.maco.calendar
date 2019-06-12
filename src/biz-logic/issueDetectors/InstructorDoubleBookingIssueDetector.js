@@ -19,13 +19,13 @@ class InstructorDoubleBookingIssueDetector {
   uniqueTimeConflicts() {
     let allConflicts = [];
     const learningEventsWithoutTBAs = this.learningEvents.filter(
-      event => event["instructor-username"] !== "TBA"
+      event => event["instructorUsername"] !== "TBA"
     );
     learningEventsWithoutTBAs.forEach(thisEvent => {
       const possiblyConflictingEvents = learningEventsWithoutTBAs.filter(
         otherEvent =>
-          thisEvent["instructor-username"] ===
-            otherEvent["instructor-username"] && thisEvent.id !== otherEvent.id
+          thisEvent["instructorUsername"] ===
+            otherEvent["instructorUsername"] && thisEvent.id !== otherEvent.id
       );
 
       const conflicts = possiblyConflictingEvents.filter(otherEvent =>
@@ -67,7 +67,7 @@ class InstructorDoubleBookingIssueDetector {
   issueFor(event) {
     return {
       eventId: event.id,
-      instructorName: event["instructor-username"],
+      instructorName: event["instructorUsername"],
       class: `${event.course}-${event.section}`
     };
   }

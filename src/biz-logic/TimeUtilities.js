@@ -5,12 +5,12 @@ const moment = extendMoment(Moment);
 
 class TimeUtilities {
   static validMonday(text) {
-    const momentedText = moment(text, "YYYY-MM=DD");
+    const momentedText = moment(text, "YYYY-MM-DD");
     return momentedText.isValid() && momentedText.day() == 1;
   }
 
   static validDate(text) {
-    const momentedText = moment(text, "YYYY-MM=DD");
+    const momentedText = moment(text, "YYYY-MM-DD");
     return momentedText.isValid();
   }
 

@@ -1,6 +1,11 @@
 import LearningEvent from "../LearningEvent";
 
 class PrimaryPropBuilder {
+  /**
+   *
+   * @param {string} propName
+   * @param {function} isValid
+   */
   constructor(propName, isValid) {
     this.propName = propName;
     this.isValid = isValid;
@@ -8,7 +13,10 @@ class PrimaryPropBuilder {
 
   addTo(builder) {
     this.eventInProgress = builder.eventInProgress;
-    const propValue = this.eventInProgress.csvRecord[this.propName];
+    const propValue = this.eventInProgress.csvRecord[
+      this.propName.toLowerCase()
+    ];
+
     const eventInProgress = this.eventInProgress;
 
     if (!propValue) {
