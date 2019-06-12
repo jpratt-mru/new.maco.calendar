@@ -2,25 +2,30 @@ class KeywordGenerator {
   constructor() {}
 
   /**
-   * Returns a collection of all keywords for a given string s of sizes 1 through n (where n is the length
-   * of the string). All the keywords will be lowercase.
+   * Returns a collection of all keywords for a given string s of sizes 0
+   * through n (where n is the length of the string). We include the empty
+   * string so that when user is filtering and then deletes a filter
+   * completely, all learning events will be shown - **every** learning event
+   * has the keyword `""`.
+   *
+   * All the keywords will be lowercase.
    *
    * It is assumed the given string has NO whitespace in it.
    *
    * So, for example, COMP1105 would return
    * [c, co, com, comp, comp1, comp11, comp1105]
    */
-  keywordsFrom = s => {
-    const result = [];
-    let lastPush = "";
+  keywordsFrom = text => {
+    let keywords = [""];
+    let lastKeywordAdded = "";
 
-    Array.from(s).forEach(c => {
-      const toPush = (lastPush + c).toLowerCase();
-      result.push(toPush);
-      lastPush = toPush;
+    Array.from(text).forEach(c => {
+      const keyword = (lastKeywordAdded + c).toLowerCase();
+      keywords = [...keywords, keyword];
+      lastKeywordAdded = keyword;
     });
 
-    return ["", ...result];
+    return keywords;
   };
 }
 
