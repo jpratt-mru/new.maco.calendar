@@ -2,7 +2,6 @@ import Rooms from "../Rooms";
 
 class RoomCapacityIssueDetector {
   constructor(learningEvents) {
-    this.rooms = new Rooms();
     this.learningEvents = learningEvents;
     this.discoveredIssues = new Map();
     this.checkLearningEventsForIssues();
@@ -14,7 +13,7 @@ class RoomCapacityIssueDetector {
       if (
         courseSection &&
         !isNaN(event.sectionCapacity) &&
-        !this.rooms.canAccommodate(event) &&
+        !Rooms.canAccommodate(event) &&
         !this.discoveredIssues.has(courseSection)
       ) {
         this.discoveredIssues.set(courseSection, this.issueFor(event));
@@ -27,7 +26,7 @@ class RoomCapacityIssueDetector {
   }
 
   issueFor(event) {
-    const roomCapacity = this.rooms.capacityFor(event.room);
+    const roomCapacity = Rooms.capacityFor(event.room);
     return {
       eventId: event.id,
       roomCapacity: roomCapacity,
