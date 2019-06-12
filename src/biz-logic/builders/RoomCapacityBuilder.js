@@ -19,7 +19,7 @@ class RoomCapacityBuilder extends SecondaryCalculatedPropBuilder {
   }
 
   /**
-   * Just as Rooms() what the capacity is...it will be 0 if the room isn't found.
+   * Just as Rooms what the capacity is...it will be 0 if the room isn't found.
    *
    * @param {*} prerequisites
    */
