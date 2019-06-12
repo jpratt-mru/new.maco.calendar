@@ -2,6 +2,11 @@
  * I used http://www.convertcsv.com/csv-to-json.htm to
  * convert the room inventory spreadsheet from the MACO Scheduling
  * Google Drive directory into this format.
+ *
+ * Watch out for any bad data - there's no telling what the spreadsheet
+ * you're getting will look like!
+ *
+ * Notice that everything in here is UPPERCASE.
  */
 
 export const campusRooms = [
