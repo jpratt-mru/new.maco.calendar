@@ -28,6 +28,19 @@ class TimeUtilities {
     return moment(momentTimeObject, "YYYY-MM-DD HH:mm").format();
   }
 
+  static firstDayOfClassesInFirstFullWeek(startingMonday, startTime, dow) {
+    const targetDayOfWeekAsNumber = TimeUtilities.dayOfWeekAsNumber(dow);
+    const isoString = `${startingMonday} ${startTime}`;
+
+    let currDate = moment(isoString, "YYYY-MM-DD HH:mm");
+
+    while (currDate.day() !== targetDayOfWeekAsNumber) {
+      currDate.add(1, "day");
+    }
+
+    return TimeUtilities.formattedTime(currDate);
+  }
+
   static timeConflictExistsBetween(eventOne, eventTwo) {
     const eventOneRangeStart = moment(eventOne.start);
     const eventOneRangeEnd = moment(eventOne.end);

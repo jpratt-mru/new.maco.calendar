@@ -1,24 +1,20 @@
-import moment from "moment";
 import SecondaryCalculatedPropBuilder from "./SecondaryCalculatedPropBuilder";
 import TimeUtilities from "../TimeUtilities";
 
+/**
+ * "Start" refers to the starting date-time of a given learning event.
+ *
+ * Actually, to be more precise, it refers to that starting time for the
+ * **first** day on or after the Monday of the first full week of classes!
+ * That's why startingMonday, dow, and startingTime are all involved.
+ *
+ * I'd have called it something a tad more precise (like LearningEventStartTime),
+ * but fullcalendar just calls this property "start", so there we are.
+ */
 class StartBuilder extends SecondaryCalculatedPropBuilder {
-  static firstDayOfClassesInFirstFullWeek(startingMonday, startTime, dow) {
-    const targetDayOfWeekAsNumber = TimeUtilities.dayOfWeekAsNumber(dow);
-    const isoString = `${startingMonday} ${startTime}`;
-
-    let currDate = moment(isoString, "YYYY-MM-DD HH:mm");
-
-    while (currDate.day() !== targetDayOfWeekAsNumber) {
-      currDate.add(1, "day");
-    }
-
-    return TimeUtilities.formattedTime(currDate);
-  }
-
   static prerequisitesAreValid(prerequisites) {
     // as long as we've gotten this far, we'll have a valid
-    // startingtime and duration to work with
+    // startingTime and duration to work with
     const [startingMonday, dow, startTime] = prerequisites;
 
     return startingMonday && dow && startTime;
@@ -28,7 +24,7 @@ class StartBuilder extends SecondaryCalculatedPropBuilder {
     const startingMonday = prerequisites[0];
     const dow = prerequisites[1];
     const startTime = prerequisites[2];
-    return StartBuilder.firstDayOfClassesInFirstFullWeek(
+    return TimeUtilities.firstDayOfClassesInFirstFullWeek(
       startingMonday,
       startTime,
       dow
@@ -42,7 +38,7 @@ class StartBuilder extends SecondaryCalculatedPropBuilder {
       StartBuilder.propCalculatedFrom,
       "startingMonday",
       "dow",
-      "startingtime"
+      "startingTime"
     );
   }
 }
