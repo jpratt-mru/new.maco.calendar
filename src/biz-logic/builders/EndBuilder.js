@@ -2,6 +2,12 @@ import moment from "moment";
 import SecondaryCalculatedPropBuilder from "./SecondaryCalculatedPropBuilder";
 import TimeUtilities from "../TimeUtilities";
 
+/**
+ * "End" refers to the ending date-time of a given learning event.
+ *
+ * I'd have called it something a tad more precise (like LearningEventEndTime),
+ * but fullcalendar just calls this property "end", so there we are.
+ */
 class EndBuilder extends SecondaryCalculatedPropBuilder {
   static prerequisitesAreValid(prerequisites) {
     // as long as we've gotten this far, we'll have a valid
