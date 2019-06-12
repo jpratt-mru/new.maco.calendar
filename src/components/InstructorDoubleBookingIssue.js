@@ -15,7 +15,10 @@ const InstructorDoubleBookingIssue = props => {
         </span>
       </p>
       <p className="mb-0">
-        csv lines {props.issue.eventIds.sort((a, b) => a - b).join()}
+        <a href={props.csvFileName} rel="noopener noreferrer" target="_blank">
+          csv
+        </a>{" "}
+        lines {props.issue.eventIds.sort((a, b) => a - b).join()}
       </p>
     </div>
   );

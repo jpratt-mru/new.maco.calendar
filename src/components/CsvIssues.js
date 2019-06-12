@@ -8,7 +8,11 @@ const CsvIssues = props => {
       {props.issues.length == 0
         ? null
         : props.issues.map((issue, index) => (
-            <CsvIssue key={`csv${index}`} issue={issue} />
+            <CsvIssue
+              key={`csv${index}`}
+              issue={issue}
+              csvFileName={props.csvFileName}
+            />
           ))}
     </div>
   );

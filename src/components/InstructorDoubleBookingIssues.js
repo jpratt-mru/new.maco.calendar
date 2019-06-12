@@ -8,7 +8,11 @@ const InstructorCapacityIssues = props => {
       {props.issues.length == 0
         ? null
         : props.issues.map((issue, index) => (
-            <InstructorDoubleBookingIssue key={`idoub${index}`} issue={issue} />
+            <InstructorDoubleBookingIssue
+              key={`idoub${index}`}
+              issue={issue}
+              csvFileName={props.csvFileName}
+            />
           ))}
     </div>
   );

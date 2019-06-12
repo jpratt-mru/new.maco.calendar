@@ -17,6 +17,7 @@ const Sidebar = props => (
 
     <Notifications
       validCsvLoaded={props.validCsvLoaded}
+      csvFileName={props.csvFileName}
       csvIssues={props.csvIssues}
       roomCapacityIssues={props.roomCapacityIssues}
       roomDoubleBookingIssues={props.roomDoubleBookingIssues}

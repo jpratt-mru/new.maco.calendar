@@ -26,11 +26,18 @@ const Notifications = props =>
     <div id="notifications">
       {notificationsHeader(props)}
 
-      <CsvIssues issues={props.csvIssues} />
-      <RoomCapacityIssues issues={props.roomCapacityIssues} />
-      <RoomDoubleBookingIssues issues={props.roomDoubleBookingIssues} />
+      <CsvIssues issues={props.csvIssues} csvFileName={props.csvFileName} />
+      <RoomCapacityIssues
+        issues={props.roomCapacityIssues}
+        csvFileName={props.csvFileName}
+      />
+      <RoomDoubleBookingIssues
+        issues={props.roomDoubleBookingIssues}
+        csvFileName={props.csvFileName}
+      />
       <InstructorDoubleBookingIssues
         issues={props.instructorDoubleBookingIssues}
+        csvFileName={props.csvFileName}
       />
     </div>
   ) : null;

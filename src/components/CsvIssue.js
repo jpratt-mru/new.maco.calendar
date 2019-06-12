@@ -19,7 +19,12 @@ const CsvIssue = props => {
           </span>
         </p>
       ) : null}
-      <p className="mb-0">csv line {props.issue.eventId}</p>
+      <p className="mb-0">
+        <a href={props.csvFileName} rel="noopener noreferrer" target="_blank">
+          csv
+        </a>{" "}
+        line {props.issue.eventId}
+      </p>
     </div>
   );
 };

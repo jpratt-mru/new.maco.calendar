@@ -46,7 +46,7 @@ class App extends React.Component {
   };
 
   pullLearningEventsFromGithub = () => {
-    Papa.parse(this.scheduleURL(), {
+    Papa.parse(this.rawScheduleURL(), {
       download: true,
       header: true,
       skipEmptyLines: true,
@@ -91,8 +91,13 @@ class App extends React.Component {
     });
   };
 
-  scheduleURL = () =>
+  rawScheduleURL = () =>
     `https://raw.githubusercontent.com/jpratt-mru/maco.calendar.datafiles/master/${
+      this.state.selectedCsvFile
+    }`;
+
+  githubScheduleURL = () =>
+    `https://github.com/jpratt-mru/maco.calendar.datafiles/blob/master/${
       this.state.selectedCsvFile
     }`;
 
@@ -186,6 +191,7 @@ class App extends React.Component {
               handleFiltering={this.handleFiltering}
               keywordIndex={this.state.keywordIndex}
               validCsvLoaded={this.state.validCsvLoaded}
+              csvFileName={this.githubScheduleURL()}
               csvIssues={this.state.csvIssues}
               roomCapacityIssues={this.state.roomCapacityIssues}
               roomDoubleBookingIssues={this.state.roomDoubleBookingIssues}
