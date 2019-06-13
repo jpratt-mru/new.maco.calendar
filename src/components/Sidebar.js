@@ -3,6 +3,11 @@ import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
 import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
 import Notifications from "./Notifications";
 
+/**
+ * This is the part of the page that sits adjacent to the calendar itself.
+ *
+ * @param {*} props
+ */
 const Sidebar = props => (
   <div id="sidebar" className="col-3">
     <CalendarEventOrFilterInputBox
