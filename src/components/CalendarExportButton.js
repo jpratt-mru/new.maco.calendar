@@ -1,21 +1,27 @@
 import React from "react";
 import moment from "moment";
 import { saveAs } from "file-saver";
-import Blob from "blob";
-import "./CalendarExportButton.css";
+import styled from "styled-components";
+
+const DownloadButton = styled.button``;
+
+const DownloadIcon = styled.i`
+  font-size: 30px;
+  width: 20px;
+`;
 
 const CalendarExportButton = props => {
   const eventsToExport = props.events;
   const semester = props.semester;
   return (
     <li className="nav-item">
-      <button
+      <DownloadButton
         id="calendar-export-button"
         onClick={e => downloadCalendarFile(eventsToExport, semester, e)}
         className="nav-link p-2"
       >
-        <i className="fas fa-file-download fa" />
-      </button>
+        <DownloadIcon className="fas fa-file-download fa" />
+      </DownloadButton>
     </li>
   );
 };
