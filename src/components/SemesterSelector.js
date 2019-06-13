@@ -1,5 +1,5 @@
 import React from "react";
-import GitHub from "github-api";
+import Octokit from "@octokit/rest";
 
 class SemesterSelector extends React.Component {
   constructor(props) {
@@ -9,9 +9,13 @@ class SemesterSelector extends React.Component {
   }
 
   githubRepoContents = async () => {
-    const gh = new GitHub();
-    const repo = gh.getRepo("jpratt-mru", "maco.calendar.datafiles");
-    return repo.getContents();
+    const octokit = new Octokit();
+    const contents = octokit.repos.getContents({
+      owner: "jpratt-mru",
+      repo: "maco.calendar.datafiles",
+      path: "/"
+    });
+    return contents;
   };
 
   scheduleCSVsFromRepoResponse = response => {
