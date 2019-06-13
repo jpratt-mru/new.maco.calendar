@@ -39,7 +39,7 @@ class LocalStorageUtilities {
 
   static saveStateToLocalStorage(state) {
     Object.keys(state).forEach(stateName => {
-      localStorage.setItem(stateName, JSON.stringify(this.state[stateName]));
+      localStorage.setItem(stateName, JSON.stringify(state[stateName]));
     });
   }
 
