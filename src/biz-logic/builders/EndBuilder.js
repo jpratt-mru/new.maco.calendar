@@ -1,6 +1,6 @@
 import moment from "moment";
 import SecondaryCalculatedPropBuilder from "./SecondaryCalculatedPropBuilder";
-import TimeUtilities from "../TimeUtilities";
+import TimeUtilities from "../utilities/TimeUtilities";
 
 /**
  * "End" refers to the ending date-time of a given learning event.

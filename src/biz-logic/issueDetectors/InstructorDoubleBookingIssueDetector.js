@@ -1,4 +1,4 @@
-import TimeUtilities from "../TimeUtilities";
+import TimeUtilities from "../utilities/TimeUtilities";
 
 class InstructorDoubleBookingIssueDetector {
   constructor(learningEvents) {

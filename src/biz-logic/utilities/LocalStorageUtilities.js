@@ -1,4 +1,4 @@
-import KeywordIndex from "../biz-logic/KeywordIndex";
+import KeywordIndex from "../KeywordIndex";
 
 class LocalStorageUtilities {
   static initFromLocalStorage(state) {

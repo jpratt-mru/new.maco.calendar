@@ -1,4 +1,4 @@
-import TimeUtilities from "../TimeUtilities";
+import TimeUtilities from "../utilities/TimeUtilities";
 /**
  * This is creates the seed that the LearningEvent building
  * process grows from.

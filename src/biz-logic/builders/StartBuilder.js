@@ -1,5 +1,5 @@
 import SecondaryCalculatedPropBuilder from "./SecondaryCalculatedPropBuilder";
-import TimeUtilities from "../TimeUtilities";
+import TimeUtilities from "../utilities/TimeUtilities";
 
 /**
  * "Start" refers to the starting date-time of a given learning event.

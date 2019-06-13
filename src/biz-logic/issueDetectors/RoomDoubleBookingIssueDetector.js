@@ -1,4 +1,4 @@
-import TimeUtilities from "../../biz-logic/TimeUtilities";
+import TimeUtilities from "../../biz-logic/utilities/TimeUtilities";
 
 class RoomDoubleBookingIssueDetector {
   constructor(learningEvents) {

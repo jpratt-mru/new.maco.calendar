@@ -15,8 +15,8 @@ import LearningEvents from "../biz-logic/LearningEvents";
 import IssuesDetector from "../biz-logic/issueDetectors/IssuesDetector";
 import Semester from "../biz-logic/Semester";
 
-import LocalStorageUtilities from "../biz-logic/LocalStorageUtilities";
-import ColorUtilities from "../biz-logic/ColorUtilities";
+import LocalStorageUtilities from "../biz-logic/utilities/LocalStorageUtilities";
+import ColorUtilities from "../biz-logic/utilities/ColorUtilities";
 
 class App extends React.Component {
   state = {
