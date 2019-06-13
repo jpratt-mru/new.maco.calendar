@@ -22,10 +22,6 @@ class Rooms {
       : false;
   }
 
-  /**
-   *
-   * @param {*} room
-   */
   static capacityFor(room) {
     Rooms.map = Rooms.map || new Map(campusRooms);
 
