@@ -3,7 +3,11 @@ import moment from "moment";
 import { saveAs } from "file-saver";
 import styled from "styled-components";
 
-const DownloadButton = styled.button``;
+const DownloadButton = styled.button`
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+`;
 
 const DownloadIcon = styled.i`
   font-size: 30px;

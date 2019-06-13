@@ -3,7 +3,30 @@ import CsvIssues from "./CsvIssues";
 import RoomCapacityIssues from "./RoomCapacityIssues";
 import RoomDoubleBookingIssues from "./RoomDoubleBookingIssues";
 import InstructorDoubleBookingIssues from "./InstructorDoubleBookingIssues";
-import "./Notifications.css";
+
+import styled from "styled-components";
+
+const NotificationBlock = styled.div`
+  p {
+    font-size: 0.85em;
+  }
+
+  h2 {
+    padding: 3px;
+    border-radius: 0.25em;
+    border: 1px solid transparent;
+  }
+
+  h2.with-issues {
+    background-color: darkred;
+    color: white;
+  }
+
+  h2.with-no-issues {
+    background-color: darkgreen;
+    color: white;
+  }
+`;
 
 const issuesPresent = props => {
   return (
@@ -23,7 +46,7 @@ const notificationsHeader = props => {
 
 const Notifications = props =>
   props.validCsvLoaded ? (
-    <div id="notifications">
+    <NotificationBlock id="notifications">
       {notificationsHeader(props)}
 
       <CsvIssues issues={props.csvIssues} csvFileName={props.csvFileName} />
@@ -39,7 +62,7 @@ const Notifications = props =>
         issues={props.instructorDoubleBookingIssues}
         csvFileName={props.csvFileName}
       />
-    </div>
+    </NotificationBlock>
   ) : null;
 
 export default Notifications;

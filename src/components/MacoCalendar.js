@@ -2,7 +2,26 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import decoratedEventWithTitle from "../decoratedEventWithTitle";
-import "./MacoCalendar.css";
+
+import styled from "styled-components";
+
+const CalendarWrapper = styled.div`
+  .fc-event {
+    font-size: 0.6em;
+    font-weight: 600;
+    font-family: "Helvetica", "Arial", sans-serif;
+  }
+
+  .capacities {
+    float: right;
+    font-weight: lighter;
+  }
+
+  .overcap {
+    color: red;
+    font-weight: bold;
+  }
+`;
 
 class MacoCalendar extends React.Component {
   constructor(props) {
@@ -76,7 +95,7 @@ class MacoCalendar extends React.Component {
       );
     } else {
       return (
-        <div className="col-9">
+        <CalendarWrapper className="col-9">
           <FullCalendar
             ref={this.calendarRef}
             printMode={this.props.printMode}
@@ -100,7 +119,7 @@ class MacoCalendar extends React.Component {
             plugins={[timeGridPlugin]}
             {...this.props}
           />
-        </div>
+        </CalendarWrapper>
       );
     }
   }

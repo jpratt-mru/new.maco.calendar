@@ -1,8 +1,13 @@
 import React from "react";
+import styled from "styled-components";
+
+const Issue = styled.div`
+  padding: 10px;
+`;
 
 const CsvIssue = props => {
   return (
-    <div className="alert alert-danger">
+    <Issue className="alert alert-danger">
       {props.issue.missingFields.length > 0 ? (
         <p className="mb-0">
           missing{" "}
@@ -25,7 +30,7 @@ const CsvIssue = props => {
         </a>{" "}
         line {props.issue.eventId}
       </p>
-    </div>
+    </Issue>
   );
 };
 

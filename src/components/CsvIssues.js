@@ -1,6 +1,5 @@
 import React from "react";
 import CsvIssue from "./CsvIssue";
-import "./CsvIssues.css";
 
 const CsvIssues = props => {
   return (

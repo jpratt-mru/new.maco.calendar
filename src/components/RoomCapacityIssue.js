@@ -1,8 +1,13 @@
 import React from "react";
+import styled from "styled-components";
+
+const Issue = styled.div`
+  padding: 10px;
+`;
 
 const RoomCapacityIssue = props => {
   return (
-    <div className="alert alert-warning">
+    <Issue className="alert alert-warning">
       <p className="mb-0">
         <span className="font-weight-bold">
           {props.issue.class.toUpperCase()}
@@ -19,7 +24,7 @@ const RoomCapacityIssue = props => {
         </a>{" "}
         line {props.issue.eventId}
       </p>
-    </div>
+    </Issue>
   );
 };
 

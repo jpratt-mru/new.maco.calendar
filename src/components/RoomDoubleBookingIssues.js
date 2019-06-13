@@ -1,6 +1,5 @@
 import React from "react";
 import RoomDoubleBookingIssue from "./RoomDoubleBookingIssue";
-import "./RoomDoubleBookingIssues.css";
 
 const RoomDoubleBookingIssues = props => {
   return (

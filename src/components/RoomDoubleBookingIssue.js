@@ -1,8 +1,13 @@
 import React from "react";
+import styled from "styled-components";
+
+const Issue = styled.div`
+  padding: 10px;
+`;
 
 const RoomDoubleBookingIssue = props => {
   return (
-    <div className="alert alert-primary">
+    <Issue className="alert alert-primary">
       <p className="mb-0">
         <span className="font-weight-bold">
           {props.issue.room.toUpperCase()}
@@ -22,7 +27,7 @@ const RoomDoubleBookingIssue = props => {
         </a>{" "}
         lines {props.issue.eventIds.sort((a, b) => a - b).join()}
       </p>
-    </div>
+    </Issue>
   );
 };
 

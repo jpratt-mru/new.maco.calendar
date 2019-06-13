@@ -1,5 +1,16 @@
 import React from "react";
-import "./PrintToggleButton.css";
+import styled from "styled-components";
+
+const PrintButton = styled.button`
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+`;
+
+const PrintIcon = styled.i`
+  font-size: 30px;
+  width: 20px;
+`;
 
 class PrintToggleButton extends React.Component {
   constructor(props) {
@@ -13,14 +24,14 @@ class PrintToggleButton extends React.Component {
   render() {
     return (
       <li className="nav-item">
-        <button
+        <PrintButton
           onClick={this.handleChange}
           data-toggle="modal"
           data-target="#getTitleModal"
           className="nav-link mr-3"
         >
-          <i className="fas fa-print fa" />
-        </button>
+          <PrintIcon className="fas fa-print fa" />
+        </PrintButton>
       </li>
     );
   }

@@ -1,6 +1,5 @@
 import React from "react";
 import InstructorDoubleBookingIssue from "./InstructorDoubleBookingIssue";
-import "./InstructorDoubleBookingIssues.css";
 
 const InstructorCapacityIssues = props => {
   return (

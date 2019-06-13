@@ -1,8 +1,13 @@
 import React from "react";
+import styled from "styled-components";
+
+const Issue = styled.div`
+  padding: 10px;
+`;
 
 const InstructorDoubleBookingIssue = props => {
   return (
-    <div className="alert alert-secondary">
+    <Issue className="alert alert-secondary">
       <p className="mb-0">
         <span className="font-weight-bold">{props.issue.instructorName}</span>{" "}
         is double-booked with these classes:
@@ -20,7 +25,7 @@ const InstructorDoubleBookingIssue = props => {
         </a>{" "}
         lines {props.issue.eventIds.sort((a, b) => a - b).join()}
       </p>
-    </div>
+    </Issue>
   );
 };
 

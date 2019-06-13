@@ -1,6 +1,5 @@
 import React from "react";
 import RoomCapacityIssue from "./RoomCapacityIssue";
-import "./RoomCapacityIssues.css";
 
 const RoomCapacityIssues = props => {
   return (
