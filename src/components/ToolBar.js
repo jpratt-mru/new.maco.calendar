@@ -1,11 +1,11 @@
 import React from "react";
-import PrintToggleButton from "./PrintToggleButton";
+import PrintButton from "./PrintButton";
 import CalendarExportButton from "./CalendarExportButton";
 
 const ToolBar = props => (
   <nav className="navbar navbar-expand sticky-top navbar-dark bg-dark flex-column flex-md-row bd-navbar">
     <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-      <PrintToggleButton
+      <PrintButton
         printMode={props.printMode}
         handlePrint={props.handlePrint}
       />
