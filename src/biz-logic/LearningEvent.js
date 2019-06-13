@@ -14,25 +14,28 @@
 
 class LearningEvent {
   constructor(builder) {
+    // primary
     this.id = builder.id;
     this.startingMonday = builder.startingMonday;
+    this.duration = builder.duration;
     this.csvRecord = builder.csvRecord;
 
+    // secondary base
     this.course = builder.course;
     this.section = builder.section;
     this.sectionCapacity = builder.sectionCapacity;
-    this.roomCapacity = builder.roomCapacity;
     this.dow = builder.dow;
     this.room = builder.room;
     this.firstName = builder.firstName;
     this.lastName = builder.lastName;
 
+    // secondary calculated
     this.courseNumber = builder.courseNumber;
     this.subjectAbbrev = builder.subjectAbbrev;
     this.instructorUsername = builder.instructorUsername;
     this.start = builder.start;
     this.end = builder.end;
-    this.duration = builder.duration;
+    this.roomCapacity = builder.roomCapacity;
 
     this.missing = builder.missing;
     this.malformed = builder.malformed;

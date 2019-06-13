@@ -50,6 +50,10 @@ class KeywordIndex {
     "dow"
   ];
 
+  static createFromLocalStorage(storageContents) {
+    return new KeywordIndex(storageContents);
+  }
+
   /**
    * Simple factory.
    *
@@ -89,8 +93,12 @@ class KeywordIndex {
     return [...allKeywordsForThisEvent];
   }
 
-  constructor() {
-    this.map = new Map();
+  constructor(startingMap) {
+    if (!startingMap) {
+      this.map = new Map();
+    } else {
+      this.map = new Map(JSON.parse(startingMap));
+    }
   }
 
   /**
@@ -131,6 +139,16 @@ class KeywordIndex {
     } else {
       this.map.set(keyword, [id]);
     }
+  };
+
+  /**
+   * This gets called implicitly when the `LocalStorageUtilities.saveStateToLocalStorage`
+   * gets called. If you don't have this, then when you save the KeywordIndex
+   * to local storage, you get a useless JSON blob that blows things up when
+   * the app tries to spin up things stored in local storage.
+   */
+  toJSON = () => {
+    return JSON.stringify([...this.map]);
   };
 }
 

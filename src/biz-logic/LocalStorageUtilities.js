@@ -7,7 +7,7 @@ class LocalStorageUtilities {
         if (localStorage[stateName]) {
           const storedItem = JSON.parse(localStorage.getItem(stateName));
           if (stateName === "keywordIndex") {
-            state[stateName] = new KeywordIndex(storedItem);
+            state[stateName] = KeywordIndex.createFromLocalStorage(storedItem);
           } else {
             state[stateName] = storedItem;
           }
