@@ -62,6 +62,12 @@ To deploy a new version of the app from the Digital Ocean dev machine (**maco.ca
 1. `npm run build`
 1. `firebase deploy`
 
+### CSS
+
+So I spent a bunch of time modifying `../node_modules/@fullcalendar/daygrid/main.css` and making a local verison
+of it (`public/main.css`)...but didn't document the changes because I can be a lazy idiot. If you **don't** use the
+local version, things go south if you try and print anything.
+
 ### Adding new properties to Learning Events
 
 It's pretty easy to add additional properties to a LearningEvent:

@@ -1,21 +1,23 @@
 @media only print {
-  .col-3,
-  #print-toggle-button,
-  #calendar-export-button,
-  .custom-select,
-  .capacities,
-  #info-header div {
-    display: none;
-  }
-
-  #info-header h1 {
-    display: block !important;
-  }
   @page {
     margin: 2cm 0.4cm;
   }
 
-  .col-9 {
+  #sidebar,
+  #print-toggle-button,
+  #calendar-export-button,
+  #calendar-info-display,
+  .custom-select,
+  .capacities {
+    display: none;
+  }
+
+  #printed-calendar-title {
+    display: block !important;
+  }
+
+  /* If you don't do this, the calendar doesn't fill the available page width. */
+  #calendar-display {
     flex: none;
     max-width: 100%;
   }
@@ -34,6 +36,7 @@
     border-color: black;
   }
 
+  /* This makes the lines on the 15-minute intervals much less in-your-face. */
   .fc-time-grid .fc-slats .fc-minor td {
     border: 1px dotted darkgrey !important;
   }

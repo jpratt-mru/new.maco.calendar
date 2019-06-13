@@ -95,7 +95,7 @@ class MacoCalendar extends React.Component {
       );
     } else {
       return (
-        <CalendarWrapper className="col-9">
+        <CalendarWrapper id="calendar-display" className="col-9">
           <FullCalendar
             ref={this.calendarRef}
             printMode={this.props.printMode}

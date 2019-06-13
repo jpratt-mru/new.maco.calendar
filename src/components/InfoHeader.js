@@ -7,7 +7,7 @@ const Wrapper = styled.div`
     font-size: 1.2em;
   }
 
-  h1 {
+  #printed-calendar-title {
     display: none;
   }
 `;
@@ -25,10 +25,10 @@ const semesterInfo = (year, semesterDesc) => {
 
 const InfoHeader = props => (
   <Wrapper id="info-header">
-    <h1 className="display-1 text-center" id="printed-calendar-title">
+    <div className="display-1 text-center" id="printed-calendar-title">
       Weekly Schedule
-    </h1>
-    <div className="jumbotron jumbotron-fluid p-3">
+    </div>
+    <div id="calendar-info-display" className="jumbotron jumbotron-fluid p-3">
       <div className="container-fluid">
         <p className="display-4 text-center">MACO Schedule Calendar Tool</p>
         <h2 className="mb-2 text-center">

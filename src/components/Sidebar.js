@@ -4,7 +4,7 @@ import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
 import Notifications from "./Notifications";
 
 const Sidebar = props => (
-  <div className="col-3">
+  <div id="sidebar" className="col-3">
     <CalendarEventOrFilterInputBox
       handleFiltering={props.handleFiltering}
       keywordIndex={props.keywordIndex}
