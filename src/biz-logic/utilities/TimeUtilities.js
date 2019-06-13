@@ -28,12 +28,26 @@ class TimeUtilities {
     return moment(momentTimeObject, "YYYY-MM-DD HH:mm").format();
   }
 
-  static firstDayOfClassesInFirstFullWeek(startingMonday, startTime, dow) {
+  /**
+   * Returns the formatted starting date/time `moment` object (see `formattedTime()`) of
+   * a class on its first class in the first full week of a semester.
+   *
+   * For example, if you have a class that runs on Thursdays at 9AM,
+   * and the first FULL week of classes starts on Sept. 8, then this
+   * function will give you a `moment` object that's YYYY-09-11 09:00.
+   *
+   * @param {*} startingMonday
+   * @param {*} startTime
+   * @param {*} dow
+   */
+  static startOfClassInFirstFullWeek(startingMonday, startTime, dow) {
     const targetDayOfWeekAsNumber = TimeUtilities.dayOfWeekAsNumber(dow);
     const isoString = `${startingMonday} ${startTime}`;
 
     let currDate = moment(isoString, "YYYY-MM-DD HH:mm");
 
+    // keep stepping forward from the Monday until you hit
+    // the given dow
     while (currDate.day() !== targetDayOfWeekAsNumber) {
       currDate.add(1, "day");
     }

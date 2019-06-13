@@ -24,7 +24,7 @@ class StartBuilder extends SecondaryCalculatedPropBuilder {
     const startingMonday = prerequisites[0];
     const dow = prerequisites[1];
     const startTime = prerequisites[2];
-    return TimeUtilities.firstDayOfClassesInFirstFullWeek(
+    return TimeUtilities.startOfClassInFirstFullWeek(
       startingMonday,
       startTime,
       dow
