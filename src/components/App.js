@@ -84,7 +84,7 @@ class App extends React.Component {
               roomDoubleBookingIssues: issuesDetector.roomDoubleBookingIssues(),
               instructorDoubleBookingIssues: issuesDetector.instructorDoubleBookingIssues()
             },
-            LocalStorageUtilities.saveStateToLocalStorage
+            () => LocalStorageUtilities.saveStateToLocalStorage(this.state)
           );
         }
       }

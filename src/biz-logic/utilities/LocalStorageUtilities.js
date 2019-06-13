@@ -1,6 +1,19 @@
 import KeywordIndex from "../KeywordIndex";
 
+/**
+ * Utility methods to save/retrieve calendar states from HTML5 LocalStorage.
+ */
 class LocalStorageUtilities {
+  /**
+   * Incoming state is the state of the `App.js` Component.  We're touching
+   * it directly, because this helper method is being called in the App's
+   * constructor.
+   *
+   * We handle the keywordIndex state a bit differently becuase it's a bit
+   * more of a complex beast.
+   *
+   * @param {*} state
+   */
   static initFromLocalStorage(state) {
     if (LocalStorageUtilities.learningEventsPresentInLocalStorage()) {
       for (let stateName in state) {
@@ -16,25 +29,16 @@ class LocalStorageUtilities {
     }
   }
 
+  /**
+   * TODO: This is a bit arbitrary - what's so special about the keys
+   * `allLearningEvents` and `semester`?
+   */
   static learningEventsPresentInLocalStorage = () => {
     return localStorage["allLearningEvents"] && localStorage["semester"];
   };
 
-  static saveStateToLocalStorage() {
-    const stateThatNeedsSaving = [
-      "allLearningEvents",
-      "displayedLearningEvents",
-      "semester",
-      "keywordIndex",
-      "selectedCsvFile",
-      "validCsvLoaded",
-      "csvIssues",
-      "roomCapacityIssues",
-      "roomDoubleBookingIssues",
-      "instructorDoubleBookingIssues"
-    ];
-
-    stateThatNeedsSaving.forEach(stateName => {
+  static saveStateToLocalStorage(state) {
+    Object.keys(state).forEach(stateName => {
       localStorage.setItem(stateName, JSON.stringify(this.state[stateName]));
     });
   }
