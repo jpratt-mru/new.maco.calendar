@@ -1,6 +1,4 @@
 class KeywordGenerator {
-  constructor() {}
-
   /**
    * Returns a collection of all keywords for a given string s of sizes 0
    * through n (where n is the length of the string). We include the empty
@@ -15,7 +13,7 @@ class KeywordGenerator {
    * So, for example, COMP1105 would return
    * [c, co, com, comp, comp1, comp11, comp1105]
    */
-  keywordsFrom = text => {
+  static keywordsFrom = text => {
     let keywords = [""];
     let lastKeywordAdded = "";
 

@@ -1,66 +1,96 @@
 import KeywordGenerator from "../biz-logic/KeywordGenerator";
+import _ from "lodash"; // for union()
 
-//
-// Provides a way to map keywords to the ids of all
-// learning events that have those keywords associated
-// with them.
-//
-// Doesn't return duplicate ids, only a set (in the mathematical sense
-// of the word) of ids.
-//
-
+/**
+ * Provides a way to map keywords to the ids of all
+ * learning events that have those keywords associated
+ * with them.
+ *
+ * For example, say we have two learning events:
+ *
+ * learningEvent1 = {
+ *  id: 3
+ *  course: "comp1501"
+ *  etc...
+ * }
+ *
+ * learningEvent2 = {
+ *  id: 211
+ *  course: "comp2503"
+ *  etc...
+ * }
+ *
+ * Then we'd have an index that would have the following kind of maps:
+ *
+ * "" => [3, 211, ...] (empty string maps to every learning event)
+ * "c" => [3, 211, ...]
+ * "comp" => [3, 211, ...]
+ * "comp1" => [3]
+ * "comp2" => [211]
+ *
+ * Doesn't return duplicate ids, only a set (in the mathematical sense
+ * of the word) of ids for any given keyword.
+ */
 class KeywordIndex {
-  static createFromLocalStorage(storageContents) {
-    return new KeywordIndex(storageContents);
-  }
+  /**
+   * If you want to be able to filter on learning event properties, add
+   * the property key to this array. Watch your casing!
+   *
+   * Don't go overboard; the index could get pretty monstrous if you go too far.
+   */
+  static fieldsToIndex = [
+    "course",
+    "courseNumber",
+    "firstName",
+    "lastName",
+    "room",
+    "section",
+    "subjectAbbrev",
+    "instructorUsername",
+    "dow"
+  ];
 
+  /**
+   * Simple factory.
+   *
+   * @param {*} learningEvents
+   */
   static createFromLearningEvents(learningEvents) {
-    const fieldsToIndex = [
-      "course",
-      "courseNumber",
-      "firstName",
-      "lastName",
-      "room",
-      "section",
-      "subjectAbbrev",
-      "instructorUsername",
-      "dow"
-    ];
-    const keywordGenerator = new KeywordGenerator();
     const keywordIndex = new KeywordIndex();
-    learningEvents.forEach(learningEvent => {
-      let allKeywordsForThisEvent = [];
-      const idForThisEvent = learningEvent.id;
-      fieldsToIndex.forEach(field => {
-        const thingToKeywordify = learningEvent[`${field}`];
 
-        if (thingToKeywordify) {
-          const keywordsGenerated = keywordGenerator.keywordsFrom(
-            thingToKeywordify
-          );
-          allKeywordsForThisEvent = allKeywordsForThisEvent.concat(
-            keywordsGenerated
-          );
-        }
-      });
+    learningEvents.forEach(event => {
+      const keywords = KeywordIndex.keywordsFor(event);
 
-      allKeywordsForThisEvent.forEach(keyword => {
-        keywordIndex.add(keyword, idForThisEvent);
+      keywords.forEach(keyword => {
+        keywordIndex.add(keyword, event.id);
       });
     });
+
     return keywordIndex;
   }
 
-  static createFromScratch() {
-    return new KeywordIndex();
+  static keywordsFor(learningEvent) {
+    let allKeywordsForThisEvent = [];
+
+    KeywordIndex.fieldsToIndex.forEach(field => {
+      const thingToKeywordify = learningEvent[`${field}`];
+
+      if (thingToKeywordify) {
+        const keywordsGenerated = KeywordGenerator.keywordsFrom(
+          thingToKeywordify
+        );
+        allKeywordsForThisEvent = [
+          ...allKeywordsForThisEvent,
+          ...keywordsGenerated
+        ];
+      }
+    });
+
+    return [...allKeywordsForThisEvent];
   }
 
-  constructor(startingMap) {
-    if (!startingMap) {
-      this.map = new Map();
-    } else {
-      this.map = new Map(JSON.parse(startingMap));
-    }
+  constructor() {
+    this.map = new Map();
   }
 
   /**
@@ -97,17 +127,10 @@ class KeywordIndex {
    */
   add = (keyword, id) => {
     if (this.map.has(keyword)) {
-      const currentIdsMappedToKeyword = new Set(this.map.get(keyword));
-      currentIdsMappedToKeyword.add(id);
-
-      this.map.set(keyword, [...currentIdsMappedToKeyword]);
+      this.map.set(keyword, _.union([id], this.map.get(keyword)));
     } else {
       this.map.set(keyword, [id]);
     }
-  };
-
-  toJSON = () => {
-    return JSON.stringify([...this.map]);
   };
 }
 
