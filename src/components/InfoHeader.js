@@ -25,7 +25,7 @@ const semesterInfo = (year, semesterDesc) => {
 
 const InfoHeader = props => (
   <Wrapper id="info-header">
-    <div className="display-1 text-center" id="printed-calendar-title">
+    <div className="display-1 text-center mb-5" id="printed-calendar-title">
       Weekly Schedule
     </div>
     <div id="calendar-info-display" className="jumbotron jumbotron-fluid p-3">
