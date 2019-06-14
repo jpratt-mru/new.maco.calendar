@@ -5,6 +5,7 @@ const Button = styled.button`
   background-color: transparent !important;
   border: none !important;
   outline: none !important;
+  margin-right: 1rem;
 `;
 
 const PrintIcon = styled.i`
@@ -17,19 +18,14 @@ class PrintButton extends React.Component {
     super(props);
   }
 
-  handleChange = () => {
+  handlePrint = () => {
     this.props.handlePrint();
   };
 
   render() {
     return (
       <li className="nav-item">
-        <Button
-          onClick={this.handleChange}
-          data-toggle="modal"
-          data-target="#getTitleModal"
-          className="nav-link mr-3"
-        >
+        <Button onClick={this.handlePrint} className="nav-link">
           <PrintIcon className="fas fa-print fa" />
         </Button>
       </li>
