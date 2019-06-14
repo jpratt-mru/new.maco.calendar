@@ -12,11 +12,11 @@ const RoomCapacityIssue = props => {
         <span className="font-weight-bold">
           {props.issue.class.toUpperCase()}
         </span>{" "}
-        is over capacity in room{" "}
+        is over capacity in{" "}
         <span className="font-weight-bold">
           {props.issue.room.toUpperCase()}
-        </span>
-        - ({props.issue.sectionCapacity} vs. {props.issue.roomCapacity})
+        </span>{" "}
+        ({props.issue.sectionCapacity}/{props.issue.roomCapacity})
       </p>
       <p className="mb-0">
         <a href={props.csvFileName} rel="noopener noreferrer" target="_blank">
