@@ -10,6 +10,11 @@ const Wrapper = styled.div`
   #printed-calendar-title {
     display: none;
   }
+
+  #semester {
+    font-size: 1.5em;
+    color: blue;
+  }
 `;
 
 const semesterDescToText = desc => {
@@ -28,15 +33,15 @@ const InfoHeader = props => (
     <div className="display-1 text-center mb-5" id="printed-calendar-title">
       Weekly Schedule
     </div>
-    <div id="calendar-info-display" className="jumbotron jumbotron-fluid p-3">
+    <div id="calendar-info-display" className="jumbotron jumbotron-fluid p-2">
       <div className="container-fluid">
         <p className="display-4 text-center">MACO Schedule Calendar Tool</p>
-        <h2 className="mb-2 text-center">
+        <h2 className="mb-1 text-center">
           Currently showing{" "}
-          <span className="font-weight-bold">
+          <span className="font-weight-bold" id="semester">
             {semesterInfo(props.semester.year, props.semester.semesterCode)}{" "}
-            <span className="text-primary">({props.scheduleName})</span>
           </span>
+          <span id="schedule-file-name">({props.scheduleName})</span>
         </h2>
       </div>
     </div>
