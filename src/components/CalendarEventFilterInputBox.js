@@ -1,7 +1,6 @@
 import React from "react";
-import array from "lodash";
 
-class CalendarEventAndFilterInputBox extends React.Component {
+class CalendarEventFilterInputBox extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -23,27 +22,26 @@ class CalendarEventAndFilterInputBox extends React.Component {
     e.target.value = "";
   };
 
-  applyAndFilter = e => {
+  applyAndFilter = (filterMethod, e) => {
     const extractedKeywords = this.extractedKeywords(e.target.value);
     const associatedIds = this.props.keywordIndex.idsFor(extractedKeywords);
-    const andedIds = array.intersection(...associatedIds);
+    const filteredIds = filterMethod(...associatedIds);
 
-    return this.props.handleFiltering(andedIds);
+    return this.props.handleFiltering(filteredIds);
   };
 
   render() {
     return (
       <input
         type="text"
-        name="andFilterText"
-        id="andFilterText"
-        placeholder="AND Filter"
-        onKeyUp={this.applyAndFilter}
+        name={this.props.name}
+        id={this.props.name}
+        placeholder={this.props.placeholder}
+        onKeyUp={this.applyAndFilter.bind(this, this.props.filterOperation)}
         onBlur={this.clear}
         className="form-control form-control-lg"
       />
     );
   }
 }
-
-export default CalendarEventAndFilterInputBox;
+export default CalendarEventFilterInputBox;

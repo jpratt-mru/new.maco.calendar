@@ -1,7 +1,15 @@
 import React from "react";
-import CalendarEventOrFilterInputBox from "./CalendarEventOrFilterInputBox";
-import CalendarEventAndFilterInputBox from "./CalendarEventAndFilterInputBox";
 import Notifications from "./Notifications";
+import CalendarEventFilterInputBox from "./CalendarEventFilterInputBox";
+import _ from "lodash";
+
+import styled from "styled-components";
+
+const SidebarWrapper = styled.div`
+  #orFilterText {
+    margin-bottom: 10px;
+  }
+`;
 
 /**
  * This is the part of the page that sits adjacent to the calendar itself.
@@ -9,15 +17,21 @@ import Notifications from "./Notifications";
  * @param {*} props
  */
 const Sidebar = props => (
-  <div id="sidebar" className="col-3">
-    <CalendarEventOrFilterInputBox
+  <SidebarWrapper id="sidebar" className="col-3">
+    <CalendarEventFilterInputBox
       handleFiltering={props.handleFiltering}
       keywordIndex={props.keywordIndex}
+      name="orFilterText"
+      placeholder="OR Filter"
+      filterOperation={_.union}
     />
 
-    <CalendarEventAndFilterInputBox
+    <CalendarEventFilterInputBox
       handleFiltering={props.handleFiltering}
       keywordIndex={props.keywordIndex}
+      name="andFilterText"
+      placeholder="AND Filter"
+      filterOperation={_.intersection}
     />
 
     <Notifications
@@ -28,7 +42,7 @@ const Sidebar = props => (
       roomDoubleBookingIssues={props.roomDoubleBookingIssues}
       instructorDoubleBookingIssues={props.instructorDoubleBookingIssues}
     />
-  </div>
+  </SidebarWrapper>
 );
 
 export default Sidebar;
