@@ -35,7 +35,7 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.calendar = React.createRef();
+    this.calendar = React.createRef(); // used for printing
     LocalStorageUtilities.initFromLocalStorage(this.state);
   }
 
@@ -121,6 +121,10 @@ class App extends React.Component {
     return _.difference(expectedFields, fields).length == 0;
   };
 
+  /**
+   * Called on every keyup that happens as text is entered in either
+   * of the filter text inputs.
+   */
   handleFiltering = targetLearningIds => {
     this.setState({
       displayedLearningEvents: this.matchingLearningEvents(targetLearningIds)
@@ -133,10 +137,17 @@ class App extends React.Component {
     );
   };
 
+  /**
+   * Called from `MacoCalendar`.
+   * We want to re-color all events as filtering happens.
+   */
   addBackgroundColors = () => {
     ColorUtilities.addBackgroundColors(this.state.displayedLearningEvents);
   };
 
+  /**
+   * Called when a new schedule is chosen from the SemesterSelector dropdown.
+   */
   handleScheduleChange = scheduleFileName => {
     this.setState(
       {
@@ -147,17 +158,27 @@ class App extends React.Component {
     );
   };
 
+  /**
+   * Called when the PrintButton is clicked.
+   *
+   * It changes the text in a hidden div (#printed-calendar-title) that is only shown
+   * when printing happens (see `public/printstyles.css`), calls the `print`
+   * function living in `MacoCalendar` via a React reference, and then resets
+   * the hidden div text.
+   */
   handlePrint = () => {
-    const calendarTitle = prompt("Title for printed calendar?");
-    if (calendarTitle) {
-      document.getElementById(
-        "printed-calendar-title"
-      ).innerHTML = calendarTitle;
-    } else {
-      document.getElementById("printed-calendar-title").innerHTML = "Schedule";
-    }
+    // let the user choose a title to display on the printed calendar, using
+    // an old-school broswer prompt
+    const calendarTitle = prompt("Title for printed calendar?", "Schedule");
+    this.setPrintCalendarTitle(calendarTitle);
     this.calendar.current.print();
-    document.getElementById("printed-calendar-title").innerHTML = "Schedule";
+    this.setPrintCalendarTitle("Schedule");
+  };
+
+  setPrintCalendarTitle = text => {
+    const title = text ? text : "Schedule";
+
+    document.getElementById("printed-calendar-title").innerHTML = title;
   };
 
   render() {
