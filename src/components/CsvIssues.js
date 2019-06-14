@@ -1,6 +1,9 @@
 import React from "react";
 import CsvIssue from "./CsvIssue";
 
+/**
+ * A clump of csv issue boxes.
+ */
 const CsvIssues = props => {
   return (
     <div className="csv-issues">

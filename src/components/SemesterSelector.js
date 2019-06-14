@@ -47,6 +47,7 @@ class SemesterSelector extends React.Component {
           <select
             className="custom-select"
             name="semester"
+            onBlur={this.handleScheduleChange}
             onChange={this.handleScheduleChange}
           >
             <option value="">--Please choose a schedule --</option>

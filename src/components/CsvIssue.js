@@ -5,6 +5,13 @@ const Issue = styled.div`
   padding: 10px;
 `;
 
+/**
+ * This is a single CSV issue warning box.
+ * There's some Bootstrap styling (alert, alert-danger, mb-0) going on.
+ *
+ * These boxes have a link back to the csv file on Github where the
+ * problem exists. Convenience!
+ */
 const CsvIssue = props => {
   return (
     <Issue className="alert alert-danger">
