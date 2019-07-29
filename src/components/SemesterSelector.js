@@ -1,5 +1,14 @@
 import React from "react";
-import Octokit from "@octokit/rest";
+import Octokit from "@octokit/rest"; // for pulling repo info from Github
+
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  select {
+    color: #007bff;
+    border: 1px solid #007bff;
+  }
+`;
 
 class SemesterSelector extends React.Component {
   constructor(props) {
@@ -42,23 +51,25 @@ class SemesterSelector extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-12">
-          <select
-            className="custom-select"
-            name="semester"
-            onBlur={this.handleScheduleChange}
-            onChange={this.handleScheduleChange}
-          >
-            <option value="">--Please choose a schedule --</option>
-            {this.state.discoveredGithubCSVs.map(fileName => (
-              <option key={fileName} value={fileName}>
-                {fileName}
-              </option>
-            ))}
-          </select>
+      <Wrapper>
+        <div className="row">
+          <div className="col-12">
+            <select
+              className="custom-select"
+              name="semester"
+              onBlur={this.handleScheduleChange}
+              onChange={this.handleScheduleChange}
+            >
+              <option value="">--Please choose a schedule --</option>
+              {this.state.discoveredGithubCSVs.map(fileName => (
+                <option key={fileName} value={fileName}>
+                  {fileName}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
+      </Wrapper>
     );
   }
 }

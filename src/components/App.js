@@ -1,6 +1,7 @@
 import React from "react";
 import Papa from "papaparse"; // for CSV parsing
 import _ from "lodash"; // for difference()
+import Dropzone from "react-dropzone";
 
 // these are used in render()
 import ToolBar from "./ToolBar";
@@ -45,48 +46,52 @@ class App extends React.Component {
     }
   };
 
+  parseCsvRecords = records => {
+    LocalStorageUtilities.clearStorage();
+
+    this.setState({
+      validCsvLoaded: this.validCsvFieldsFound(records)
+    });
+
+    if (this.state.validCsvLoaded) {
+      const allLearningEvents = new LearningEvents(
+        records.data,
+        this.state.semester.startingMonday
+      ).events();
+
+      const issuesDetector = new IssuesDetector(allLearningEvents);
+
+      const keywordIndex = KeywordIndex.createFromLearningEvents(
+        allLearningEvents
+      );
+
+      const displayedLearningEvents = allLearningEvents.filter(
+        event => event.isDisplayable
+      );
+
+      this.setState(
+        {
+          allLearningEvents,
+          displayedLearningEvents,
+          keywordIndex,
+          issues: issuesDetector,
+          csvIssues: issuesDetector.csvIssues(),
+          roomCapacityIssues: issuesDetector.roomCapacityIssues(),
+          roomDoubleBookingIssues: issuesDetector.roomDoubleBookingIssues(),
+          instructorDoubleBookingIssues: issuesDetector.instructorDoubleBookingIssues()
+        },
+        () => LocalStorageUtilities.saveStateToLocalStorage(this.state)
+      );
+    }
+  };
+
   pullLearningEventsFromGithub = () => {
     Papa.parse(this.rawScheduleURL(), {
       download: true,
       header: true,
       skipEmptyLines: true,
       complete: csvRecords => {
-        LocalStorageUtilities.clearStorage();
-
-        this.setState({
-          validCsvLoaded: this.validCsvFieldsFound(csvRecords)
-        });
-
-        if (this.state.validCsvLoaded) {
-          const allLearningEvents = new LearningEvents(
-            csvRecords.data,
-            this.state.semester.startingMonday
-          ).events();
-
-          const issuesDetector = new IssuesDetector(allLearningEvents);
-
-          const keywordIndex = KeywordIndex.createFromLearningEvents(
-            allLearningEvents
-          );
-
-          const displayedLearningEvents = allLearningEvents.filter(
-            event => event.isDisplayable
-          );
-
-          this.setState(
-            {
-              allLearningEvents,
-              displayedLearningEvents,
-              keywordIndex,
-              issues: issuesDetector,
-              csvIssues: issuesDetector.csvIssues(),
-              roomCapacityIssues: issuesDetector.roomCapacityIssues(),
-              roomDoubleBookingIssues: issuesDetector.roomDoubleBookingIssues(),
-              instructorDoubleBookingIssues: issuesDetector.instructorDoubleBookingIssues()
-            },
-            () => LocalStorageUtilities.saveStateToLocalStorage(this.state)
-          );
-        }
+        this.parseCsvRecords(csvRecords);
       }
     });
   };
@@ -181,6 +186,27 @@ class App extends React.Component {
     document.getElementById("printed-calendar-title").innerHTML = title;
   };
 
+  processDroppedFile = acceptedFiles => {
+    const reader = new FileReader();
+    reader.onabort = () => console.log("file reading was aborted");
+    reader.onerror = () => console.log("file reading has failed");
+    reader.onload = () => {
+      const scheduleFileName = acceptedFiles[0].name;
+      this.setState({
+        semester: Semester.fromScheduleName(scheduleFileName),
+        selectedCsvFile: scheduleFileName
+      });
+      const binaryStr = reader.result;
+      const data = Papa.parse(binaryStr, {
+        header: true,
+        skipEmptyLines: true
+      });
+      this.parseCsvRecords(data);
+    };
+
+    acceptedFiles.forEach(file => reader.readAsBinaryString(file));
+  };
+
   render() {
     return (
       <>
@@ -197,6 +223,19 @@ class App extends React.Component {
         />
         <div className="container-fluid">
           <SemesterSelector handleScheduleChange={this.handleScheduleChange} />
+
+          <Dropzone onDrop={this.processDroppedFile}>
+            {({ getRootProps, getInputProps }) => (
+              <div className="row">
+                <div className="col-3" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <button className="btn btn-outline-primary mt-3">
+                    Click here to upload a CSV.
+                  </button>
+                </div>
+              </div>
+            )}
+          </Dropzone>
 
           <div className="row mt-3">
             <MacoCalendar
