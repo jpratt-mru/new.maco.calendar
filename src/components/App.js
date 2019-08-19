@@ -226,7 +226,7 @@ class App extends React.Component {
 
           <Dropzone onDrop={this.processDroppedFile}>
             {({ getRootProps, getInputProps }) => (
-              <div className="row">
+              <div className="row" id="drop-zone">
                 <div className="col-3" {...getRootProps()}>
                   <input {...getInputProps()} />
                   <button className="btn btn-outline-primary mt-3">

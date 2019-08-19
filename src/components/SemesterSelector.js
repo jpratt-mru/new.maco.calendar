@@ -52,7 +52,7 @@ class SemesterSelector extends React.Component {
   render() {
     return (
       <Wrapper>
-        <div className="row">
+        <div className="row" id="semester-selector">
           <div className="col-12">
             <select
               className="custom-select"
