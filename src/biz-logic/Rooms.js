@@ -17,6 +17,9 @@ class Rooms {
 
     const room = learningEvent.room.toUpperCase();
 
+    // online "rooms" don't have a room limit...thanks, Covid
+    if (room.startsWith("ONL")) return true;
+
     return Rooms.map.has(room)
       ? Rooms.map.get(room) >= learningEvent.sectionCapacity
       : false;
