@@ -1,5 +1,6 @@
 import React from "react";
-import Octokit from "@octokit/rest"; // for pulling repo info from Github
+// import Octokit from "@octokit/rest"; // for pulling repo info from Github
+const { Octokit } = require('@octokit/rest')
 
 import styled from "styled-components";
 
@@ -18,12 +19,14 @@ class SemesterSelector extends React.Component {
   }
 
   githubRepoContents = async () => {
-    const octokit = new Octokit();
-    const contents = octokit.repos.getContents({
+  
+    const octokit = new Octokit({});
+    const contents = await octokit.repos.getContent({
       owner: "jpratt-mru",
       repo: "maco.calendar.datafiles",
-      path: "/"
+   
     });
+   
     return contents;
   };
 

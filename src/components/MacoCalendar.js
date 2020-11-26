@@ -29,7 +29,7 @@ class MacoCalendar extends React.Component {
     this.calendarRef = React.createRef();
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     this.props.recolor();
     if (this.calendarRef.current) {
       this.calendarRef.current
