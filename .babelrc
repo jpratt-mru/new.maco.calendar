@@ -1,7 +1,17 @@
 {
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
+    // "@babel/plugin-proposal-class-properties",
     "@babel/plugin-transform-runtime",
     "babel-plugin-styled-components"
+  ],
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 Chrome versions"]
+        }
+      }
+    ]
   ]
 }
