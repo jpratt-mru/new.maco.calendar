@@ -13,7 +13,7 @@ class RoomBuilder extends SecondaryBasePropBuilder {
    */
 
   static isValid(propValue) {
-    const expectedForm = /^(onl|ea|eb|ec|[a-z])\d{1,}[a-z]?$/gi;
+    const expectedForm = /^(onl|ea|eb|ec|el|[a-z])\d{1,}[a-z]?$/gi;
     return expectedForm.test(propValue);
   }
 
